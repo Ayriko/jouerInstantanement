@@ -6,7 +6,8 @@
   "author": "",
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "turbo run dev",
+    "prepare:deps": "node ./deps/entry.js",
+    "dev": "pnpm run prepare:deps && turbo run dev",
     "build": "turbo run build",
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e",
@@ -23,5 +24,8 @@
   "packageManager": "pnpm@8.15.5",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
   }
 }
