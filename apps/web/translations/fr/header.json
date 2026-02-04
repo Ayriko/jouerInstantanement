@@ -1,10 +1,12 @@
 {
   "search": {
+    "label": "Rechercher",
     "placeholder": {
       "default": "Rechercher un jeu...",
       "short": "Rechercher..."
     }
   },
+  "myAccount": "Mon compte",
   "signIn": "Se connecter",
   "wishlist": "Favoris",
   "cart": "Panier"

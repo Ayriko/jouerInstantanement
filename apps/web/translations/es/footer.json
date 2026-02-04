@@ -1,0 +1,24 @@
+{
+  "title": "Jouer Instantanement",
+  "description": "Compra tus juegos m\u00e1s baratos en nuestra tienda en l\u00ednea.",
+  "shop": {
+    "title": "Tienda",
+    "links": {
+      "newReleases": "Novedades",
+      "bestSellers": "M\u00e1s vendidos",
+      "upcoming": "Pr\u00f3ximos lanzamientos",
+      "giftCards": "Tarjetas regalo"
+    }
+  },
+  "support": {
+    "title": "Soporte",
+    "links": {
+      "helpCenter": "Centro de ayuda",
+      "contactUs": "Cont\u00e1ctanos",
+      "termsConditions": "T\u00e9rminos y condiciones",
+      "privacyPolicy": "Pol\u00edtica de privacidad"
+    }
+  },
+  "followUs": "S\u00edguenos en",
+  "copyright": "\u00a9 {year} Jouer Instantan\u00e9ment. Todos los derechos reservados. No afiliado con Instant Gaming."
+}

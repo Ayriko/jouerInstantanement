@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "title": "Compra tus juegos m\u00e1s baratos en PC y consola",
+    "description": "Descubre los \u00faltimos lanzamientos, las mejores ofertas y los juegos m\u00e1s populares en nuestra tienda de videojuegos."
+  },
+  "hero": {
+    "highlightedGame": {
+      "tag": {
+        "new": "Nuevo",
+        "top": "Top",
+        "sale": "En oferta",
+        "trending": "Tendencias",
+        "preorder": "Reservar"
+      },
+      "buyButton": "Comprar - {price}\u20ac"
+    }
+  },
+  "bestOffers": {
+    "title": "Las mejores ofertas del momento"
+  }
+}

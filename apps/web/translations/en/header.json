@@ -1,0 +1,13 @@
+{
+  "search": {
+    "label": "Search",
+    "placeholder": {
+      "default": "Search for a game...",
+      "short": "Search..."
+    }
+  },
+  "myAccount": "My Account",
+  "signIn": "Sign in",
+  "wishlist": "Wishlist",
+  "cart": "Cart"
+}

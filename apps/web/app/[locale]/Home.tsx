@@ -1,8 +1,8 @@
 import { useTranslations } from 'next-intl';
 
-import GameGrid from '../components/home/GameGrid';
-import { HeroBanner } from '../components/home/HeroBanner';
-import { games } from '../data/games';
+import GameGrid from '@/components/home/GameGrid';
+import { HeroBanner } from '@/components/home/HeroBanner';
+import { games } from '@/data/games';
 
 export default function Home() {
   const t = useTranslations("home");
