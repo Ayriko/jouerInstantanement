@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
-import Home from './Home';
+import GamesList from './GamesList';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("home");
@@ -13,5 +13,5 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Page(): React.JSX.Element {
-  return <Home />
+  return <GamesList />
 }

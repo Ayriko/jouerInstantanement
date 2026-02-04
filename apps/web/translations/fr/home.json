@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "title": "Achetez vos jeux moins cher sur PC et console - Jouez Instantanément",
+    "description": "Découvrez les dernières sorties, les meilleures offres et les jeux les plus populaires sur notre boutique de jeux vidéo."
+  },
+  "hero": {
+    "highlightedGame": {
+      "tag": {
+        "new": "Nouveau",
+        "top": "Top",
+        "sale": "En vente",
+        "trending": "Tendances",
+        "preorder": "Précommandes"
+      },
+      "buyButton": "Acheter - {price}€"
+    }
+  },
+  "bestOffers": {
+    "title": "Les meilleures offres du moment"
+  }
+}

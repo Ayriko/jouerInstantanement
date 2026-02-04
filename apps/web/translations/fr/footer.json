@@ -1,0 +1,24 @@
+{
+    "title": "Jouer Instantanement",
+    "description": "Achetez vos jeux moins cher via notre boutique en ligne.",
+    "shop": {
+        "title": "Boutique",
+        "links": {
+            "newReleases": "Nouveautés",
+            "bestSellers": "Meilleures ventes",
+            "upcoming": "Prochaines sorties",
+            "giftCards": "Cartes cadeaux"
+        }
+    },
+    "support": {
+        "title": "Support",
+        "links": {
+            "helpCenter": "Centre d'aide",
+            "contactUs": "Contactez-nous",
+            "termsConditions": "Mentions légales",
+            "privacyPolicy": "Politique de confidentialité"
+        }
+    },
+    "followUs": "Suivez-nous sur",
+    "copyright": "© {year} Jouer Instantanément. All rights reserved. Not affiliated with Instant Gaming."
+}

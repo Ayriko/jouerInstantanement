@@ -1,0 +1,11 @@
+{
+  "search": {
+    "placeholder": {
+      "default": "Rechercher un jeu...",
+      "short": "Rechercher..."
+    }
+  },
+  "signIn": "Se connecter",
+  "wishlist": "Favoris",
+  "cart": "Panier"
+}
