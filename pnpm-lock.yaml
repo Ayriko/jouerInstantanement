@@ -31,6 +31,7 @@ importers:
         specifier: ^11.1.11
         version: 11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2)
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@nestjs/config':
         specifier: ^4.0.2
         version: 4.0.2(@nestjs/common@11.1.11)(rxjs@7.8.2)
@@ -57,6 +58,11 @@ importers:
         version: 11.1.13(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0)(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+      '@nestjs/core':
+        specifier: ^11.1.11
+        version: 11.1.11(@nestjs/common@11.1.11)(@nestjs/microservices@11.1.13)(@nestjs/platform-express@11.1.11)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
       '@nestjs/platform-express':
         specifier: ^11.1.11
         version: 11.1.11(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)
@@ -94,6 +100,7 @@ importers:
       '@nestjs/testing':
         specifier: ^11.1.11
 <<<<<<< HEAD
+<<<<<<< HEAD
         version: 11.1.11(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(@nestjs/microservices@11.1.12)(@nestjs/platform-express@11.1.11)
 =======
 <<<<<<< Updated upstream
@@ -102,6 +109,9 @@ importers:
         version: 11.1.11(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(@nestjs/microservices@11.1.13)(@nestjs/platform-express@11.1.11)
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+        version: 11.1.11(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(@nestjs/microservices@11.1.13)(@nestjs/platform-express@11.1.11)
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -149,9 +159,12 @@ importers:
         version: 5.8.2
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
   apps/api-gateway:
     dependencies:
       '@nestjs/common':
@@ -165,7 +178,7 @@ importers:
         version: 11.1.11(@nestjs/common@11.1.11)(@nestjs/microservices@11.1.13)(@nestjs/platform-express@11.1.11)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/microservices':
         specifier: ^11.1.13
-        version: 11.1.13(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0)(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+        version: 11.1.13(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0)(amqplib@0.10.9)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/platform-express':
         specifier: ^11.0.1
         version: 11.1.11(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)
@@ -255,6 +268,7 @@ importers:
         specifier: ^8.20.0
         version: 8.46.4(eslint@9.39.2)(typescript@5.8.2)
 
+<<<<<<< HEAD
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
   apps/auth:
     dependencies:
@@ -489,7 +503,12 @@ importers:
 =======
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+<<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   apps/web:
     dependencies:
       '@hookform/resolvers':
@@ -1885,6 +1904,7 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
@@ -1931,7 +1951,12 @@ packages:
       - supports-color
       - ts-node
 =======
+<<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   /@jest/console@30.2.0:
     resolution: {integrity: sha512-+O1ifRjkvYIkBqASKWgLxrpEhQAAE7hY77ALLUufSk5717KfOShg6IbqLmdsLMPdUiFvA2kTs0R7YZy+l0IzZQ==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -1943,10 +1968,13 @@ packages:
       jest-util: 30.2.0
       slash: 3.0.0
 <<<<<<< HEAD
+<<<<<<< HEAD
     dev: true
 
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
     dev: true
 
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
@@ -2512,6 +2540,7 @@ packages:
       - supports-color
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /@nestjs/common@11.1.13(reflect-metadata@0.2.2)(rxjs@7.8.2):
     resolution: {integrity: sha512-ieqWtipT+VlyDWLz5Rvz0f3E5rXcVAnaAi+D53DEHLjc1kmFxCgZ62qVfTX2vwkywwqNkTNXvBgGR72hYqV//Q==}
     peerDependencies:
@@ -2539,12 +2568,17 @@ packages:
 =======
 <<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+<<<<<<< HEAD
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   /@nestjs/config@4.0.2(@nestjs/common@11.1.11)(rxjs@7.8.2):
     resolution: {integrity: sha512-McMW6EXtpc8+CwTUwFdg6h7dYcBUpH5iUILCclAsa+MbCEvC9ZKu4dCHRlJqALuhjLw97pbQu62l4+wRwGeZqA==}
 =======
 <<<<<<< Updated upstream
   /@nestjs/core@11.1.11(@nestjs/common@11.1.11)(@nestjs/platform-express@11.1.11)(reflect-metadata@0.2.2)(rxjs@7.8.2):
 =======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
   /@nestjs/config@4.0.3(@nestjs/common@11.1.11)(rxjs@7.8.2):
     resolution: {integrity: sha512-FQ3M3Ohqfl+nHAn5tp7++wUQw0f2nAk+SFKe8EpNRnIifPqvfJP6JQxPKtFLMOHbyer4X646prFG4zSRYEssQQ==}
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
@@ -2569,8 +2603,11 @@ packages:
     dev: false
 
   /@nestjs/core@11.1.11(@nestjs/common@11.1.11)(@nestjs/microservices@11.1.13)(@nestjs/platform-express@11.1.11)(reflect-metadata@0.2.2)(rxjs@7.8.2):
+<<<<<<< HEAD
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
     resolution: {integrity: sha512-H9i+zT3RvHi7tDc+lCmWHJ3ustXveABCr+Vcpl96dNOxgmrx4elQSTC4W93Mlav2opfLV+p0UTHY6L+bpUA4zA==}
     engines: {node: '>= 20'}
     requiresBuild: true
@@ -2591,6 +2628,7 @@ packages:
     dependencies:
       '@nestjs/common': 11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2)
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@nestjs/microservices': 11.1.12(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0)(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
 =======
 <<<<<<< Updated upstream
@@ -2598,6 +2636,9 @@ packages:
       '@nestjs/microservices': 11.1.13(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0)(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+      '@nestjs/microservices': 11.1.13(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0)(amqplib@0.10.9)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
       '@nestjs/platform-express': 11.1.11(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)
       '@nuxt/opencollective': 0.4.1
       fast-safe-stringify: 2.1.1
@@ -2636,12 +2677,16 @@ packages:
     dev: false
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /@nestjs/microservices@11.1.12(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0)(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2):
     resolution: {integrity: sha512-WhkQPvqRJukzWJ0NXE2PJuFcurejRgiPmQ2jumcphkTi/oFu/uEXfTa3Bz6CSKp3eh2fkqtG6YGPoVbUdJS9/A==}
 =======
 <<<<<<< Updated upstream
 =======
   /@nestjs/microservices@11.1.13(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0)(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2):
+=======
+  /@nestjs/microservices@11.1.13(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0)(amqplib@0.10.9)(reflect-metadata@0.2.2)(rxjs@7.8.2):
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
     resolution: {integrity: sha512-o7KNZlJJe+6Qo/GdUeofIgrUINzSVYkl3UZ5px+e+fHhftDfx+W41QuKu+EXPkOm02R6qApDFp3UeIyJrBdS9g==}
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
     peerDependencies:
@@ -2686,16 +2731,18 @@ packages:
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
       amqp-connection-manager: 5.0.0(amqplib@0.10.9)
       amqplib: 0.10.9
-      ioredis: 5.9.2
       iterare: 1.2.1
       reflect-metadata: 0.2.2
       rxjs: 7.8.2
       tslib: 2.8.1
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
   /@nestjs/platform-express@11.1.11(@nestjs/common@11.1.11)(@nestjs/core@11.1.11):
     resolution: {integrity: sha512-kyABSskdMRIAMWL0SlbwtDy4yn59RL4HDdwHDz/fxWuv7/53YP8Y2DtV3/sHqY5Er0msMVTZrM38MjqXhYL7gw==}
     peerDependencies:
@@ -2703,6 +2750,7 @@ packages:
       '@nestjs/core': ^11.0.0
     dependencies:
       '@nestjs/common': 11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2)
+<<<<<<< HEAD
 <<<<<<< HEAD
       '@nestjs/core': 11.1.11(@nestjs/common@11.1.11)(@nestjs/microservices@11.1.12)(@nestjs/platform-express@11.1.11)(reflect-metadata@0.2.2)(rxjs@7.8.2)
 =======
@@ -2712,6 +2760,9 @@ packages:
       '@nestjs/core': 11.1.11(@nestjs/common@11.1.11)(@nestjs/microservices@11.1.13)(@nestjs/platform-express@11.1.11)(reflect-metadata@0.2.2)(rxjs@7.8.2)
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+      '@nestjs/core': 11.1.11(@nestjs/common@11.1.11)(@nestjs/microservices@11.1.13)(@nestjs/platform-express@11.1.11)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
       cors: 2.8.5
       express: 5.2.1
       multer: 2.0.2
@@ -2751,11 +2802,14 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /@nestjs/testing@11.1.11(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(@nestjs/microservices@11.1.12)(@nestjs/platform-express@11.1.11):
 =======
 <<<<<<< Updated upstream
   /@nestjs/testing@11.1.11(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(@nestjs/platform-express@11.1.11):
 =======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
   /@nestjs/swagger@11.2.6(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(reflect-metadata@0.2.2):
     resolution: {integrity: sha512-oiXOxMQqDFyv1AKAqFzSo6JPvMEs4uA36Eyz/s2aloZLxUjcLfUMELSLSNQunr61xCPTpwEOShfmO7NIufKXdA==}
     peerDependencies:
@@ -2785,8 +2839,11 @@ packages:
     dev: false
 
   /@nestjs/testing@11.1.11(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(@nestjs/microservices@11.1.13)(@nestjs/platform-express@11.1.11):
+<<<<<<< HEAD
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
     resolution: {integrity: sha512-Po2aZKXlxuySDEh3Gi05LJ7/BtfTAPRZ3KPTrbpNrTmgGr3rFgEGYpQwN50wXYw0pywoICiFLZSZ/qXsplf6NA==}
     peerDependencies:
       '@nestjs/common': ^11.0.0
@@ -2801,6 +2858,7 @@ packages:
     dependencies:
       '@nestjs/common': 11.1.11(reflect-metadata@0.2.2)(rxjs@7.8.2)
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@nestjs/core': 11.1.11(@nestjs/common@11.1.11)(@nestjs/microservices@11.1.12)(@nestjs/platform-express@11.1.11)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/microservices': 11.1.12(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0)(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
 =======
@@ -2811,6 +2869,10 @@ packages:
       '@nestjs/microservices': 11.1.13(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0)(amqplib@0.10.9)(ioredis@5.9.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+      '@nestjs/core': 11.1.11(@nestjs/common@11.1.11)(@nestjs/microservices@11.1.13)(@nestjs/platform-express@11.1.11)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+      '@nestjs/microservices': 11.1.13(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)(amqp-connection-manager@5.0.0)(amqplib@0.10.9)(reflect-metadata@0.2.2)(rxjs@7.8.2)
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
       '@nestjs/platform-express': 11.1.11(@nestjs/common@11.1.11)(@nestjs/core@11.1.11)
       tslib: 2.8.1
     dev: true
@@ -3069,12 +3131,18 @@ packages:
     dev: false
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
 <<<<<<< Updated upstream
 =======
+<<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   /@pkgjs/parseargs@0.11.0:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
@@ -3087,6 +3155,7 @@ packages:
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
     dev: true
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   /@prisma/adapter-better-sqlite3@7.3.0:
     resolution: {integrity: sha512-DkELPte3cHGCZI1isizw+IdQHFVMU5zASJ/deeBY4R2apQV0RCA8XDG54iGmMhwLMusGTYijDVYuB1ruxEy0KQ==}
@@ -3110,6 +3179,8 @@ packages:
     dev: false
 
 =======
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
   /@prisma/client@6.19.2(prisma@6.19.2)(typescript@5.8.2):
@@ -3275,14 +3346,22 @@ packages:
 =======
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
   /@scarf/scarf@1.4.0:
     resolution: {integrity: sha512-xxeapPiUXdZAE3che6f3xogoJPeZgig6omHEy1rIY5WVsB3H2BHNnZH+gHG6x91SCWyQCzWGsuL2Hh3ClO5/qQ==}
     requiresBuild: true
     dev: false
 
+<<<<<<< HEAD
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+<<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   /@schummar/icu-type-parser@1.21.5:
     resolution: {integrity: sha512-bXHSaW5jRTmke9Vd0h5P7BtWZG9Znqb8gSDxZnxaGSJnGwPLDPfS+3g0BKzeWqzgZPsIVZkM7m2tbo18cm5HBw==}
     dev: false
@@ -3308,6 +3387,7 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /@sinonjs/fake-timers@13.0.5:
     resolution: {integrity: sha512-36/hTbH2uaWuGVERyC6da9YwGWnzUZXuPro/F2LfsdOsLnCojz/iSH8MxUt/FD2S5XBSVPhmArFUXcpCQ2Hkiw==}
     dependencies:
@@ -3322,6 +3402,8 @@ packages:
     dev: false
 
 =======
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
 <<<<<<< HEAD
   /@standard-schema/spec@1.1.0:
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
@@ -3329,18 +3411,26 @@ packages:
 =======
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
   /@sinonjs/fake-timers@13.0.5:
     resolution: {integrity: sha512-36/hTbH2uaWuGVERyC6da9YwGWnzUZXuPro/F2LfsdOsLnCojz/iSH8MxUt/FD2S5XBSVPhmArFUXcpCQ2Hkiw==}
     dependencies:
       '@sinonjs/commons': 3.0.1
     dev: true
 
+<<<<<<< HEAD
   /@standard-schema/spec@1.1.0:
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+<<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   /@swc/core-darwin-arm64@1.15.11:
     resolution: {integrity: sha512-QoIupRWVH8AF1TgxYyeA5nS18dtqMuxNwchjBIwJo3RdwLEFiJq6onOx9JAxHtuPwUkIVuU2Xbp+jCJ7Vzmgtg==}
     engines: {node: '>=10'}
@@ -3838,6 +3928,10 @@ packages:
     resolution: {integrity: sha512-1N9SBnWYOJTrNZCdh/yJE+t910Y128BoyY+zBLWhL3r0TYzlTmFdXrPwHL9DyFZmlEXNQQolTZh3KHV31QDhyA==}
     dependencies:
       undici-types: 6.21.0
+<<<<<<< HEAD
+=======
+    dev: true
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
 
   /@types/node@25.2.0:
     resolution: {integrity: sha512-DZ8VwRFUNzuqJ5khrvwMXHmvPe+zGayJhr2CDNiKB1WBE1ST8Djl00D0IC4vvNmHMdj6DlbYRIaFE7WHjlDl5w==}
@@ -5483,11 +5577,14 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /dotenv-expand@12.0.1:
     resolution: {integrity: sha512-LaKRbou8gt0RNID/9RoI+J2rvXsBRPMV7p+ElHlPhcSARbCPDYcYG2s1TIzAfWv4YSgyY5taidWzzs31lNV3yQ==}
 =======
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
   /dotenv-expand@12.0.3:
     resolution: {integrity: sha512-uc47g4b+4k/M/SeaW1y4OApx+mtLWl92l5LMPP0GNXctZqELk+YGgOPIIC5elYmUH4OuoK3JLhuRUYegeySiFA==}
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
@@ -5497,14 +5594,18 @@ packages:
     dev: false
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
   /dotenv@16.0.3:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
     dev: true
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   /dotenv@16.4.7:
     resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
@@ -5515,14 +5616,20 @@ packages:
 <<<<<<< Updated upstream
 =======
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
   /dotenv@16.6.1:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
     engines: {node: '>=12'}
+    dev: false
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
   /dotenv@17.2.3:
     resolution: {integrity: sha512-JVUnt+DUIzu87TABbhPmNfVdBDt18BLOWjMUFJMSi/Qqg7NTYtabbvSNJGOJ7afbRuv9D/lngizHtP7QyLQ+9w==}
     engines: {node: '>=12'}
@@ -5537,7 +5644,10 @@ packages:
       gopd: 1.2.0
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
 <<<<<<< HEAD
   /ecdsa-sig-formatter@1.0.11:
     resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==}
@@ -5561,20 +5671,20 @@ packages:
     resolution: {integrity: sha512-/5UMj9IiGDMOFBnN4i7/Ry5onJrAGSbOGo3s9FEKmwobGq6xw832ccET0CE3CkkMBZ8GJSlUIesZofpyurqDXw==}
     dev: true
 =======
+<<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   /eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: true
 
-  /ecdsa-sig-formatter@1.0.11:
-    resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==}
-    dependencies:
-      safe-buffer: 5.2.1
-    dev: false
-
   /ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
+<<<<<<< HEAD
   /effect@3.18.4:
     resolution: {integrity: sha512-b1LXQJLe9D11wfnOKAk3PKxuqYshQ0Heez+y5pnkd3jLj1yx9QhM72zZ9uUrOQyNvrs2GZZd/3maL0ZV18YuDA==}
     dependencies:
@@ -5585,6 +5695,8 @@ packages:
 >>>>>>> Stashed changes
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
 
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   /electron-to-chromium@1.5.267:
     resolution: {integrity: sha512-0Drusm6MVRXSOJpGbaSVgcQsuB4hEkMpHXaVstcPmhu5LIedxs1xNK/nIxmQIU/RPC0+1/o0AVZfBTkTNJOdUw==}
     dev: true
@@ -5599,18 +5711,27 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
 <<<<<<< Updated upstream
 =======
+<<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   /emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
   /empathic@2.0.0:
@@ -5621,6 +5742,8 @@ packages:
 =======
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
   /encodeurl@2.0.0:
     resolution: {integrity: sha512-Q0n9HRi4m6JuGIV1eFlmvJB7ZEVxu93IrMyiMsGC0lrMJMWzRgx6WGquyfQgZVb31vhGgXnfmPNNXmxnOkRBrg==}
     engines: {node: '>= 0.8'}
@@ -6683,8 +6806,11 @@ packages:
   /glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
 <<<<<<< HEAD
+<<<<<<< HEAD
     deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 =======
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
 <<<<<<< HEAD
     deprecated: Glob versions prior to v9 are no longer supported
 =======
@@ -6693,7 +6819,13 @@ packages:
     deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+<<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+=======
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
@@ -7291,6 +7423,7 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
@@ -7322,7 +7455,12 @@ packages:
       - supports-color
       - ts-node
 =======
+<<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   /jest-circus@30.2.0:
     resolution: {integrity: sha512-Fh0096NC3ZkFx05EP2OXCxJAREVxj1BcW/i6EWqqymcgYKWjyyDpral3fMxVcHXg6oZM7iULer9wGRFvfpl+Tg==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -7351,10 +7489,13 @@ packages:
       - babel-plugin-macros
       - supports-color
 <<<<<<< HEAD
+<<<<<<< HEAD
     dev: true
 
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
     dev: true
 
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
@@ -7457,6 +7598,7 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
@@ -7467,7 +7609,12 @@ packages:
     peerDependencies:
       '@types/node': '*'
 =======
+<<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   /jest-config@30.2.0(@types/node@22.19.3)(ts-node@10.9.2):
     resolution: {integrity: sha512-g4WkyzFQVWHtu6uqGmQR4CQxz/CH3yDSlhzXMWzNjDx843gYjReZnMRanjRCq5XZFuQrGDxgUaiYWE8BRfVckA==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -7475,13 +7622,17 @@ packages:
       '@types/node': '*'
       esbuild-register: '>=3.4.0'
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Stashed changes
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
       ts-node: '>=9.0.0'
     peerDependenciesMeta:
       '@types/node':
         optional: true
+<<<<<<< HEAD
 <<<<<<< HEAD
       esbuild-register:
         optional: true
@@ -7492,10 +7643,15 @@ packages:
         optional: true
 >>>>>>> Stashed changes
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+      esbuild-register:
+        optional: true
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
       ts-node:
         optional: true
     dependencies:
       '@babel/core': 7.28.5
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 <<<<<<< Updated upstream
@@ -7523,6 +7679,8 @@ packages:
       strip-json-comments: 3.1.1
 =======
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
       '@jest/get-type': 30.1.0
       '@jest/pattern': 30.0.1
       '@jest/test-sequencer': 30.2.0
@@ -7549,9 +7707,12 @@ packages:
       strip-json-comments: 3.1.1
       ts-node: 10.9.2(@types/node@22.19.3)(typescript@5.8.2)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Stashed changes
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
@@ -8123,6 +8284,7 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
@@ -8147,7 +8309,12 @@ packages:
       - supports-color
       - ts-node
 =======
+<<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   /jest-worker@30.2.0:
     resolution: {integrity: sha512-0Q4Uk8WF7BUwqXHuAjc23vmopWJw5WH7w2tqBoUOZpOjW/ZnR44GXXd1r82RvnmI2GZge3ivrYXk/BE2+VtW2g==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -8158,10 +8325,13 @@ packages:
       merge-stream: 2.0.0
       supports-color: 8.1.1
 <<<<<<< HEAD
+<<<<<<< HEAD
     dev: true
 
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
     dev: true
 
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
@@ -8532,6 +8702,7 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   /lodash.once@4.1.1:
     resolution: {integrity: sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==}
     dev: false
@@ -8552,6 +8723,10 @@ packages:
     resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+  /lodash@4.17.23:
+    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
 
   /log-symbols@4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
@@ -9443,12 +9618,18 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 =======
 <<<<<<< Updated upstream
 =======
+<<<<<<< HEAD
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
+=======
+=======
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
   /pretty-format@30.2.0:
     resolution: {integrity: sha512-9uBdv/B4EefsuAL+pWqueZyZS2Ba+LxfFeQ9DN14HU4bN8bhaxKdkpjpB6fs9+pSjIBu+FXQHImEg8j/Lw0+vA==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
@@ -9459,7 +9640,10 @@ packages:
     dev: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 2c4da5c (fix: regenerated pnpm-lock)
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
 >>>>>>> 04c4ff9 (Auto stash before checking out "origin/main")
   /prisma@6.19.2(typescript@5.8.2):
@@ -9513,6 +9697,11 @@ packages:
 =======
 >>>>>>> Stashed changes
 >>>>>>> 02f0ad6 (Auto stash before checking out "origin/main")
+=======
+  /promise-breaker@6.0.0:
+    resolution: {integrity: sha512-BthzO9yTPswGf7etOBiHCVuugs2N01/Q/94dIPls48z2zCmrnDptUUZzfIb+41xq0MnYZ/BzmOd6ikDR4ibNZA==}
+
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
   /prompts@2.4.2:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
     engines: {node: '>= 6'}
@@ -10941,6 +11130,10 @@ packages:
 
   /undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+<<<<<<< HEAD
+=======
+    dev: true
+>>>>>>> cf63e5b (fix: regenerated pnpm-lock)
 
   /undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
