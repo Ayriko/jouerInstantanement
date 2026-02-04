@@ -8,7 +8,7 @@ import { AuthController } from './auth.controller';
     ClientsModule.register([
       {
         name: 'AUTH_SERVICE',
-        options: { host: 'localhost', port: 3001 },
+        options: { host: 'localhost', port: 3005 },
         transport: Transport.TCP,
       },
     ]),

@@ -24,9 +24,9 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  async register(@Body() dto: RegisterDto): Promise<{ id: string; email: string }> {
+  async register(@Body() dto: RegisterDto): Promise<{ accessToken: string; refreshToken: string }> {
     return firstValueFrom(
-      this.authClient.send<{ id: string; email: string }>({ cmd: 'auth.register' }, dto),
+      this.authClient.send<{ accessToken: string; refreshToken: string }>({ cmd: 'auth.register' }, dto),
     );
   }
 
