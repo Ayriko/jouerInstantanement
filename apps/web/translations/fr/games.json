@@ -4,9 +4,35 @@
     "description": "Découvrez notre vaste sélection de jeux vidéo à des prix imbattables sur Jouer Instantanément. Achetez vos jeux préférés pour PC et console dès aujourd'hui !"
   },
   "detail": {
-    "meta":{
+    "meta": {
       "title": "{gameTitle} est disponible sur Jouer Instantanément dès maintenant !",
       "description": "Achetez {gameTitle} à un prix imbattable sur Jouer Instantanément. Profitez de nos offres exclusives et téléchargez votre jeu instantanément."
-    }
+    },
+    "actions": {
+      "cart": {
+        "add": "Ajouter au panier",
+        "remove": "Retirer du panier"
+      },
+      "wishlist": {
+        "add": "Ajouter à la liste de souhaits",
+        "remove": "Retirer de la liste de souhaits"
+      }
+    },
+    "reassurance": {
+      "instantDownload": "Téléchargement instantané",
+      "securePayment": "Paiement sécurisé",
+      "officialKey": "Clé officielle",
+      "bestPrice": "Meilleur prix garanti"
+    },
+    "description": "Descrisption",
+    "details": {
+      "title": "Détails",
+      "developer": "Développeur",
+      "publisher": "Éditeur",
+      "releaseDate": "Date de sortie",
+      "category": "Catégorie",
+      "platform": "Plateforme"
+    },
+    "youMayAlsoLike": "Vous aimerez aussi"
   }
 }

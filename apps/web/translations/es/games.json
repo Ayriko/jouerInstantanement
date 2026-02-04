@@ -4,9 +4,35 @@
     "description": "Descubre nuestra amplia selección de videojuegos a precios inmejorables en Play Instantly. ¡Compra tus juegos favoritos de PC y consola hoy mismo!"
   },
   "detail": {
-    "meta":{
+    "meta": {
       "title": "{gameTitle} está disponible en Play Instantly ahora mismo!",
       "description": "Compra {gameTitle} a un precio inmejorable en Play Instantly. Aprovecha nuestras ofertas exclusivas y descarga tu juego al instante."
-    }
+    },
+    "actions": {
+      "cart": {
+        "add": "Añadir al carrito",
+        "remove": "Quitar del carrito"
+      },
+      "wishlist": {
+        "add": "Añadir a la lista de deseos",
+        "remove": "Quitar de la lista de deseos"
+      }
+    },
+    "reassurance": {
+      "instantDownload": "Descarga instantánea",
+      "securePayment": "Pago seguro",
+      "officialKey": "Clave oficial",
+      "bestPrice": "Mejor precio garantizado"
+    },
+    "description": "Descripción",
+    "details": {
+      "title": "Detalles",
+      "developer": "Desarrollador",
+      "publisher": "Editor",
+      "releaseDate": "Fecha de lanzamiento",
+      "category": "Categoría",
+      "platform": "Plataforma"
+    },
+    "youMayAlsoLike": "También te puede gustar"
   }
 }

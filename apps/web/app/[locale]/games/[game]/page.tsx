@@ -31,7 +31,11 @@ export default async function Page({ params }: Readonly<{ params: Promise<GameDe
     const gameDetails = findGameById(game);
     if (!gameDetails) return notFound();
 
-    return <GameDetail game={gameDetails} />
+    const similarGames = games
+        .filter(g => g.id !== gameDetails.id && (g.category === gameDetails.category || g.platform === gameDetails.platform))
+        .slice(0, 4);
+
+    return <GameDetail game={gameDetails} similarGames={similarGames} />
 }
 
 const findGameById = (id: string) => {
