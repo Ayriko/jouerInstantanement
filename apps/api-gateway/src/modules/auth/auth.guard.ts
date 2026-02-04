@@ -16,10 +16,14 @@ interface ValidateResult {
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-  constructor(@Inject('AUTH_SERVICE') private readonly authClient: ClientProxy) {}
+  constructor(
+    @Inject('AUTH_SERVICE') private readonly authClient: ClientProxy,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<Record<string, unknown>>();
+    const request = context
+      .switchToHttp()
+      .getRequest<Record<string, unknown>>();
     const authorization = request.headers as Record<string, string | undefined>;
     const token = this.extractTokenFromHeader(authorization.authorization);
 
@@ -44,7 +48,9 @@ export class JwtAuthGuard implements CanActivate {
     return true;
   }
 
-  private extractTokenFromHeader(authorization: string | undefined): string | undefined {
+  private extractTokenFromHeader(
+    authorization: string | undefined,
+  ): string | undefined {
     const [type, token] = authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }
