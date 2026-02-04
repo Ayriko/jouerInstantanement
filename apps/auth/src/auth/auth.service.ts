@@ -5,9 +5,11 @@ import { RpcException } from '@nestjs/microservices';
 import * as bcrypt from 'bcrypt';
 
 import { PrismaService } from '../prisma/prisma.service';
+import { RedisService } from '../redis/redis.service';
 
 interface JwtPayload {
   email: string;
+  exp?: number;
   sub: string;
 }
 
@@ -19,6 +21,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly redisService: RedisService,
   ) {
     this.refreshExpiresIn = Number(this.configService.get('JWT_REFRESH_EXPIRES_IN', '2592000'));
   }
@@ -71,13 +74,25 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  async logout(_token: string) {
-    // TODO: Implement blacklist with Redis
+  async logout(token: string) {
+    const decoded = this.jwtService.decode<JwtPayload>(token);
+
+    if (decoded.exp) {
+      const ttl = decoded.exp - Math.floor(Date.now() / 1000);
+      if (ttl > 0) {
+        await this.redisService.blacklist(token, ttl);
+      }
+    }
+
     return { message: 'Logged out successfully' };
   }
 
   async validateToken(token: string) {
     try {
+      if (await this.redisService.isBlacklisted(token)) {
+        return { error: 'Token has been revoked', valid: false };
+      }
+
       const payload = this.jwtService.verify<JwtPayload>(token);
 
       return { user: { email: payload.email, id: payload.sub }, valid: true };
@@ -87,6 +102,10 @@ export class AuthService {
   }
 
   async refreshToken(refreshToken: string) {
+    if (await this.redisService.isBlacklisted(refreshToken)) {
+      throw new RpcException('Token has been revoked');
+    }
+
     let payload: JwtPayload;
 
     try {
