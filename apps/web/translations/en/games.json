@@ -4,9 +4,35 @@
     "description": "Discover our vast selection of video games at unbeatable prices on Play Instantly. Buy your favorite PC and console games today!"
   },
   "detail": {
-    "meta":{
+    "meta": {
       "title": "{gameTitle} is available on Play Instantly right now!",
       "description": "Buy {gameTitle} at an unbeatable price on Play Instantly. Take advantage of our exclusive offers and download your game instantly."
-    }
+    },
+    "actions": {
+      "cart": {
+        "add": "Add to cart",
+        "remove": "Remove from cart"
+      },
+      "wishlist": {
+        "add": "Add to wishlist",
+        "remove": "Remove from wishlist"
+      }
+    },
+    "reassurance": {
+      "instantDownload": "Instant download",
+      "securePayment": "Secure payment",
+      "officialKey": "Official key",
+      "bestPrice": "Best price guaranteed"
+    },
+    "description": "Description",
+    "details": {
+      "title": "Details",
+      "developer": "Developer",
+      "publisher": "Publisher",
+      "releaseDate": "Release date",
+      "category": "Category",
+      "platform": "Platform"
+    },
+    "youMayAlsoLike": "You may also like"
   }
 }
