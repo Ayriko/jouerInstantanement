@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { Game } from '../../types/game';
+import { Game } from '@/types/game';
 
 
 interface GameCardProps {
@@ -22,7 +22,7 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
       onClick={() => { router.push(`/games/${game.id}`); }}
     >
       {/* Discount Badge */}
-      <div className="absolute top-2 left-2 z-10 bg-orange-500 text-white font-bold px-2 py-1 rounded text-sm shadow-md">
+      <div className="absolute top-2 left-2 z-10 bg-brand text-white font-bold px-2 py-1 rounded text-sm shadow-md">
         -{game.discount}%
       </div>
 
@@ -44,7 +44,7 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
         <h3 className="text-white font-medium truncate text-sm mb-1" title={game.title}>{game.title}</h3>
         <div className="flex items-center justify-between mt-2">
           <span className="text-zinc-500 text-xs line-through">{game.originalPrice.toFixed(2)}€</span>
-          <span className="text-orange-500 font-bold text-lg">{game.price.toFixed(2)}€</span>
+          <span className="text-brand font-bold text-lg">{game.price.toFixed(2)}€</span>
         </div>
         <div className="mt-1 flex items-center gap-2 text-xs text-zinc-400">
             <span className={`px-1.5 py-0.5 rounded border border-zinc-700 text-zinc-400`}>

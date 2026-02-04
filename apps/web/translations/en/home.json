@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "title": "Buy your games cheaper on PC and console",
+    "description": "Discover the latest releases, best deals and most popular games on our video game store."
+  },
+  "hero": {
+    "highlightedGame": {
+      "tag": {
+        "new": "New",
+        "top": "Top",
+        "sale": "On Sale",
+        "trending": "Trending",
+        "preorder": "Pre-order"
+      },
+      "buyButton": "Buy - \u20ac{price}"
+    }
+  },
+  "bestOffers": {
+    "title": "Best deals right now"
+  }
+}

@@ -2,6 +2,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+    --color-brand: #ff5400;
+    --color-brand-active: #f54a00;
+}
+
 :root {
     --font-size: 16px;
     --background: #ffffff;

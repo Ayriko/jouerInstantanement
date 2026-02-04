@@ -1,6 +1,8 @@
-import { Facebook, Twitter, Instagram, Youtube, Globe } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React from 'react';
+
+import { LocaleSwitcher } from './LocaleSwitcher';
 
 export const Footer: React.FC = () => {
   const t = useTranslations("footer");
@@ -16,19 +18,19 @@ export const Footer: React.FC = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">{t("shop.title")}</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-orange-500 transition-colors">{t("shop.links.newReleases")}</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">{t("shop.links.bestSellers")}</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">{t("shop.links.upcoming")}</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">{t("shop.links.giftCards")}</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">{t("shop.links.newReleases")}</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">{t("shop.links.bestSellers")}</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">{t("shop.links.upcoming")}</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">{t("shop.links.giftCards")}</a></li>
             </ul>
           </div>
           <div>
             <h4 className="text-white font-semibold mb-4">{t("support.title")}</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-orange-500 transition-colors">{t("support.links.helpCenter")}</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">{t("support.links.contactUs")}</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">{t("support.links.termsConditions")}</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">{t("support.links.privacyPolicy")}</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">{t("support.links.helpCenter")}</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">{t("support.links.contactUs")}</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">{t("support.links.termsConditions")}</a></li>
+              <li><a href="#" className="hover:text-brand transition-colors">{t("support.links.privacyPolicy")}</a></li>
             </ul>
           </div>
           <div>
@@ -51,10 +53,7 @@ export const Footer: React.FC = () => {
                 <span className="sr-only">Youtube</span>
               </a>
             </div>
-            <div className="mt-6 flex items-center gap-2 text-sm">
-              <Globe className="h-4 w-4" />
-              <span>English (EU)</span>
-            </div>
+            <LocaleSwitcher />
           </div>
         </div>
         <div className="border-t border-zinc-900 pt-8 text-center text-xs">

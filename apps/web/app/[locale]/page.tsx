@@ -4,11 +4,11 @@ import { getTranslations } from 'next-intl/server';
 import Home from './Home';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("home");
+  const t = await getTranslations();
 
   return {
-    title: t("meta.title"),
-    description: t("meta.description")
+    title: `${t("common.siteName")} ${t("common.metaSeparator")} ${t("home.meta.title")}`,
+    description: t("home.meta.description")
   };
 }
 

@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "title": "All our games",
+    "description": "Discover our vast selection of video games at unbeatable prices on Play Instantly. Buy your favorite PC and console games today!"
+  },
+  "detail": {
+    "meta":{
+      "title": "{gameTitle} is available on Play Instantly right now!",
+      "description": "Buy {gameTitle} at an unbeatable price on Play Instantly. Take advantage of our exclusive offers and download your game instantly."
+    }
+  }
+}

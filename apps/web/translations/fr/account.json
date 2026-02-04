@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "title": "Mon compte",
+    "description": "Mon compte Jouer Instantanément - voir et modifier mes informations personnelles"
+  },
+  "wishlist": {
+    "meta":{
+      "title": "Mes favoris",
+      "description": "Liste de souhaits et favoris : Jeux vidéos pas cher sur Jouer Instantanément"
+    }
+  },
+
+  "signIn": {
+    "meta": {
+      "title": "Me connecter",
+      "description": "Connexion à mon compte Jouer Instantanément."
+    }
+  }
+}

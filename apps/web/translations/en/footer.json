@@ -1,0 +1,24 @@
+{
+  "title": "Jouer Instantanement",
+  "description": "Buy your games cheaper through our online store.",
+  "shop": {
+    "title": "Shop",
+    "links": {
+      "newReleases": "New Releases",
+      "bestSellers": "Best Sellers",
+      "upcoming": "Upcoming",
+      "giftCards": "Gift Cards"
+    }
+  },
+  "support": {
+    "title": "Support",
+    "links": {
+      "helpCenter": "Help Center",
+      "contactUs": "Contact Us",
+      "termsConditions": "Terms & Conditions",
+      "privacyPolicy": "Privacy Policy"
+    }
+  },
+  "followUs": "Follow us on",
+  "copyright": "\u00a9 {year} Jouer Instantan\u00e9ment. All rights reserved. Not affiliated with Instant Gaming."
+}
