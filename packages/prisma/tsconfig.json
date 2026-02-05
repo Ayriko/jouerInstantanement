@@ -5,9 +5,6 @@
     "baseUrl": "src",
     "esModuleInterop": true,
     "incremental": false,
-    "noEmit": false,
-    "declaration": false,
-    "declarationMap": false,
     "outDir": "dist",
     "types": ["node"]
   },

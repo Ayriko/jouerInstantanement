@@ -1,2 +1,4 @@
 export * from './prisma.service';
-export type { User } from './generated/prisma';
+export * from './generated/prisma/client';
+export * from './generated/prisma/enums';
+export * from './generated/prisma/models';
