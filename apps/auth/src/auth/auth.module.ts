@@ -11,7 +11,9 @@ import { PrismaService } from '@repo/prisma';
 @Module({
   controllers: [AuthController],
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: '../../.env'
+    }),
     RedisModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

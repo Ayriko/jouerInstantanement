@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
 import { GameController } from './game.controller';
 import { GameService } from './game.service';
+import { PrismaService } from '@repo/prisma';
 
 @Module({
   controllers: [GameController],
-  imports: [],
-  providers: [GameService],
+  imports: [ConfigModule.forRoot({
+    envFilePath: '../../.env'
+  }),],
+  providers: [GameService, PrismaService],
 })
 export class GameModule {}

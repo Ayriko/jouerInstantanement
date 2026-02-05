@@ -7,7 +7,7 @@ async function bootstrap() {
     AuthModule,
     {
       options: {
-        urls: [process.env.RABBITMQ_URL || 'amqp://guest:guest@localhost:5672'],
+        urls: [process.env.RABBITMQ_URL || ''],
         queue: 'auth_queue',
         queueOptions: { durable: false },
       },

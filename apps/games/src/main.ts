@@ -7,8 +7,8 @@ async function bootstrap() {
     AppModule,
     {
       options: {
-        urls: [process.env.RABBITMQ_URL || 'amqp://guest:guest@localhost:5673'],
-        queue: 'auth_queue',
+        urls: [process.env.RABBITMQ_URL || ''],
+        queue: 'game_queue',
         queueOptions: { durable: false },
       },
       transport: Transport.RMQ,

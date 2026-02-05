@@ -1,22 +1,22 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-
-import { AuthController } from './auth.controller';
-import { JwtAuthGuard } from './auth.guard';
+import { GameController } from './game.controller';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  controllers: [AuthController],
+  controllers: [GameController],
   imports: [
+    AuthModule,
     ConfigModule.forRoot(),
     ClientsModule.registerAsync([
       {
         imports: [ConfigModule],
         inject: [ConfigService],
-        name: 'AUTH_SERVICE',
+        name: 'GAME_SERVICE',
         useFactory: (config: ConfigService) => ({
           options: {
-            queue: 'auth_queue',
+            queue: 'game_queue',
             queueOptions: { durable: false },
             urls: [config.getOrThrow<string>('RABBITMQ_URL')],
           },
@@ -25,6 +25,5 @@ import { JwtAuthGuard } from './auth.guard';
       },
     ]),
   ],
-  exports: [ClientsModule],
 })
-export class AuthModule {}
+export class GameModule {}
