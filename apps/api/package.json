@@ -20,7 +20,10 @@
     "@nestjs/core": "^11.1.11",
     "@nestjs/microservices": "^11.1.11",
     "@nestjs/platform-express": "^11.1.11",
+    "@prisma/adapter-better-sqlite3": "^7.3.0",
+    "@prisma/client": "^6.9.0",
     "@repo/api": "workspace:*",
+    "@repo/prisma": "workspace:^",
     "amqplib": "^0.10.9",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"

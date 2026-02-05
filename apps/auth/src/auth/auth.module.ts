@@ -6,11 +6,14 @@ import { RedisModule } from '../redis/redis.module';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { PrismaService } from '@repo/prisma';
 
 @Module({
   controllers: [AuthController],
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: '../../.env'
+    }),
     RedisModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -21,6 +24,6 @@ import { AuthService } from './auth.service';
       }),
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, PrismaService],
 })
 export class AuthModule {}
