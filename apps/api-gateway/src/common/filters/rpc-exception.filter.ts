@@ -10,7 +10,8 @@ import { Response } from 'express';
 interface RpcError {
   error?: string;
   message?: string;
-  status?: number;
+  status?: number | string;
+  statusCode?: number;
 }
 
 @Catch()
@@ -18,16 +19,6 @@ export class RpcExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-
-    // Erreur venant d'un microservice
-    const rpcError = exception as RpcError;
-    if (rpcError?.status && (rpcError?.error || rpcError?.message)) {
-      return response.status(rpcError.status).json({
-        statusCode: rpcError.status,
-        message: rpcError.error || rpcError.message,
-        timestamp: new Date().toISOString(),
-      });
-    }
 
     // Erreur HTTP classique
     if (exception instanceof HttpException) {
@@ -39,11 +30,28 @@ export class RpcExceptionFilter implements ExceptionFilter {
       });
     }
 
-    // Erreur inattendue
-    console.error('Unhandled exception:', exception);
-    return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-      message: 'Internal server error',
+    // Erreur venant d'un microservice
+    const rpcError = exception as RpcError;
+
+    // Extraire le status code (peut être dans status ou statusCode)
+    let statusCode: number = HttpStatus.INTERNAL_SERVER_ERROR;
+
+    if (typeof rpcError?.statusCode === 'number') {
+      statusCode = rpcError.statusCode;
+    } else if (typeof rpcError?.status === 'number') {
+      statusCode = rpcError.status;
+    }
+
+    // Extraire le message
+    const message =
+      rpcError?.message || rpcError?.error || 'Internal server error';
+
+    // Log pour debug
+    console.error('RPC Exception:', exception);
+
+    return response.status(statusCode).json({
+      statusCode,
+      message,
       timestamp: new Date().toISOString(),
     });
   }
