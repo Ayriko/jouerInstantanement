@@ -32,10 +32,7 @@ export class JwtAuthGuard implements CanActivate {
     }
 
     const result = await firstValueFrom(
-      this.authClient.send<ValidateResult>(
-        { cmd: 'auth.validate' },
-        { token },
-      ),
+      this.authClient.send<ValidateResult>({ cmd: 'auth.validate' }, { token }),
     );
 
     if (!result.valid) {

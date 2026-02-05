@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+
 import { AuthModule } from './auth.module';
 
 async function bootstrap() {
@@ -7,9 +8,9 @@ async function bootstrap() {
     AuthModule,
     {
       options: {
-        urls: [process.env.RABBITMQ_URL || ''],
         queue: 'auth_queue',
-        queueOptions: { durable: false },
+        queueOptions: { durable: true },
+        urls: [process.env.RABBITMQ_URL ?? 'amqp://guest:guest@localhost:5672'],
       },
       transport: Transport.RMQ,
     },

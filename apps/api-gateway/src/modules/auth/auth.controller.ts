@@ -1,15 +1,16 @@
 import { Body, Controller, Inject, Post, Req, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
-
 import { JwtAuthGuard } from './auth.guard';
-import { LoginDto, RegisterDto } from 'shared-types';
+import { LoginDto, RegisterDto } from '@repo/shared-types';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 interface AuthenticatedRequest {
   token: string;
   user: { id: string; email: string };
 }
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -17,6 +18,7 @@ export class AuthController {
   ) {}
 
   @Post('register')
+  @ApiOperation({ summary: "S'inscrire" })
   async register(
     @Body() dto: RegisterDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
@@ -29,6 +31,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @ApiOperation({ summary: 'Se connecter' })
   async login(
     @Body() dto: LoginDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
@@ -41,6 +44,7 @@ export class AuthController {
   }
 
   @Post('logout')
+  @ApiOperation({ summary: 'Se déconnecter' })
   @UseGuards(JwtAuthGuard)
   async logout(@Req() req: AuthenticatedRequest): Promise<{ message: string }> {
     return firstValueFrom(
@@ -52,6 +56,7 @@ export class AuthController {
   }
 
   @Post('refresh')
+  @ApiOperation({ summary: 'Refresh du token' })
   async refresh(
     @Body() body: { refreshToken: string },
   ): Promise<{ accessToken: string }> {
