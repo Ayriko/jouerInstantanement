@@ -1,0 +1,16 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": "src",
+    "esModuleInterop": true,
+    "incremental": false,
+    "noEmit": false,
+    "declaration": false,
+    "declarationMap": false,
+    "outDir": "dist",
+    "types": ["node"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

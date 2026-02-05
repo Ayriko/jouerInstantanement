@@ -25,6 +25,7 @@
     "@nestjs/platform-express": "^11.1.11",
     "@prisma/client": "^6.9.0",
     "@repo/api": "workspace:*",
+    "@repo/prisma": "workspace:*",
     "amqp-connection-manager": "^5.0.0",
     "amqplib": "^0.10.9",
     "bcrypt": "^6.0.0",

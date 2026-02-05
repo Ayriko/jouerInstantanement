@@ -4,8 +4,9 @@ import { JwtService } from '@nestjs/jwt';
 import { RpcException } from '@nestjs/microservices';
 import * as bcrypt from 'bcrypt';
 
-import { PrismaService } from '../prisma/prisma.service';
 import { RedisService } from '../redis/redis.service';
+import { PrismaService } from '@repo/prisma/dist/generated/prisma';
+import { User } from '@repo/prisma/dist/generated/prisma';
 
 interface JwtPayload {
   email: string;
@@ -15,6 +16,7 @@ interface JwtPayload {
 
 @Injectable()
 export class AuthService {
+  test: User
   private readonly refreshExpiresIn: number;
 
   constructor(
