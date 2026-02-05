@@ -14,6 +14,58 @@
     "meta": {
       "title": "Iniciar sesión",
       "description": "Conexión a mi cuenta Jouer Instantanément."
+    },
+    "title": "Bienvenido",
+    "subtitle": "Inicia sesión o crea una cuenta para continuar",
+    "tabs": {
+      "login": "Iniciar sesión",
+      "register": "Registrarse"
+    },
+    "fields": {
+      "email": {
+        "label": "Correo electrónico",
+        "placeholder": "tu@ejemplo.com"
+      },
+      "password": {
+        "label": "Contraseña",
+        "placeholder": "Tu contraseña"
+      },
+      "confirmPassword": {
+        "label": "Confirmar contraseña",
+        "placeholder": "Confirma tu contraseña"
+      }
+    },
+    "validation": {
+      "emailRequired": "El correo electrónico es obligatorio",
+      "emailInvalid": "El correo electrónico no es válido",
+      "passwordRequired": "La contraseña es obligatoria",
+      "passwordMin": "La contraseña debe tener al menos 8 caracteres",
+      "confirmPasswordRequired": "La confirmación de la contraseña es obligatoria",
+      "passwordsMismatch": "Las contraseñas no coinciden"
+    },
+    "actions": {
+      "login": "Iniciar sesión",
+      "register": "Crear cuenta"
+    },
+    "forgotPasswordCta": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes una cuenta?",
+    "hasAccount": "¿Ya tienes una cuenta?",
+
+    "forgotPassword": {
+      "meta": {
+        "title": "Contraseña olvidada",
+        "description": "Restablece tu contraseña de Jouer Instantanément."
+      },
+      "title": "¿Olvidaste tu contraseña?",
+      "subtitle": "Introduce tu correo electrónico y te enviaremos un enlace de restablecimiento",
+      "actions": {
+        "submit": "Enviar enlace",
+        "backToLogin": "Volver a iniciar sesión"
+      },
+      "success": {
+        "title": "Correo enviado",
+        "message": "Si existe una cuenta con esta dirección, recibirás un enlace de restablecimiento."
+      }
     }
   }
 }

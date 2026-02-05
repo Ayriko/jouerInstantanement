@@ -14,6 +14,58 @@
     "meta": {
       "title": "Sign in",
       "description": "Sign in to my Jouer Instantanément account."
+    },
+    "title": "Welcome",
+    "subtitle": "Sign in or create an account to continue",
+    "tabs": {
+      "login": "Sign in",
+      "register": "Sign up"
+    },
+    "fields": {
+      "email": {
+        "label": "Email address",
+        "placeholder": "you@example.com"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Your password"
+      },
+      "confirmPassword": {
+        "label": "Confirm password",
+        "placeholder": "Confirm your password"
+      }
+    },
+    "validation": {
+      "emailRequired": "Email address is required",
+      "emailInvalid": "Email address is not valid",
+      "passwordRequired": "Password is required",
+      "passwordMin": "Password must be at least 8 characters",
+      "confirmPasswordRequired": "Password confirmation is required",
+      "passwordsMismatch": "Passwords do not match"
+    },
+    "actions": {
+      "login": "Sign in",
+      "register": "Create account"
+    },
+    "forgotPasswordCta": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+
+    "forgotPassword": {
+      "meta": {
+        "title": "Forgot password",
+        "description": "Reset your Jouer Instantanément password."
+      },
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email address and we'll send you a reset link",
+      "actions": {
+        "submit": "Send reset link",
+        "backToLogin": "Back to sign in"
+      },
+      "success": {
+        "title": "Email sent",
+        "message": "If an account exists with this address, you will receive a reset link."
+      }
     }
   }
 }
