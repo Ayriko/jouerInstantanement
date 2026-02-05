@@ -6,6 +6,6 @@ export default defineConfig({
     path: "./migrations",
   },
   datasource: {
-    url: process.env.DATABASE_URL!,
+    url: process.env.DATABASE_URL ?? 'postgresql://postgres:password@localhost:6432/api_db',
   },
 });
