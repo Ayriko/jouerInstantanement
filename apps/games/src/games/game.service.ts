@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Game, PrismaService } from '@repo/prisma';
-import { Pagination, PaginationDto } from '@repo/api';
+import { Pagination, PaginationDto } from '@repo/shared-types';
 
 @Injectable()
 export class GameService {

@@ -1,8 +1,15 @@
-import { Controller, Get, Inject, Param, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Pagination, PaginationDto } from '@repo/api';
+import { Pagination, PaginationDto } from '@repo/shared-types';
 import { Game } from '@repo/prisma';
-import { JwtAuthGuard } from '../auth/auth.guard';
+import { JwtAuthGuard } from '../../common/guards/auth.guard';
 import { Observable } from 'rxjs';
 
 @UseGuards(JwtAuthGuard)
@@ -14,11 +21,14 @@ export class GameController {
 
   @Get()
   get(@Query() dto: PaginationDto): Observable<Pagination<Game>> {
-    return this.gameClient.send<Pagination<Game>>({ cmd: 'game.get' }, { paginationDto: dto })
+    return this.gameClient.send<Pagination<Game>>(
+      { cmd: 'game.get' },
+      { paginationDto: dto },
+    );
   }
 
   @Get(':id')
   getOne(@Param('id') id: string): Observable<Game> {
-    return this.gameClient.send<Game>({ cmd: 'game.getOne' }, { id })
+    return this.gameClient.send<Game>({ cmd: 'game.getOne' }, { id });
   }
 }

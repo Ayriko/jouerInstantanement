@@ -1,7 +1,7 @@
 import { Body, Controller, Inject, Post, Req, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
-import { JwtAuthGuard } from './auth.guard';
+import { JwtAuthGuard } from '../../common/guards/auth.guard';
 import { LoginDto, RegisterDto } from '@repo/shared-types';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 

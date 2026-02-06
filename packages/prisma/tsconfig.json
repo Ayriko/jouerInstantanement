@@ -1,7 +1,8 @@
 {
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
-    "module": "NodeNext",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "allowJs": true,
     "baseUrl": "src",
     "esModuleInterop": true,

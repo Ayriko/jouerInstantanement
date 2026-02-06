@@ -1,24 +1,20 @@
-import { Module } from '@nestjs/common';
+import { Module, Global } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { GamesController } from './games.controller';
+import { JwtAuthGuard } from '../guards/auth.guard';
 
+@Global()
 @Module({
   imports: [
     ClientsModule.registerAsync([
       {
-        name: 'GAMES_SERVICE',
+        name: 'AUTH_SERVICE',
         imports: [ConfigModule],
         useFactory: (configService: ConfigService) => ({
           transport: Transport.RMQ,
           options: {
-            urls: [
-              configService.get<string>(
-                'RABBITMQ_URL',
-                'amqp://localhost:5672',
-              ),
-            ],
-            queue: 'games_queue',
+            urls: [configService.getOrThrow<string>('RABBITMQ_URL')],
+            queue: 'auth_queue',
             queueOptions: { durable: true },
           },
         }),
@@ -26,6 +22,7 @@ import { GamesController } from './games.controller';
       },
     ]),
   ],
-  controllers: [GamesController],
+  providers: [JwtAuthGuard],
+  exports: [ClientsModule, JwtAuthGuard],
 })
-export class GamesModule {}
+export class AuthClientModule {}
