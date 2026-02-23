@@ -9,7 +9,7 @@ async function bootstrap() {
       options: {
         urls: [process.env.RABBITMQ_URL || ''],
         queue: 'game_queue',
-        queueOptions: { durable: false },
+        queueOptions: { durable: true },
       },
       transport: Transport.RMQ,
     },

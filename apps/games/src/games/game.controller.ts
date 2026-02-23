@@ -1,7 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { GameService } from './game.service';
 import { MessagePattern } from '@nestjs/microservices';
-import { Pagination, PaginationDto } from '@repo/api';
+import { Pagination, PaginationDto } from '@repo/shared-types';
 import { Game } from '@repo/prisma';
 
 @Controller()

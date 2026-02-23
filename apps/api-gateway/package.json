@@ -1,5 +1,5 @@
 {
-  "name": "games",
+  "name": "api-gateway",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -22,12 +22,15 @@
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
-    "@nestjs/config": "^4.0.2",
+    "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.0.1",
-    "@nestjs/microservices": "^11.1.11",
+    "@nestjs/microservices": "^11.1.13",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/swagger": "^11.2.6",
     "@repo/prisma": "workspace:*",
     "@repo/shared-types": "workspace:*",
+    "amqp-connection-manager": "^5.0.0",
+    "amqplib": "^0.10.9",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
