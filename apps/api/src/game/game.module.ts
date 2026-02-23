@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { GameController } from './game.controller';
 import { AuthModule } from '../auth/auth.module';
@@ -8,10 +8,8 @@ import { AuthModule } from '../auth/auth.module';
   controllers: [GameController],
   imports: [
     AuthModule,
-    ConfigModule.forRoot(),
     ClientsModule.registerAsync([
       {
-        imports: [ConfigModule],
         inject: [ConfigService],
         name: 'GAME_SERVICE',
         useFactory: (config: ConfigService) => ({

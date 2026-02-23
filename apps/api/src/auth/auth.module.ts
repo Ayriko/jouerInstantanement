@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 import { AuthController } from './auth.controller';
@@ -8,10 +8,8 @@ import { JwtAuthGuard } from './auth.guard';
 @Module({
   controllers: [AuthController],
   imports: [
-    ConfigModule.forRoot(),
     ClientsModule.registerAsync([
       {
-        imports: [ConfigModule],
         inject: [ConfigService],
         name: 'AUTH_SERVICE',
         useFactory: (config: ConfigService) => ({
