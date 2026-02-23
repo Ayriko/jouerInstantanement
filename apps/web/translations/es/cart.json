@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "title": "Mi carrito",
+    "description": "Tu carrito de compras en Jouer Instantanément."
+  },
+  "title": "Mi carrito",
+  "itemCount": "{count, plural, =0 {Ningún artículo} one {1 artículo} other {# artículos}}",
+  "empty": {
+    "title": "Tu carrito está vacío",
+    "subtitle": "Explora nuestro catálogo para encontrar tus próximos juegos.",
+    "cta": "Explorar juegos"
+  },
+  "item": {
+    "remove": "Eliminar",
+    "platform": "Plataforma"
+  },
+  "summary": {
+    "title": "Resumen",
+    "subtotal": "Subtotal",
+    "discount": "Ahorros",
+    "total": "Total",
+    "checkout": "Realizar pedido",
+    "continueShopping": "Seguir comprando"
+  }
+}

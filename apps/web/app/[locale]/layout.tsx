@@ -4,6 +4,7 @@ import { getMessages } from 'next-intl/server';
 
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
+import { CartProvider } from '@/context/CartContext';
 import { routing } from '@/i18n/routing';
 
 export default async function LocaleLayout({
@@ -23,9 +24,11 @@ export default async function LocaleLayout({
 
     return (
         <NextIntlClientProvider messages={messages}>
-            <Header />
-            <main className="min-h-screen">{children}</main>
-            <Footer />
+            <CartProvider>
+                <Header />
+                <main className="min-h-screen">{children}</main>
+                <Footer />
+            </CartProvider>
         </NextIntlClientProvider>
     );
 }

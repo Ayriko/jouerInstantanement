@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "title": "Pago",
+    "description": "Finaliza tu pedido en Jouer Instantanément."
+  },
+  "empty": {
+    "title": "Tu carrito está vacío",
+    "subtitle": "Añade juegos a tu carrito antes de proceder al pago.",
+    "cta": "Descubrir juegos"
+  },
+  "checkout": {
+    "title": "Pago",
+    "orderSummary": "Tu pedido",
+    "paymentMethod": "Método de pago",
+    "paymentPlaceholder": "El pago seguro con Stripe estará disponible próximamente.",
+    "subtotal": "Subtotal",
+    "discount": "Ahorros",
+    "total": "Total",
+    "pay": "Pagar",
+    "backToCart": "Volver al carrito",
+    "securePayment": "Pago seguro con Stripe"
+  },
+  "confirmation": {
+    "meta": {
+      "title": "Confirmación de pedido",
+      "description": "Tu pedido en Jouer Instantanément ha sido confirmado."
+    },
+    "title": "Pedido confirmado",
+    "subtitle": "¡Gracias por tu compra!",
+    "orderNumber": "Número de pedido",
+    "date": "Fecha",
+    "status": "Estado",
+    "statusValue": "Confirmado",
+    "items": {
+      "title": "Artículos pedidos"
+    },
+    "payment": {
+      "subtotal": "Subtotal",
+      "discount": "Ahorros",
+      "total": "Total pagado"
+    },
+    "delivery": {
+      "title": "Entrega",
+      "method": "Clave digital — entrega instantánea",
+      "info": "Tus claves de juego estarán disponibles en tu cuenta."
+    },
+    "actions": {
+      "backHome": "Volver al inicio"
+    }
+  }
+}

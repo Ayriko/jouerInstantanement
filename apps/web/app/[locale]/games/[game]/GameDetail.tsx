@@ -14,6 +14,7 @@ import React, { useState } from 'react';
 
 import { GameCard } from '@/components/home/GameCard';
 import Badge from '@/components/ui/Badge';
+import { useCart } from '@/context/CartContext';
 import { Game } from '@/types/game';
 
 interface GameDetailProps {
@@ -23,7 +24,9 @@ interface GameDetailProps {
 
 const GameDetail: React.FC<GameDetailProps> = ({ game, similarGames }) => {
     const t = useTranslations('games.detail');
+    const { addItem, removeItem, isInCart } = useCart();
     const [isWishlisted, setIsWishlisted] = useState(false);
+    const inCart = isInCart(game.id);
 
     const features = [
         { icon: Download, label: t('reassurance.instantDownload') },
@@ -103,9 +106,16 @@ const GameDetail: React.FC<GameDetailProps> = ({ game, similarGames }) => {
                                 </span>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-3">
-                                <button className="flex-1 bg-brand hover:bg-brand-active text-white px-6 py-3 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] shadow-lg shadow-orange-500/20 cursor-pointer flex items-center justify-center gap-2">
+                                <button
+                                    onClick={() => { inCart ? removeItem(game.id) : addItem(game); }}
+                                    className={`flex-1 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-2 ${
+                                        inCart
+                                            ? 'bg-zinc-700 hover:bg-zinc-600'
+                                            : 'bg-brand hover:bg-brand-active shadow-lg shadow-orange-500/20'
+                                    }`}
+                                >
                                     <ShoppingCart className="w-5 h-5" />
-                                    {t('actions.cart.add')}
+                                    {inCart ? t("actions.cart.remove") : t("actions.cart.add")}
                                 </button>
                                 <button
                                     onClick={() => {

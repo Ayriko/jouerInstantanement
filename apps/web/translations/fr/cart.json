@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "title": "Mon panier",
+    "description": "Votre panier d'achat sur Jouer Instantanément."
+  },
+  "title": "Mon panier",
+  "itemCount": "{count, plural, =0 {Aucun article} one {1 article} other {# articles}}",
+  "empty": {
+    "title": "Votre panier est vide",
+    "subtitle": "Parcourez notre catalogue pour trouver vos prochains jeux.",
+    "cta": "Découvrir les jeux"
+  },
+  "item": {
+    "remove": "Retirer",
+    "platform": "Plateforme"
+  },
+  "summary": {
+    "title": "Récapitulatif",
+    "subtotal": "Sous-total",
+    "discount": "Économies",
+    "total": "Total",
+    "checkout": "Passer la commande",
+    "continueShopping": "Continuer mes achats"
+  }
+}

@@ -6,11 +6,13 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 
+import { useCart } from '@/context/CartContext';
 import { Link } from '@/i18n/navigation';
 import logo from '@/public/logo/logo-white.svg';
 
 export const Header: React.FC = () => {
     const t = useTranslations('header');
+    const { itemCount, isHydrated } = useCart();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -72,10 +74,17 @@ export const Header: React.FC = () => {
                             <Heart className="h-6 w-6" />
                         </Link>
 
-                        <button className="relative text-zinc-300 hover:text-white transition-colors cursor-pointer">
+                        <Link
+                            href="/cart"
+                            className="relative text-zinc-300 hover:text-white transition-colors cursor-pointer">
                             <span className="sr-only">{t('cart')}</span>
                             <ShoppingCart className="h-6 w-6" />
-                        </button>
+                            {isHydrated && itemCount > 0 && (
+                                <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-white">
+                                    {itemCount}
+                                </span>
+                            )}
+                        </Link>
 
                         <Link
                             href="/my-account"
@@ -147,15 +156,23 @@ export const Header: React.FC = () => {
                                     <Heart className="h-5 w-5" />{' '}
                                     {t('wishlist')}
                                 </Link>
-                                <button
+                                <Link
+                                    href="/cart"
                                     onClick={() => {
                                         setIsMenuOpen(false);
                                     }}
                                     className="flex items-center gap-3 text-zinc-300 hover:text-white py-2"
                                 >
-                                    <ShoppingCart className="h-5 w-5" />{' '}
+                                    <span className="relative">
+                                        <ShoppingCart className="h-5 w-5" />
+                                        {isHydrated && itemCount > 0 && (
+                                            <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-brand text-[9px] font-bold text-white">
+                                                {itemCount}
+                                            </span>
+                                        )}
+                                    </span>
                                     {t('cart')}
-                                </button>
+                                </Link>
                                 <Link
                                     href="/my-account"
                                     onClick={() => {
