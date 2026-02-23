@@ -1,87 +1,55 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
 import { RpcException } from '@nestjs/microservices';
-import { PrismaService } from '@repo/prisma';
-import * as bcrypt from 'bcrypt';
+import { auth } from './better-auth.config';
 
-import { RedisService } from '../redis/redis.service';
+function bearerHeaders(token: string): Headers {
+  return new Headers({ authorization: 'Bearer ' + token });
+}
 
-interface JwtPayload {
-  email: string;
-  exp?: number;
-  sub: string;
+function rpcError(error: any, fallbackStatus: number, fallbackMessage: string): never {
+  // better-call APIError: .statusCode (number) + .body.message (string)
+  const statusCode = typeof error?.statusCode === 'number' ? error.statusCode : fallbackStatus;
+  const message = error?.body?.message ?? error?.message ?? fallbackMessage;
+  throw new RpcException({ statusCode, message });
 }
 
 @Injectable()
 export class AuthService {
-  private readonly refreshExpiresIn: number;
-
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly jwtService: JwtService,
-    private readonly configService: ConfigService,
-    private readonly redisService: RedisService,
-  ) {
-    this.refreshExpiresIn = Number(this.configService.get('JWT_REFRESH_EXPIRES_IN', '2592000'));
-  }
-
   async register(email: string, password: string) {
-    const existingUser = await this.prisma.user.findUnique({
-      where: { email },
-    });
+    try {
+      const response = await auth.api.signUpEmail({
+        body: {
+          email,
+          password,
+          name: email.split('@')[0] ?? email,
+        },
+      });
 
-    if (existingUser) {
-      throw new RpcException({ statusCode: 409, message: 'User with this email already exists' });
+      return { accessToken: response.token, refreshToken: response.token };
+    } catch (error: any) {
+      rpcError(error, 500, 'Registration failed');
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await this.prisma.user.create({
-      data: { email, password: hashedPassword },
-    });
-
-    const payload: JwtPayload = { email: user.email, sub: user.id };
-
-    const accessToken = this.jwtService.sign(payload);
-    const refreshToken = this.jwtService.sign(payload, {
-      expiresIn: this.refreshExpiresIn,
-    });
-
-    return { accessToken, refreshToken };
   }
 
   async login(email: string, password: string) {
-    const user = await this.prisma.user.findUnique({ where: { email } });
+    try {
+      const response = await auth.api.signInEmail({
+        body: { email, password },
+      });
 
-    if (!user) {
-      throw new RpcException({ statusCode: 401, message: 'Invalid credentials' });
+      return { accessToken: response.token, refreshToken: response.token };
+    } catch (error: any) {
+      rpcError(error, 401, 'Invalid credentials');
     }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      throw new RpcException({ statusCode: 401, message: 'Invalid credentials' });
-    }
-
-    const payload: JwtPayload = { email: user.email, sub: user.id };
-
-    const accessToken = this.jwtService.sign(payload);
-    const refreshToken = this.jwtService.sign(payload, {
-      expiresIn: this.refreshExpiresIn,
-    });
-
-    return { accessToken, refreshToken };
   }
 
   async logout(token: string) {
-    const decoded = this.jwtService.decode<JwtPayload>(token);
-
-    if (decoded.exp) {
-      const ttl = decoded.exp - Math.floor(Date.now() / 1000);
-      if (ttl > 0) {
-        await this.redisService.blacklist(token, ttl);
-      }
+    try {
+      await auth.api.signOut({
+        headers: bearerHeaders(token),
+      });
+    } catch {
+      // Ignore sign-out errors — session may already be expired
     }
 
     return { message: 'Logged out successfully' };
@@ -89,36 +57,37 @@ export class AuthService {
 
   async validateToken(token: string) {
     try {
-      if (await this.redisService.isBlacklisted(token)) {
-        return { error: 'Token has been revoked', valid: false };
+      const session = await auth.api.getSession({
+        headers: bearerHeaders(token),
+      });
+
+      if (!session) {
+        return { valid: false, error: 'Invalid or expired token' };
       }
 
-      const payload = this.jwtService.verify<JwtPayload>(token);
-
-      return { user: { email: payload.email, id: payload.sub }, valid: true };
+      return {
+        valid: true,
+        user: { email: session.user.email, id: session.user.id },
+      };
     } catch {
-      return { error: 'Invalid or expired token', valid: false };
+      return { valid: false, error: 'Invalid or expired token' };
     }
   }
 
-  async refreshToken(refreshToken: string) {
-    if (await this.redisService.isBlacklisted(refreshToken)) {
-      throw new RpcException({ statusCode: 401, message: 'Token has been revoked' });
-    }
-
-    let payload: JwtPayload;
-
+  async refreshToken(token: string) {
     try {
-      payload = this.jwtService.verify<JwtPayload>(refreshToken);
-    } catch {
+      const session = await auth.api.getSession({
+        headers: bearerHeaders(token),
+      });
+
+      if (!session) {
+        throw new RpcException({ statusCode: 401, message: 'Invalid or expired refresh token' });
+      }
+
+      return { accessToken: session.session.token };
+    } catch (error: any) {
+      if (error instanceof RpcException) throw error;
       throw new RpcException({ statusCode: 401, message: 'Invalid or expired refresh token' });
     }
-
-    const newAccessToken = this.jwtService.sign({
-      email: payload.email,
-      sub: payload.sub,
-    });
-
-    return { accessToken: newAccessToken };
   }
 }
