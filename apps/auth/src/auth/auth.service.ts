@@ -32,7 +32,7 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new RpcException('User with this email already exists');
+      throw new RpcException({ statusCode: 409, message: 'User with this email already exists' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -55,13 +55,13 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({ where: { email } });
 
     if (!user) {
-      throw new RpcException('Invalid credentials');
+      throw new RpcException({ statusCode: 401, message: 'Invalid credentials' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      throw new RpcException('Invalid credentials');
+      throw new RpcException({ statusCode: 401, message: 'Invalid credentials' });
     }
 
     const payload: JwtPayload = { email: user.email, sub: user.id };
@@ -103,7 +103,7 @@ export class AuthService {
 
   async refreshToken(refreshToken: string) {
     if (await this.redisService.isBlacklisted(refreshToken)) {
-      throw new RpcException('Token has been revoked');
+      throw new RpcException({ statusCode: 401, message: 'Token has been revoked' });
     }
 
     let payload: JwtPayload;
@@ -111,7 +111,7 @@ export class AuthService {
     try {
       payload = this.jwtService.verify<JwtPayload>(refreshToken);
     } catch {
-      throw new RpcException('Invalid or expired refresh token');
+      throw new RpcException({ statusCode: 401, message: 'Invalid or expired refresh token' });
     }
 
     const newAccessToken = this.jwtService.sign({

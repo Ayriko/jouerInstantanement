@@ -6,6 +6,8 @@
     "allowJs": true,
     "baseUrl": "src",
     "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "incremental": false,
     "outDir": "dist",
     "types": ["node"]
