@@ -25,5 +25,19 @@
       "dependsOn": ["build"],
       "outputs": ["test-results/**"]
     }
-  }
+  },
+  "globalEnv": [
+    "DATABASE_URL",
+    "POSTGRES_HOST",
+    "POSTGRES_PORT",
+    "POSTGRES_USER",
+    "POSTGRES_PASSWORD",
+    "POSTGRES_DB",
+    "REDIS_HOST",
+    "REDIS_PORT",
+    "RABBITMQ_URL",
+    "JWT_SECRET",
+    "JWT_EXPIRES_IN",
+    "JWT_REFRESH_EXPIRES_IN"
+  ]
 }

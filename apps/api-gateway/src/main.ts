@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { RpcExceptionFilter } from './common/filters/rpc-exception.filter';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,7 +15,22 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalFilters(new RpcExceptionFilter());
   app.useGlobalInterceptors(new TimeoutInterceptor());
-  app.enableCors();
+  app.enableCors({
+    origin: process.env.CORS_ORIGIN,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // Supprime les propriétés non déclarées dans le DTO
+      forbidNonWhitelisted: true, // Rejette les requêtes avec des propriétés inconnues
+      transform: true, // Transforme automatiquement les types
+      transformOptions: {
+        enableImplicitConversion: false, // Force la validation stricte des types
+      },
+    }),
+  );
 
   // Configuration Swagger
   const swaggerConfig = new DocumentBuilder()
@@ -22,8 +38,6 @@ async function bootstrap() {
     .setDescription('API pour la plateforme de vente de clés de jeux')
     .setVersion('1.0')
     .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' })
-    .addTag('users', 'Gestion des utilisateurs')
-    .addTag('games', 'Catalogue de jeux')
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);

@@ -12,7 +12,8 @@ import { PrismaService } from '@repo/prisma';
   controllers: [AuthController],
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '../../.env'
+      envFilePath: '../../.env',
+      isGlobal: true,
     }),
     RedisModule,
     JwtModule.registerAsync({
