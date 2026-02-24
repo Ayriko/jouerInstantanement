@@ -1,10 +1,11 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { RpcExceptionFilter } from './common/filters/rpc-exception.filter';
-import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+import { AppModule } from './app.module';
+import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,22 +14,20 @@ async function bootstrap() {
   const port = configService.get<number>('PORT', 3000);
 
   app.setGlobalPrefix('api');
-  app.useGlobalFilters(new RpcExceptionFilter());
   app.useGlobalInterceptors(new TimeoutInterceptor());
   app.enableCors({
-    origin: process.env.CORS_ORIGIN,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
   });
 
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Supprime les propriétés non déclarées dans le DTO
       forbidNonWhitelisted: true, // Rejette les requêtes avec des propriétés inconnues
       transform: true, // Transforme automatiquement les types
       transformOptions: {
         enableImplicitConversion: false, // Force la validation stricte des types
       },
+      whitelist: true, // Supprime les propriétés non déclarées dans le DTO
     }),
   );
 
@@ -37,7 +36,7 @@ async function bootstrap() {
     .setTitle('Jouer Instantanément Swagger API')
     .setDescription('API pour la plateforme de vente de clés de jeux')
     .setVersion('1.0')
-    .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' })
+    .addBearerAuth({ bearerFormat: 'JWT', scheme: 'bearer', type: 'http' })
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);

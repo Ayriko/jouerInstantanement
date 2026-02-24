@@ -8,10 +8,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
-import { RpcExceptionFilter } from '../../common/filters/rpc-exception.filter';
-import { JwtAuthGuard } from '../../common/guards/auth.guard';
-import { LoginDto, RegisterDto } from '@repo/shared-types';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -19,6 +15,11 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { LoginDto, RegisterDto } from '@repo/shared-types';
+import { firstValueFrom } from 'rxjs';
+
+import { RpcExceptionFilter } from '../../common/filters/rpc-exception.filter';
+import { JwtAuthGuard } from '../../common/guards/auth.guard';
 
 interface AuthenticatedRequest {
   token: string;
@@ -27,6 +28,7 @@ interface AuthenticatedRequest {
 
 @ApiTags('Authentification')
 @Controller('auth')
+@UseFilters(new RpcExceptionFilter())
 export class AuthController {
   constructor(
     @Inject('AUTH_SERVICE') private readonly authClient: ClientProxy,
@@ -34,22 +36,21 @@ export class AuthController {
 
   @Post('register')
   @ApiOperation({
-    summary: 'Inscription',
     description:
       'Crée un nouveau compte utilisateur et retourne les tokens JWT.',
+    summary: 'Inscription',
   })
   @ApiBody({ type: RegisterDto })
   @ApiResponse({
-    status: 201,
     description: 'Compte créé avec succès.',
     schema: { example: { accessToken: 'eyJ...', refreshToken: 'eyJ...' } },
+    status: 201,
   })
   @ApiResponse({
-    status: 400,
     description: 'Données invalides.',
+    status: 400,
   })
-  @ApiResponse({ status: 422, description: 'Email déjà utilisé.' })
-  @UseFilters(new RpcExceptionFilter())
+  @ApiResponse({ description: 'Email déjà utilisé.', status: 422 })
   async register(
     @Body() dto: RegisterDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
@@ -63,16 +64,16 @@ export class AuthController {
 
   @Post('login')
   @ApiOperation({
-    summary: 'Se connecter',
     description: 'Authentifie un utilisateur et retourne les tokens JWT.',
+    summary: 'Se connecter',
   })
   @ApiBody({ type: LoginDto })
   @ApiResponse({
-    status: 200,
     description: 'Connexion réussie.',
     schema: { example: { accessToken: 'eyJ...', refreshToken: 'eyJ...' } },
+    status: 200,
   })
-  @ApiResponse({ status: 401, description: 'Email ou mot de passe incorrect.' })
+  @ApiResponse({ description: 'Email ou mot de passe incorrect.', status: 401 })
   async login(
     @Body() dto: LoginDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
@@ -86,16 +87,16 @@ export class AuthController {
 
   @Post('logout')
   @ApiOperation({
-    summary: 'Se déconnecter',
     description: 'Invalide le token JWT courant.',
+    summary: 'Se déconnecter',
   })
   @ApiBearerAuth()
   @ApiResponse({
-    status: 200,
     description: 'Déconnexion réussie.',
     schema: { example: { message: 'Logged out successfully' } },
+    status: 200,
   })
-  @ApiResponse({ status: 401, description: 'Token manquant ou invalide.' })
+  @ApiResponse({ description: 'Token manquant ou invalide.', status: 401 })
   @UseGuards(JwtAuthGuard)
   async logout(@Req() req: AuthenticatedRequest): Promise<{ message: string }> {
     return firstValueFrom(
@@ -108,28 +109,28 @@ export class AuthController {
 
   @Post('refresh')
   @ApiOperation({
-    summary: 'Rafraîchir le token',
     description:
       "Génère un nouvel accessToken à partir d'un refreshToken valide.",
+    summary: 'Rafraîchir le token',
   })
   @ApiBody({
     schema: {
       properties: {
         refreshToken: {
-          type: 'string',
-          example: 'eyJ...',
           description: 'Token de rafraîchissement obtenu lors de la connexion',
+          example: 'eyJ...',
+          type: 'string',
         },
       },
       required: ['refreshToken'],
     },
   })
   @ApiResponse({
-    status: 200,
     description: 'Token rafraîchi avec succès.',
     schema: { example: { accessToken: 'eyJ...' } },
+    status: 200,
   })
-  @ApiResponse({ status: 401, description: 'RefreshToken invalide ou expiré.' })
+  @ApiResponse({ description: 'RefreshToken invalide ou expiré.', status: 401 })
   async refresh(
     @Body() body: { refreshToken: string },
   ): Promise<{ accessToken: string }> {

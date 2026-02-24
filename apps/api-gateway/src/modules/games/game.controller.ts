@@ -4,16 +4,20 @@ import {
   Inject,
   Param,
   Query,
+  UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { Pagination, PaginationDto } from '@repo/shared-types';
 import { Game } from '@repo/prisma';
-import { JwtAuthGuard } from '../../common/guards/auth.guard';
+import { Pagination, PaginationDto } from '@repo/shared-types';
 import { Observable } from 'rxjs';
+
+import { RpcExceptionFilter } from '../../common/filters/rpc-exception.filter';
+import { JwtAuthGuard } from '../../common/guards/auth.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller('games')
+@UseFilters(new RpcExceptionFilter())
 export class GameController {
   constructor(
     @Inject('GAME_SERVICE') private readonly gameClient: ClientProxy,
