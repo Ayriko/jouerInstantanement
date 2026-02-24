@@ -15,11 +15,13 @@
     "test:e2e": "turbo run test:e2e",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "husky": "^9.1.7",
     "prettier": "^3.2.5",
     "turbo": "^2.8.0"
   },

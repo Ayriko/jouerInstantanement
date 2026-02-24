@@ -5,27 +5,33 @@ import { PrismaService } from '@repo/prisma';
 
 // Load .env before better-auth initializes (runs before ConfigModule)
 try {
-  process.loadEnvFile('../../.env');
+    process.loadEnvFile('../../.env');
 } catch {
-  // .env might not exist in production — env vars come from system
+    // .env might not exist in production — env vars come from system
 }
 
-console.log('[better-auth.config] DATABASE_URL set:', !!process.env.DATABASE_URL);
-console.log('[better-auth.config] BETTER_AUTH_SECRET set:', !!process.env.BETTER_AUTH_SECRET);
+console.log(
+    '[better-auth.config] DATABASE_URL set:',
+    !!process.env.DATABASE_URL,
+);
+console.log(
+    '[better-auth.config] BETTER_AUTH_SECRET set:',
+    !!process.env.BETTER_AUTH_SECRET,
+);
 
 export const auth = betterAuth({
-  secret: process.env.BETTER_AUTH_SECRET!,
-  baseURL: process.env.BETTER_AUTH_URL ?? 'http://localhost:3002',
-  database: prismaAdapter(new PrismaService(), { provider: 'postgresql' }),
-  emailAndPassword: {
-    enabled: true,
-    requireEmailVerification: false,
-  },
-  plugins: [bearer()],
-  session: {
-    expiresIn: 60 * 60 * 24 * 30,
-    updateAge: 60 * 60 * 24,
-  },
+    secret: process.env.BETTER_AUTH_SECRET!,
+    baseURL: process.env.BETTER_AUTH_URL ?? 'http://localhost:3002',
+    database: prismaAdapter(new PrismaService(), { provider: 'postgresql' }),
+    emailAndPassword: {
+        enabled: true,
+        requireEmailVerification: false,
+    },
+    plugins: [bearer()],
+    session: {
+        expiresIn: 60 * 60 * 24 * 30,
+        updateAge: 60 * 60 * 24,
+    },
 });
 
 export type Auth = typeof auth;

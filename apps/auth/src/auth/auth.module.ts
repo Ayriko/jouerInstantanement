@@ -9,22 +9,24 @@ import { AuthService } from './auth.service';
 import { PrismaService } from '@repo/prisma';
 
 @Module({
-  controllers: [AuthController],
-  imports: [
-    ConfigModule.forRoot({
-      envFilePath: '../../.env',
-      isGlobal: true,
-    }),
-    RedisModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: Number(config.get('JWT_EXPIRES_IN')) },
-      }),
-    }),
-  ],
-  providers: [AuthService, PrismaService],
+    controllers: [AuthController],
+    imports: [
+        ConfigModule.forRoot({
+            envFilePath: '../../.env',
+            isGlobal: true,
+        }),
+        RedisModule,
+        JwtModule.registerAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: (config: ConfigService) => ({
+                secret: config.get<string>('JWT_SECRET'),
+                signOptions: {
+                    expiresIn: Number(config.get('JWT_EXPIRES_IN')),
+                },
+            }),
+        }),
+    ],
+    providers: [AuthService, PrismaService],
 })
 export class AuthModule {}

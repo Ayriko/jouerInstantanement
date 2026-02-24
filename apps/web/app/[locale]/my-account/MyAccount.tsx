@@ -1,5 +1,3 @@
 export default function MyAccount() {
-  return (
-    <p>Coucou</p>
-  );
+    return <p>Coucou</p>;
 }

@@ -1,27 +1,27 @@
 import { type JSX } from 'react';
 
 export function Card({
-  children,
-  className,
-  href,
-  title,
+    children,
+    className,
+    href,
+    title,
 }: Readonly<{
-  className?: string;
-  title: string;
-  children: React.ReactNode;
-  href: string;
+    className?: string;
+    title: string;
+    children: React.ReactNode;
+    href: string;
 }>): JSX.Element {
-  return (
-    <a
-      className={className}
-      href={`${href}?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"`}
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      <h2>
-        {title} <span>-&gt;</span>
-      </h2>
-      <p>{children}</p>
-    </a>
-  );
+    return (
+        <a
+            className={className}
+            href={`${href}?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"`}
+            rel="noopener noreferrer"
+            target="_blank"
+        >
+            <h2>
+                {title} <span>-&gt;</span>
+            </h2>
+            <p>{children}</p>
+        </a>
+    );
 }

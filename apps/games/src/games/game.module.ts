@@ -6,10 +6,12 @@ import { GameService } from './game.service';
 import { PrismaService } from '@repo/prisma';
 
 @Module({
-  controllers: [GameController],
-  imports: [ConfigModule.forRoot({
-    envFilePath: '../../.env'
-  }),],
-  providers: [GameService, PrismaService],
+    controllers: [GameController],
+    imports: [
+        ConfigModule.forRoot({
+            envFilePath: '../../.env',
+        }),
+    ],
+    providers: [GameService, PrismaService],
 })
 export class GameModule {}
