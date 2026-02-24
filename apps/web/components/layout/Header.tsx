@@ -7,14 +7,22 @@ import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 
 import { useCart } from '@/context/CartContext';
-import { Link } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
+import { authClient } from '@/lib/auth-client';
 import logo from '@/public/logo/logo-white.svg';
 
 export const Header: React.FC = () => {
     const t = useTranslations('header');
-    const { itemCount, isHydrated } = useCart();
+    const router = useRouter();
+    const { isHydrated, itemCount } = useCart();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const { data: session, isPending: sessionIsLoading } = authClient.useSession();
+
+    const handleSignOut = async () => {
+        await authClient.signOut();
+        router.push("/sign-in");
+    };
 
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -67,14 +75,6 @@ export const Header: React.FC = () => {
                     {/* Desktop Actions */}
                     <div className="hidden md:flex items-center space-x-6">
                         <Link
-                            href="/my-account/wishlist"
-                            className="relative text-zinc-300 hover:text-white transition-colors cursor-pointer"
-                        >
-                            <span className="sr-only">{t('wishlist')}</span>
-                            <Heart className="h-6 w-6" />
-                        </Link>
-
-                        <Link
                             href="/cart"
                             className="relative text-zinc-300 hover:text-white transition-colors cursor-pointer">
                             <span className="sr-only">{t('cart')}</span>
@@ -86,12 +86,38 @@ export const Header: React.FC = () => {
                             )}
                         </Link>
 
-                        <Link
-                            href="/my-account"
-                            className="bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-zinc-700 cursor-pointer"
-                        >
-                            {t('myAccount')}
-                        </Link>
+                        {sessionIsLoading ? (
+                            <div className="animate-pulse flex space-x-2">
+                                <div className="h-9 w-30 bg-zinc-700 rounded"></div>
+                            </div>
+                        ) : (session ? (
+                            <>
+                                <Link
+                                    href="/my-account/wishlist"
+                                    className="relative text-zinc-300 hover:text-white transition-colors cursor-pointer"
+                                >
+                                    <span className="sr-only">
+                                        {t('wishlist')}
+                                    </span>
+                                    <Heart className="h-6 w-6" />
+                                </Link>
+
+                                <Link
+                                    href="/my-account"
+                                    className="bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-zinc-700 cursor-pointer"
+                                >
+                                    {t('myAccount')}
+                                </Link>
+                            </>
+                            ) : (
+                                <Link
+                                    href="/sign-in"
+                                    className="bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-zinc-700 cursor-pointer"
+                                >
+                                    {t('signIn')}
+                                </Link>
+                            )
+                        )}
                     </div>
 
                     {/* Mobile menu button */}
@@ -146,16 +172,19 @@ export const Header: React.FC = () => {
                             </form>
 
                             <div className="flex flex-col space-y-2">
-                                <Link
-                                    href="/my-account/wishlist"
-                                    onClick={() => {
-                                        setIsMenuOpen(false);
-                                    }}
-                                    className="flex items-center gap-3 text-zinc-300 hover:text-white py-2"
-                                >
-                                    <Heart className="h-5 w-5" />{' '}
-                                    {t('wishlist')}
-                                </Link>
+                                {session && (
+                                    <Link
+                                        href="/my-account/wishlist"
+                                        onClick={() => {
+                                            setIsMenuOpen(false);
+                                        }}
+                                        className="flex items-center gap-3 text-zinc-300 hover:text-white py-2"
+                                    >
+                                        <Heart className="h-5 w-5" />{' '}
+                                        {t('wishlist')}
+                                    </Link>
+                                )}
+
                                 <Link
                                     href="/cart"
                                     onClick={() => {
@@ -173,15 +202,37 @@ export const Header: React.FC = () => {
                                     </span>
                                     {t('cart')}
                                 </Link>
-                                <Link
-                                    href="/my-account"
-                                    onClick={() => {
-                                        setIsMenuOpen(false);
-                                    }}
-                                    className="flex items-center gap-3 text-zinc-300 hover:text-white py-2"
-                                >
-                                    <User className="h-5 w-5" /> {t('signIn')}
-                                </Link>
+
+                                {session ? (
+                                    <>
+                                        <Link
+                                            href="/my-account"
+                                            onClick={() => {
+                                                setIsMenuOpen(false);
+                                            }}
+                                            className="flex items-center gap-3 text-zinc-300 hover:text-white py-2"
+                                        >
+                                            <User className="h-5 w-5" /> {t('myAccount')}
+                                        </Link>
+                                        <button
+                                            type="button"
+                                            onClick={handleSignOut}
+                                            className="flex items-center gap-3 text-zinc-400 hover:text-white py-2 text-left"
+                                        >
+                                            {t('signOut')}
+                                        </button>
+                                    </>
+                                    ) : (
+                                    <Link
+                                        href="/sign-in"
+                                        onClick={() => {
+                                            setIsMenuOpen(false);
+                                        }}
+                                        className="flex items-center gap-3 text-zinc-300 hover:text-white py-2"
+                                    >
+                                        <User className="h-5 w-5" /> {t('signIn')}
+                                    </Link>
+                                    )}
                             </div>
                         </div>
                     </motion.div>

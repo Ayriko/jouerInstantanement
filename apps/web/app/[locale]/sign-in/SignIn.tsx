@@ -1,27 +1,31 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Link } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
 import {
     loginSchema,
     registerSchema,
     type LoginFormData,
     type RegisterFormData,
 } from '@/lib/validations/auth';
+import { authClient } from '@/lib/auth-client';
 
 type Tab = 'login' | 'register';
 
 export default function SignIn() {
     const t = useTranslations('account.signIn');
+    const router = useRouter();
     const [activeTab, setActiveTab] = useState<Tab>('login');
+    const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const loginForm = useForm<LoginFormData>({
         defaultValues: { email: '', password: '' },
@@ -37,14 +41,46 @@ export default function SignIn() {
         setActiveTab(tab);
         setShowPassword(false);
         setShowConfirmPassword(false);
+        setErrorMessage(null);
     };
 
-    const onLoginSubmit = (data: LoginFormData) => {
-        console.log('Login:', data);
+    const onLoginSubmit = async (data: LoginFormData) => {
+        setIsLoading(true);
+        setErrorMessage(null);
+        const { error } = await authClient.signIn.email({
+            email: data.email,
+            password: data.password,
+        });
+        if (error) {
+            setErrorMessage(
+                error.code === 'INVALID_EMAIL_OR_PASSWORD'
+                    ? t('errors.invalidCredentials')
+                    : t('errors.generic'),
+            );
+        } else {
+            router.push('/');
+        }
+        setIsLoading(false);
     };
 
-    const onRegisterSubmit = (data: RegisterFormData) => {
-        console.log('Register:', data);
+    const onRegisterSubmit = async (data: RegisterFormData) => {
+        setIsLoading(true);
+        setErrorMessage(null);
+        const { error } = await authClient.signUp.email({
+            email: data.email,
+            name: data.name,
+            password: data.password,
+        });
+        if (error) {
+            setErrorMessage(
+                error.code === 'USER_ALREADY_EXISTS'
+                    ? t('errors.emailTaken')
+                    : t('errors.generic'),
+            );
+        } else {
+            router.push('/');
+        }
+        setIsLoading(false);
     };
 
     return (
@@ -199,10 +235,18 @@ export default function SignIn() {
                                     </Link>
                                 </div>
 
+                                {/* Error message */}
+                                {errorMessage && (
+                                    <p className="rounded-lg bg-red-500/10 border border-red-500/30 px-3 py-2 text-xs text-red-400">
+                                        {errorMessage}
+                                    </p>
+                                )}
+
                                 {/* Submit */}
                                 <button
                                     type="submit"
-                                    className="w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-active cursor-pointer"
+                                    disabled={isLoading}
+                                    className="w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-active cursor-pointer disabled:cursor-default disabled:bg-zinc-700 disabled:text-zinc-400"
                                 >
                                     {t('actions.login')}
                                 </button>
@@ -233,6 +277,36 @@ export default function SignIn() {
                                 )}
                                 className="space-y-4"
                             >
+                                {/* Name */}
+                                <div>
+                                    <label
+                                        htmlFor="register-name"
+                                        className="mb-1.5 block text-sm font-medium text-zinc-300"
+                                    >
+                                        {t('fields.name.label')}
+                                    </label>
+                                    <div className="relative">
+                                        <User className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+                                        <input
+                                            id="register-name"
+                                            type="text"
+                                            placeholder={t(
+                                                'fields.name.placeholder',
+                                            )}
+                                            {...registerForm.register('name')}
+                                            className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-2.5 pl-10 pr-4 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-brand"
+                                        />
+                                    </div>
+                                    {registerForm.formState.errors.name && (
+                                        <p className="mt-1 text-xs text-red-400">
+                                            {
+                                                registerForm.formState.errors
+                                                    .name.message
+                                            }
+                                        </p>
+                                    )}
+                                </div>
+
                                 {/* Email */}
                                 <div>
                                     <label
@@ -364,13 +438,21 @@ export default function SignIn() {
                                     )}
                                 </div>
 
-                                {/* Submit */}
-                                <button
-                                    type="submit"
-                                    className="w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-active cursor-pointer"
-                                >
-                                    {t('actions.register')}
-                                </button>
+                {/* Error message */}
+                {errorMessage && (
+                  <p className="rounded-lg bg-red-500/10 border border-red-500/30 px-3 py-2 text-xs text-red-400">
+                    {errorMessage}
+                  </p>
+                )}
+
+                {/* Submit */}
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-active cursor-pointer"
+                >
+                  {t("actions.register")}
+                </button>
 
                                 {/* Switch to login */}
                                 <p className="text-center text-sm text-zinc-400">

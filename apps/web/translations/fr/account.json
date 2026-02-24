@@ -22,6 +22,10 @@
       "register": "Inscription"
     },
     "fields": {
+      "name": {
+        "label": "Nom complet",
+        "placeholder": "Jeux JOUE"
+      },
       "email": {
         "label": "Adresse e-mail",
         "placeholder": "vous@exemple.com"
@@ -36,6 +40,7 @@
       }
     },
     "validation": {
+      "nameRequired": "Le nom complet est requis",
       "emailRequired": "L'adresse e-mail est requise",
       "emailInvalid": "L'adresse e-mail n'est pas valide",
       "passwordRequired": "Le mot de passe est requis",
@@ -50,6 +55,11 @@
     "forgotPasswordCta": "Mot de passe oublié ?",
     "noAccount": "Pas encore de compte ?",
     "hasAccount": "Déjà un compte ?",
+    "errors": {
+      "invalidCredentials": "Email ou mot de passe incorrect",
+      "emailTaken": "Un compte existe déjà avec cette adresse email",
+      "generic": "Une erreur est survenue, veuillez réessayer"
+    },
 
     "forgotPassword": {
       "meta": {

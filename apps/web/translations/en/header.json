@@ -9,5 +9,6 @@
   "myAccount": "My Account",
   "signIn": "Sign in",
   "wishlist": "Wishlist",
-  "cart": "Cart"
+  "cart": "Cart",
+  "signOut": "Sign out"
 }

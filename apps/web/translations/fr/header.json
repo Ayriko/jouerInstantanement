@@ -9,5 +9,6 @@
   "myAccount": "Mon compte",
   "signIn": "Se connecter",
   "wishlist": "Favoris",
-  "cart": "Panier"
+  "cart": "Panier",
+  "signOut": "Se déconnecter"
 }

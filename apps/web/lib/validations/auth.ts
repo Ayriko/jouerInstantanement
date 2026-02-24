@@ -14,6 +14,7 @@ export const loginSchema = (t: (key: string) => string) =>
 export const registerSchema = (t: (key: string) => string) =>
     z
         .object({
+            name: z.string().min(1, t('validation.nameRequired')),
             email: z
                 .email(t('validation.emailInvalid'))
                 .min(1, t('validation.emailRequired')),

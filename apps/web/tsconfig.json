@@ -9,7 +9,8 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "declaration": false,
   },
   "include": [
     "**/*.ts",

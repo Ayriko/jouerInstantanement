@@ -22,6 +22,10 @@
       "register": "Sign up"
     },
     "fields": {
+      "name": {
+        "label": "Full name",
+        "placeholder": "John Doe"
+      },
       "email": {
         "label": "Email address",
         "placeholder": "you@example.com"
@@ -50,6 +54,11 @@
     "forgotPasswordCta": "Forgot password?",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "emailTaken": "An account already exists with this email address",
+      "generic": "An error occurred, please try again"
+    },
 
     "forgotPassword": {
       "meta": {
