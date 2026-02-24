@@ -7,8 +7,12 @@
     "target": "ES2021",
     "outDir": "./dist",
     "baseUrl": "./",
+    "composite": true,
+    "emitDeclarationOnly": true,
     "skipLibCheck": true,
     "strictNullChecks": true
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }

@@ -1,17 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { Game, PrismaService } from '@repo/prisma';
-import { Pagination, PaginationDto } from '@repo/shared-types';
+import { Game, GameWhereInput, PrismaService } from '@repo/prisma';
+import { FilterGamesDto, Pagination, PaginationDto } from '@repo/shared-types';
 
 @Injectable()
 export class GameService {
     constructor(private readonly prismaService: PrismaService) {}
 
-    async getGames(paginationDto: PaginationDto): Promise<Pagination<Game>> {
-        const count = await this.prismaService.game.count();
-        const games: Game[] = await this.prismaService.game.findMany({
-            take: Number(paginationDto.take),
-            skip: Number(paginationDto.take) * (Number(paginationDto.page) - 1),
-        });
+  async getGames(
+    filterGamesDto: FilterGamesDto,
+    paginationDto: PaginationDto,
+  ): Promise<Pagination<Game>> {
+    const whereParams = this.buildWhereParams(filterGamesDto);
+    console.log('whereParams', whereParams);
+    const count = await this.prismaService.game.count({ where: whereParams });
+    const games: Game[] = await this.prismaService.game.findMany({
+      where: whereParams,
+      take: Number(paginationDto.take),
+      skip: Number(paginationDto.take) * (Number(paginationDto.page) - 1),
+    });
 
         return {
             hasNext: Math.ceil(count / paginationDto.take) > paginationDto.page,
@@ -23,9 +29,37 @@ export class GameService {
         };
     }
 
-    async getGame(id: string): Promise<Game> {
-        return this.prismaService.game.findUniqueOrThrow({
-            where: { id },
-        });
+  async getGame(id: string): Promise<Game> {
+    return this.prismaService.game.findUniqueOrThrow({
+      where: { id },
+    });
+  }
+
+  private buildWhereParams(filterGamesDto: FilterGamesDto): GameWhereInput {
+    const whereParams: GameWhereInput = {};
+
+    console.log('filterGamesDto', filterGamesDto);
+
+    if (filterGamesDto?.name) {
+      whereParams.name = { contains: filterGamesDto.name, mode: 'insensitive' };
     }
+
+    if (filterGamesDto?.rating) {
+      whereParams.rating = { gte: Number(filterGamesDto.rating) };
+    }
+
+    if (filterGamesDto?.genres) {
+      whereParams.genres = { hasSome: filterGamesDto.genres };
+    }
+
+    if (filterGamesDto?.tags) {
+      whereParams.tags = { hasSome: filterGamesDto.tags };
+    }
+
+    if (filterGamesDto?.platforms) {
+      whereParams.platforms = { hasSome: filterGamesDto.platforms };
+    }
+
+    return whereParams;
+  }
 }

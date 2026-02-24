@@ -8,3 +8,4 @@ export * from './classes/pagination';
 
 //game
 export * from './game';
+export { FilterGamesDto } from './dto/games/filter-games.dto';
