@@ -4,28 +4,28 @@ import { Pagination, PaginationDto } from '@repo/shared-types';
 
 @Injectable()
 export class GameService {
-  constructor(private readonly prismaService: PrismaService) {}
+    constructor(private readonly prismaService: PrismaService) {}
 
-  async getGames(paginationDto: PaginationDto): Promise<Pagination<Game>> {
-    const count = await this.prismaService.game.count();
-    const games: Game[] = await this.prismaService.game.findMany({
-      take: Number(paginationDto.take),
-      skip: Number(paginationDto.take) * (Number(paginationDto.page) - 1),
-    });
+    async getGames(paginationDto: PaginationDto): Promise<Pagination<Game>> {
+        const count = await this.prismaService.game.count();
+        const games: Game[] = await this.prismaService.game.findMany({
+            take: Number(paginationDto.take),
+            skip: Number(paginationDto.take) * (Number(paginationDto.page) - 1),
+        });
 
-    return {
-      take: paginationDto.take,
-      page: paginationDto.page,
-      total: count,
-      items: games,
-      hasNext: Math.max(count / paginationDto.take) > paginationDto.page,
-      hasPrevious: paginationDto.page > 1,
-    };
-  }
+        return {
+            take: paginationDto.take,
+            page: paginationDto.page,
+            total: count,
+            items: games,
+            hasNext: Math.max(count / paginationDto.take) > paginationDto.page,
+            hasPrevious: paginationDto.page > 1,
+        };
+    }
 
-  async getGame(id: string): Promise<Game> {
-    return this.prismaService.game.findUniqueOrThrow({
-      where: { id },
-    });
-  }
+    async getGame(id: string): Promise<Game> {
+        return this.prismaService.game.findUniqueOrThrow({
+            where: { id },
+        });
+    }
 }

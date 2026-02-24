@@ -1,5 +1,3 @@
 export default function Wishlist() {
-  return (
-    <p>Coucou</p>
-  );
+    return <p>Coucou</p>;
 }

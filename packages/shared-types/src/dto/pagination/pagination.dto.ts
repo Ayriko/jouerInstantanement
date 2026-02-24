@@ -1,4 +1,4 @@
 export class PaginationDto {
-  page!: number;
-  take!: number;
+    page!: number;
+    take!: number;
 }

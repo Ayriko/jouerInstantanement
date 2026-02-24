@@ -5,12 +5,12 @@ import nextJest from 'next/jest';
 import { config as baseConfig } from './base';
 
 const createJestConfig = nextJest({
-  dir: './',
+    dir: './',
 });
 
 const config = {
-  ...baseConfig,
-  moduleFileExtensions: [...baseConfig.moduleFileExtensions, 'jsx', 'tsx'],
+    ...baseConfig,
+    moduleFileExtensions: [...baseConfig.moduleFileExtensions, 'jsx', 'tsx'],
 } as const satisfies Config;
 
 const nextConfig = createJestConfig(config);
