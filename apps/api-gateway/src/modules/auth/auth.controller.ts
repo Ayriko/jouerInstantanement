@@ -12,14 +12,20 @@ import { firstValueFrom } from 'rxjs';
 import { RpcExceptionFilter } from '../../common/filters/rpc-exception.filter';
 import { JwtAuthGuard } from '../../common/guards/auth.guard';
 import { LoginDto, RegisterDto } from '@repo/shared-types';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 interface AuthenticatedRequest {
   token: string;
   user: { id: string; email: string };
 }
 
-@ApiTags('auth')
+@ApiTags('Authentification')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -27,7 +33,22 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  @ApiOperation({ summary: "S'inscrire" })
+  @ApiOperation({
+    summary: 'Inscription',
+    description:
+      'Crée un nouveau compte utilisateur et retourne les tokens JWT.',
+  })
+  @ApiBody({ type: RegisterDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Compte créé avec succès.',
+    schema: { example: { accessToken: 'eyJ...', refreshToken: 'eyJ...' } },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Données invalides.',
+  })
+  @ApiResponse({ status: 422, description: 'Email déjà utilisé.' })
   @UseFilters(new RpcExceptionFilter())
   async register(
     @Body() dto: RegisterDto,
@@ -41,7 +62,17 @@ export class AuthController {
   }
 
   @Post('login')
-  @ApiOperation({ summary: 'Se connecter' })
+  @ApiOperation({
+    summary: 'Se connecter',
+    description: 'Authentifie un utilisateur et retourne les tokens JWT.',
+  })
+  @ApiBody({ type: LoginDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Connexion réussie.',
+    schema: { example: { accessToken: 'eyJ...', refreshToken: 'eyJ...' } },
+  })
+  @ApiResponse({ status: 401, description: 'Email ou mot de passe incorrect.' })
   async login(
     @Body() dto: LoginDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
@@ -54,7 +85,17 @@ export class AuthController {
   }
 
   @Post('logout')
-  @ApiOperation({ summary: 'Se déconnecter' })
+  @ApiOperation({
+    summary: 'Se déconnecter',
+    description: 'Invalide le token JWT courant.',
+  })
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: 'Déconnexion réussie.',
+    schema: { example: { message: 'Logged out successfully' } },
+  })
+  @ApiResponse({ status: 401, description: 'Token manquant ou invalide.' })
   @UseGuards(JwtAuthGuard)
   async logout(@Req() req: AuthenticatedRequest): Promise<{ message: string }> {
     return firstValueFrom(
@@ -66,7 +107,29 @@ export class AuthController {
   }
 
   @Post('refresh')
-  @ApiOperation({ summary: 'Refresh du token' })
+  @ApiOperation({
+    summary: 'Rafraîchir le token',
+    description:
+      "Génère un nouvel accessToken à partir d'un refreshToken valide.",
+  })
+  @ApiBody({
+    schema: {
+      properties: {
+        refreshToken: {
+          type: 'string',
+          example: 'eyJ...',
+          description: 'Token de rafraîchissement obtenu lors de la connexion',
+        },
+      },
+      required: ['refreshToken'],
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Token rafraîchi avec succès.',
+    schema: { example: { accessToken: 'eyJ...' } },
+  })
+  @ApiResponse({ status: 401, description: 'RefreshToken invalide ou expiré.' })
   async refresh(
     @Body() body: { refreshToken: string },
   ): Promise<{ accessToken: string }> {
