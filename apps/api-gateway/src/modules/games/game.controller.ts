@@ -10,6 +10,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { FilterGamesDto, Pagination, PaginationDto } from '@repo/shared-types';
 import { Game } from '@repo/prisma';
 import { Observable } from 'rxjs';
+import { RpcExceptionFilter } from '../../common/filters/rpc-exception.filter';
 
 import { RpcExceptionFilter } from '../../common/filters/rpc-exception.filter';
 
@@ -20,12 +21,12 @@ export class GameController {
         @Inject('GAME_SERVICE') private readonly gameClient: ClientProxy,
     ) {}
 
+  @UseFilters(new RpcExceptionFilter())
   @Get()
   get(
     @Query() dto: PaginationDto,
     @Query() filterGamesDto: FilterGamesDto,
   ): Observable<Pagination<Game>> {
-    console.log('pouet');
     return this.gameClient.send<Pagination<Game>>(
       { cmd: 'game.get' },
       { filterGamesDto, paginationDto: dto },

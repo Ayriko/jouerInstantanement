@@ -5,13 +5,19 @@ import {
   IsString,
   Max,
   Min,
+  MinLength,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
+
+export const ToArray = () =>
+  Transform(({ value }) =>
+    value === undefined ? undefined : Array.isArray(value) ? value : [value],
+  );
 
 export class FilterGamesDto {
   @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
+  @ToArray()
+  @MinLength(1)
   public genres?: string[];
 
   @IsOptional()
@@ -19,8 +25,9 @@ export class FilterGamesDto {
   public name?: string;
 
   @IsOptional()
-  @IsArray()
   @IsString({ each: true })
+  @ToArray()
+  @MinLength(1)
   public platforms?: string[];
 
   @IsOptional()
@@ -31,7 +38,8 @@ export class FilterGamesDto {
   public rating?: number;
 
   @IsOptional()
-  @IsArray()
   @IsString({ each: true })
+  @ToArray()
+  @MinLength(1)
   public tags?: string[];
 }

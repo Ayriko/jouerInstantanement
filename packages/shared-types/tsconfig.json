@@ -10,7 +10,7 @@
     "composite": true,
     "emitDeclarationOnly": true,
     "skipLibCheck": true,
-    "strictNullChecks": true
+    "noEmit": false,
   },
   "include": [
     "src/**/*"
