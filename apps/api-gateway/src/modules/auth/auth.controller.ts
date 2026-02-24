@@ -1,6 +1,15 @@
-import { Body, Controller, Inject, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Inject,
+  Post,
+  Req,
+  UseFilters,
+  UseGuards,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { RpcExceptionFilter } from '../../common/filters/rpc-exception.filter';
 import { JwtAuthGuard } from '../../common/guards/auth.guard';
 import { LoginDto, RegisterDto } from '@repo/shared-types';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -19,6 +28,7 @@ export class AuthController {
 
   @Post('register')
   @ApiOperation({ summary: "S'inscrire" })
+  @UseFilters(new RpcExceptionFilter())
   async register(
     @Body() dto: RegisterDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
