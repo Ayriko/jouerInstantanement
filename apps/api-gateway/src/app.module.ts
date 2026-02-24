@@ -9,6 +9,7 @@ import { AuthClientModule } from './common/modules/auth-client.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '../../.env',
     }),
     AuthClientModule,
     AuthModule,
