@@ -1,5 +1,6 @@
-# apps/web/Dockerfile
 FROM node:20-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 FROM base AS pruner
@@ -27,17 +28,16 @@ FROM base AS runner
 WORKDIR /app
 
 ARG SERVICE_NAME=web
-ENV SERVICE_PATH=apps/${SERVICE_NAME}
 
 RUN addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/${SERVICE_PATH}/next.config.js ./${SERVICE_PATH}/
-COPY --from=builder /app/${SERVICE_PATH}/package.json ./${SERVICE_PATH}/
-COPY --from=builder /app/${SERVICE_PATH}/public ./${SERVICE_PATH}/public
+COPY --from=builder /app/apps/${SERVICE_NAME}/next.config.js ./apps/${SERVICE_NAME}/
+COPY --from=builder /app/apps/${SERVICE_NAME}/package.json ./apps/${SERVICE_NAME}/
+COPY --from=builder /app/apps/${SERVICE_NAME}/public ./apps/${SERVICE_NAME}/public
 
-COPY --from=builder --chown=nextjs:nodejs /app/${SERVICE_PATH}/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/${SERVICE_PATH}/.next/static ./${SERVICE_PATH}/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/apps/${SERVICE_NAME}/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/apps/${SERVICE_NAME}/.next/static ./apps/${SERVICE_NAME}/.next/static
 
 USER nextjs
 
