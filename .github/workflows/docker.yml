@@ -18,10 +18,18 @@ jobs:
         strategy:
             matrix:
                 app:
+                    - name: api-gateway
+                      dockerfile: ./apps/api-gateway/Dockerfile
+                      build_arg: api-gateway
+                    - name: auth
+                      dockerfile: ./apps/auth/Dockerfile
+                      build_arg: auth
+                    - name: games
+                      dockerfile: ./apps/games/Dockerfile
+                      build_arg: games
                     - name: web
                       dockerfile: ./apps/web/Dockerfile
-                    - name: api
-                      dockerfile: ./apps/api/Dockerfile
+                      build_arg: web
 
         steps:
             - name: Checkout repository
@@ -33,6 +41,9 @@ jobs:
                   registry: ${{ env.REGISTRY }}
                   username: ${{ github.actor }}
                   password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
 
             - name: Extract metadata for Docker
               id: meta
@@ -52,3 +63,7 @@ jobs:
                   push: true
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
+                  build-args: |
+                      SERVICE_NAME=${{ matrix.app.build_arg }}
+                  cache-from: type=gha,scope=${{ matrix.app.name }}
+                  cache-to: type=gha,mode=max,scope=${{ matrix.app.name }}
