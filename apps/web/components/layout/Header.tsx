@@ -17,11 +17,12 @@ export const Header: React.FC = () => {
     const { isHydrated, itemCount } = useCart();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const { data: session, isPending: sessionIsLoading } = authClient.useSession();
+    const { data: session, isPending: sessionIsLoading } =
+        authClient.useSession();
 
     const handleSignOut = async () => {
         await authClient.signOut();
-        router.push("/sign-in");
+        router.push('/sign-in');
     };
 
     const handleSearchSubmit = (e: React.FormEvent) => {
@@ -76,7 +77,8 @@ export const Header: React.FC = () => {
                     <div className="hidden md:flex items-center space-x-6">
                         <Link
                             href="/cart"
-                            className="relative text-zinc-300 hover:text-white transition-colors cursor-pointer">
+                            className="relative text-zinc-300 hover:text-white transition-colors cursor-pointer"
+                        >
                             <span className="sr-only">{t('cart')}</span>
                             <ShoppingCart className="h-6 w-6" />
                             {isHydrated && itemCount > 0 && (
@@ -90,7 +92,7 @@ export const Header: React.FC = () => {
                             <div className="animate-pulse flex space-x-2">
                                 <div className="h-9 w-30 bg-zinc-700 rounded"></div>
                             </div>
-                        ) : (session ? (
+                        ) : session ? (
                             <>
                                 <Link
                                     href="/my-account/wishlist"
@@ -109,14 +111,13 @@ export const Header: React.FC = () => {
                                     {t('myAccount')}
                                 </Link>
                             </>
-                            ) : (
-                                <Link
-                                    href="/sign-in"
-                                    className="bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-zinc-700 cursor-pointer"
-                                >
-                                    {t('signIn')}
-                                </Link>
-                            )
+                        ) : (
+                            <Link
+                                href="/sign-in"
+                                className="bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-zinc-700 cursor-pointer"
+                            >
+                                {t('signIn')}
+                            </Link>
                         )}
                     </div>
 
@@ -212,7 +213,8 @@ export const Header: React.FC = () => {
                                             }}
                                             className="flex items-center gap-3 text-zinc-300 hover:text-white py-2"
                                         >
-                                            <User className="h-5 w-5" /> {t('myAccount')}
+                                            <User className="h-5 w-5" />{' '}
+                                            {t('myAccount')}
                                         </Link>
                                         <button
                                             type="button"
@@ -222,7 +224,7 @@ export const Header: React.FC = () => {
                                             {t('signOut')}
                                         </button>
                                     </>
-                                    ) : (
+                                ) : (
                                     <Link
                                         href="/sign-in"
                                         onClick={() => {
@@ -230,9 +232,10 @@ export const Header: React.FC = () => {
                                         }}
                                         className="flex items-center gap-3 text-zinc-300 hover:text-white py-2"
                                     >
-                                        <User className="h-5 w-5" /> {t('signIn')}
+                                        <User className="h-5 w-5" />{' '}
+                                        {t('signIn')}
                                     </Link>
-                                    )}
+                                )}
                             </div>
                         </div>
                     </motion.div>
