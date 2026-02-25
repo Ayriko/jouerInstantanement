@@ -23,7 +23,7 @@ async function fetchGames(
     take: number,
 ): Promise<PaginationResult> {
     const res = await fetch(
-        `${process.env.API_URL}/api/games?page=${page}&take=${take}`,
+        `${process.env.GATEWAY_URL}/api/games?page=${page}&take=${take}`,
         { next: { revalidate: 60 } },
     );
     if (!res.ok) throw new Error(`Failed to fetch games: ${res.status}`);

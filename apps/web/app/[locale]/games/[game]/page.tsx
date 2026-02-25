@@ -18,7 +18,7 @@ export interface ApiGame {
 
 async function fetchGame(id: string): Promise<ApiGame | null> {
     try {
-        const res = await fetch(`${process.env.API_URL}/api/games/${id}`, {
+        const res = await fetch(`${process.env.GATEWAY_URL}/api/games/${id}`, {
             next: { revalidate: 60 },
         });
         if (res.status === 404) return null;
