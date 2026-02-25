@@ -13,7 +13,7 @@ interface BetterAuthSession {
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
     private readonly authServiceUrl =
-        process.env.BETTER_AUTH_URL ?? 'http://localhost:3002';
+        process.env.AUTH_SERVICE_URL ?? 'http://localhost:3002';
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context

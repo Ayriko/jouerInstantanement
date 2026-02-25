@@ -1,10 +1,11 @@
 import { All, Controller, Req, Res } from '@nestjs/common';
+
 import type { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
     private readonly authServiceUrl =
-        process.env.BETTER_AUTH_URL ?? 'http://localhost:3002';
+        process.env.AUTH_SERVICE_URL ?? 'http://localhost:3002';
 
     @All('*splat')
     async proxy(@Req() req: Request, @Res() res: Response): Promise<void> {
@@ -32,6 +33,7 @@ export class AuthController {
             method: req.method,
             headers,
             body,
+            redirect: 'manual',
         });
 
         res.status(proxyRes.status);

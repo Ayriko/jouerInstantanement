@@ -54,6 +54,7 @@
     "forgotPasswordCta": "¿Olvidaste tu contraseña?",
     "noAccount": "¿No tienes una cuenta?",
     "hasAccount": "¿Ya tienes una cuenta?",
+    "orContinueWith": "o continuar con",
     "errors": {
       "invalidCredentials": "Correo electrónico o contraseña incorrectos",
       "emailTaken": "Ya existe una cuenta con este correo electrónico",

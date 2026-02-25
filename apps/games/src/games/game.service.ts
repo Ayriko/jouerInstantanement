@@ -14,12 +14,12 @@ export class GameService {
         });
 
         return {
-            take: paginationDto.take,
-            page: paginationDto.page,
-            total: count,
-            items: games,
-            hasNext: Math.max(count / paginationDto.take) > paginationDto.page,
+            hasNext: Math.ceil(count / paginationDto.take) > paginationDto.page,
             hasPrevious: paginationDto.page > 1,
+            items: games,
+            page: paginationDto.page,
+            take: paginationDto.take,
+            total: count,
         };
     }
 
