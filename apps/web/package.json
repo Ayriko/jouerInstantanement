@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@repo/shared-types": "workspace:*",
     "@repo/ui": "workspace:*",
     "@tailwindcss/postcss": "^4.1.18",
     "better-auth": "^1.4.18",

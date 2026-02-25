@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 
 import { Link } from '@/i18n/navigation';
-import { Game } from '@/types/game';
+import { GameProduct as Game } from '@repo/shared-types';
 
 interface CartItemCardProps {
     item: Game;

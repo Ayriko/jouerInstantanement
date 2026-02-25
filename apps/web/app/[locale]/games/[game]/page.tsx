@@ -1,3 +1,4 @@
+import { Game } from '@repo/shared-types';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
@@ -5,25 +6,14 @@ import React from 'react';
 
 import GameDetail from './GameDetail';
 
-export interface ApiGame {
-    id: string;
-    name: string;
-    backgroundImage: string;
-    rating: number;
-    platforms: string[];
-    genres: string[];
-    tags: string[];
-    screenshots: string[];
-}
-
-async function fetchGame(id: string): Promise<ApiGame | null> {
+async function fetchGame(id: string): Promise<Game | null> {
     try {
         const res = await fetch(`${process.env.GATEWAY_URL}/api/games/${id}`, {
             next: { revalidate: 60 },
         });
         if (res.status === 404) return null;
         if (!res.ok) return null;
-        return res.json() as Promise<ApiGame>;
+        return await ((await res.json()) as Promise<Game>);
     } catch {
         return null;
     }

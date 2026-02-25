@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import { Link } from '@/i18n/navigation';
-import { Game } from '@/types/game';
+import { GameProduct as Game } from '@repo/shared-types';
 
 interface HeroBannerProps {
     featuredGame: Game;

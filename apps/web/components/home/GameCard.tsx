@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { Game } from '@/types/game';
+import { GameProduct as Game } from '@repo/shared-types';
 
 interface GameCardProps {
     game: Game;

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 
-import { Game } from '@/types/game';
+import { GameProduct as Game } from '@repo/shared-types';
 
 const STORAGE_KEY = 'ji-cart';
 

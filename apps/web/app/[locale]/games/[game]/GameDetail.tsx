@@ -1,5 +1,6 @@
 'use client';
 
+import { Game } from '@repo/shared-types';
 import {
     Heart,
     /*ShoppingCart,*/ Download,
@@ -12,15 +13,13 @@ import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 
-import { ApiGame } from './page';
-
 import { Link } from '@/i18n/navigation';
 
-// TODO: uncomment when cart supports ApiGame (needs price, originalPrice, discount fields)
+// TODO: uncomment when cart supports Game (needs price, originalPrice, discount fields)
 // import { useCart } from '@/context/CartContext';
 
 interface GameDetailProps {
-    game: ApiGame;
+    game: Game;
 }
 
 const GameDetail: React.FC<GameDetailProps> = ({ game }) => {

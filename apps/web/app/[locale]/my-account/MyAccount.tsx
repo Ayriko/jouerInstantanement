@@ -1,22 +1,17 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import { Eye, EyeOff, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+
+import type { Account } from 'better-auth';
+
 import { useRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 
 const PROVIDER_LABELS: Record<string, string> = {
     discord: 'Discord',
     google: 'Google',
-    github: 'GitHub',
 };
-
-interface Account {
-    providerId: string;
-    accountId: string;
-    userId: string;
-    updatedAt: Date;
-}
 
 export default function MyAccount() {
     const router = useRouter();

@@ -1,33 +1,17 @@
+import { Game, Pagination } from '@repo/shared-types';
+
 import { Link } from '@/i18n/navigation';
-
-interface Game {
-    backgroundImage: string;
-    genres: string[];
-    id: string;
-    name: string;
-    platforms: string[];
-    rating: number;
-}
-
-interface PaginationResult {
-    hasNext: boolean;
-    hasPrevious: boolean;
-    items: Game[];
-    page: number;
-    take: number;
-    total: number;
-}
 
 async function fetchGames(
     page: number,
     take: number,
-): Promise<PaginationResult> {
+): Promise<Pagination<Game>> {
     const res = await fetch(
         `${process.env.GATEWAY_URL}/api/games?page=${page}&take=${take}`,
         { next: { revalidate: 60 } },
     );
     if (!res.ok) throw new Error(`Failed to fetch games: ${res.status}`);
-    return res.json() as Promise<PaginationResult>;
+    return res.json() as Promise<Pagination<Game>>;
 }
 
 export default async function GamesList({
@@ -37,7 +21,7 @@ export default async function GamesList({
     page?: number;
     take?: number;
 }) {
-    let result: PaginationResult;
+    let result: Pagination<Game>;
 
     try {
         result = await fetchGames(page, take);

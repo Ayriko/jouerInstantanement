@@ -457,6 +457,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.71.1)
+      '@repo/shared-types':
+        specifier: workspace:*
+        version: link:../../packages/shared-types
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui

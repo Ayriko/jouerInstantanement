@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { Game } from '@/types/game';
+import type { GameProduct as Game } from '@repo/shared-types';
 
 import { GameCard } from '@/components/home/GameCard';
 
