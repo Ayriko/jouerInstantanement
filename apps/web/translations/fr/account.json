@@ -3,6 +3,42 @@
     "title": "Mon compte",
     "description": "Mon compte Jouer Instantanément - voir et modifier mes informations personnelles"
   },
+  "myAccount": {
+    "loading": "Chargement...",
+    "title": "Mon compte",
+    "fields": {
+      "name": "Nom",
+      "email": "Email",
+      "emailVerified": "Email vérifié",
+      "yes": "Oui",
+      "no": "Non",
+      "createdAt": "Compte créé le",
+      "connectedVia": "Connexion via"
+    },
+    "noSession": "Aucune session active.",
+    "actions": {
+      "changePassword": "Changer le mot de passe",
+      "signOut": "Se déconnecter"
+    },
+    "changePassword": {
+      "title": "Changer le mot de passe",
+      "fields": {
+        "currentPassword": "Mot de passe actuel",
+        "newPassword": "Nouveau mot de passe",
+        "confirmPassword": "Confirmer le nouveau mot de passe"
+      },
+      "errors": {
+        "passwordsMismatch": "Les mots de passe ne correspondent pas.",
+        "invalidPassword": "Mot de passe actuel incorrect.",
+        "generic": "Une erreur est survenue, veuillez réessayer."
+      },
+      "success": "Mot de passe modifié avec succès.",
+      "actions": {
+        "confirm": "Confirmer",
+        "close": "Fermer"
+      }
+    }
+  },
   "wishlist": {
     "meta":{
       "title": "Mes favoris",

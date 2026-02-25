@@ -3,6 +3,42 @@
     "title": "My account",
     "description": "My Jouer Instantanément account - view and edit my personal information"
   },
+  "myAccount": {
+    "loading": "Loading...",
+    "title": "My account",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "emailVerified": "Email verified",
+      "yes": "Yes",
+      "no": "No",
+      "createdAt": "Account created on",
+      "connectedVia": "Connected via"
+    },
+    "noSession": "No active session.",
+    "actions": {
+      "changePassword": "Change password",
+      "signOut": "Sign out"
+    },
+    "changePassword": {
+      "title": "Change password",
+      "fields": {
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm new password"
+      },
+      "errors": {
+        "passwordsMismatch": "Passwords do not match.",
+        "invalidPassword": "Current password is incorrect.",
+        "generic": "An error occurred, please try again."
+      },
+      "success": "Password changed successfully.",
+      "actions": {
+        "confirm": "Confirm",
+        "close": "Close"
+      }
+    }
+  },
   "wishlist": {
     "meta":{
       "title": "My favorites",

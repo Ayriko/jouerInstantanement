@@ -3,6 +3,16 @@
     "title": "Todos nuestros juegos",
     "description": "Descubre nuestra amplia selección de videojuegos a precios inmejorables en Play Instantly. ¡Compra tus juegos favoritos de PC y consola hoy mismo!"
   },
+  "list": {
+    "error": "No se pueden cargar los juegos. Por favor, inténtalo más tarde.",
+    "empty": "No hay juegos disponibles.",
+    "count": "{count, plural, one {# juego} other {# juegos}}",
+    "pagination": {
+      "previous": "Anterior",
+      "page": "Página {page}",
+      "next": "Siguiente"
+    }
+  },
   "detail": {
     "meta": {
       "title": "{gameTitle} está disponible en Play Instantly ahora mismo!",

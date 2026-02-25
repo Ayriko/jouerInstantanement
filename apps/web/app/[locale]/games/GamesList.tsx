@@ -1,3 +1,5 @@
+import { getTranslations } from 'next-intl/server';
+
 import { Game, Pagination } from '@repo/shared-types';
 
 import { Link } from '@/i18n/navigation';
@@ -21,33 +23,26 @@ export default async function GamesList({
     page?: number;
     take?: number;
 }) {
+    const t = await getTranslations('games.list');
     let result: Pagination<Game>;
 
     try {
         result = await fetchGames(page, take);
     } catch {
-        return (
-            <p className="text-center text-zinc-400 py-16">
-                Impossible de charger les jeux. Veuillez réessayer plus tard.
-            </p>
-        );
+        return <p className="text-center text-zinc-400 py-16">{t('error')}</p>;
     }
 
     const { items: games, total, hasNext, hasPrevious } = result;
 
     if (games.length === 0) {
-        return (
-            <p className="text-center text-zinc-400 py-16">
-                Aucun jeu disponible.
-            </p>
-        );
+        return <p className="text-center text-zinc-400 py-16">{t('empty')}</p>;
     }
 
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <p className="text-sm text-zinc-400">
-                    {total} jeu{total > 1 ? 'x' : ''}
+                    {t('count', { count: total })}
                 </p>
             </div>
 
@@ -118,16 +113,18 @@ export default async function GamesList({
                             href={`/games?page=${page - 1}`}
                             className="rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition-colors"
                         >
-                            Précédent
+                            {t('pagination.previous')}
                         </Link>
                     )}
-                    <span className="text-sm text-zinc-500">Page {page}</span>
+                    <span className="text-sm text-zinc-500">
+                        {t('pagination.page', { page })}
+                    </span>
                     {hasNext && (
                         <Link
                             href={`/games?page=${page + 1}`}
                             className="rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 transition-colors"
                         >
-                            Suivant
+                            {t('pagination.next')}
                         </Link>
                     )}
                 </div>

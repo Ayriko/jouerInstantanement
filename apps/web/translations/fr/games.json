@@ -3,6 +3,16 @@
     "title": "Tous nos jeux",
     "description": "Découvrez notre vaste sélection de jeux vidéo à des prix imbattables sur Jouer Instantanément. Achetez vos jeux préférés pour PC et console dès aujourd'hui !"
   },
+  "list": {
+    "error": "Impossible de charger les jeux. Veuillez réessayer plus tard.",
+    "empty": "Aucun jeu disponible.",
+    "count": "{count, plural, one {# jeu} other {# jeux}}",
+    "pagination": {
+      "previous": "Précédent",
+      "page": "Page {page}",
+      "next": "Suivant"
+    }
+  },
   "detail": {
     "meta": {
       "title": "{gameTitle} est disponible sur Jouer Instantanément dès maintenant !",

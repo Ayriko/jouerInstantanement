@@ -1,6 +1,7 @@
 'use client';
 
 import { Eye, EyeOff, X } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 
 import type { Account } from 'better-auth';
@@ -15,6 +16,8 @@ const PROVIDER_LABELS: Record<string, string> = {
 
 export default function MyAccount() {
     const router = useRouter();
+    const locale = useLocale();
+    const t = useTranslations('account.myAccount');
     const { data: session, isPending } = authClient.useSession();
     const [socialProviders, setSocialProviders] = useState<string[]>([]);
     const [hasCredential, setHasCredential] = useState(false);
@@ -43,7 +46,7 @@ export default function MyAccount() {
     if (isPending) {
         return (
             <div className="flex min-h-[calc(100vh-80px)] items-center justify-center">
-                <p className="text-zinc-400">Chargement...</p>
+                <p className="text-zinc-400">{t('loading')}</p>
             </div>
         );
     }
@@ -53,7 +56,7 @@ export default function MyAccount() {
             <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-12">
                 <div className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-900 p-6 space-y-6">
                     <h1 className="text-2xl font-bold text-white">
-                        Mon compte
+                        {t('title')}
                     </h1>
 
                     {session?.user ? (
@@ -67,24 +70,27 @@ export default function MyAccount() {
                             )}
 
                             <div className="space-y-3">
-                                <Field label="Nom" value={session.user.name} />
                                 <Field
-                                    label="Email"
+                                    label={t('fields.name')}
+                                    value={session.user.name}
+                                />
+                                <Field
+                                    label={t('fields.email')}
                                     value={session.user.email}
                                 />
                                 <Field
-                                    label="Email vérifié"
+                                    label={t('fields.emailVerified')}
                                     value={
                                         session.user.emailVerified
-                                            ? 'Oui'
-                                            : 'Non'
+                                            ? t('fields.yes')
+                                            : t('fields.no')
                                     }
                                 />
                                 <Field
-                                    label="Compte créé le"
+                                    label={t('fields.createdAt')}
                                     value={new Date(
                                         session.user.createdAt,
-                                    ).toLocaleDateString('fr-FR', {
+                                    ).toLocaleDateString(locale, {
                                         day: 'numeric',
                                         month: 'long',
                                         year: 'numeric',
@@ -93,7 +99,7 @@ export default function MyAccount() {
                                 {socialProviders.length > 0 && (
                                     <div className="flex flex-col gap-1.5">
                                         <span className="text-xs text-zinc-500 uppercase tracking-wide">
-                                            Connexion via
+                                            {t('fields.connectedVia')}
                                         </span>
                                         <div className="flex flex-wrap gap-2">
                                             {socialProviders.map((provider) => (
@@ -112,7 +118,7 @@ export default function MyAccount() {
                             </div>
                         </div>
                     ) : (
-                        <p className="text-zinc-400">Aucune session active.</p>
+                        <p className="text-zinc-400">{t('noSession')}</p>
                     )}
 
                     {hasCredential && (
@@ -123,7 +129,7 @@ export default function MyAccount() {
                             }}
                             className="w-full rounded-lg border border-zinc-700 px-6 py-2.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800 cursor-pointer"
                         >
-                            Changer le mot de passe
+                            {t('actions.changePassword')}
                         </button>
                     )}
 
@@ -132,7 +138,7 @@ export default function MyAccount() {
                         onClick={handleLogout}
                         className="w-full rounded-lg bg-red-600 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-700 cursor-pointer"
                     >
-                        Se déconnecter
+                        {t('actions.signOut')}
                     </button>
                 </div>
             </div>
@@ -149,6 +155,7 @@ export default function MyAccount() {
 }
 
 function ChangePasswordModal({ onClose }: { readonly onClose: () => void }) {
+    const t = useTranslations('account.myAccount.changePassword');
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -163,7 +170,7 @@ function ChangePasswordModal({ onClose }: { readonly onClose: () => void }) {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (newPassword !== confirmPassword) {
-            setError('Les mots de passe ne correspondent pas.');
+            setError(t('errors.passwordsMismatch'));
             return;
         }
         setIsLoading(true);
@@ -176,8 +183,8 @@ function ChangePasswordModal({ onClose }: { readonly onClose: () => void }) {
         if (err) {
             setError(
                 err.code === 'INVALID_PASSWORD'
-                    ? 'Mot de passe actuel incorrect.'
-                    : 'Une erreur est survenue, veuillez réessayer.',
+                    ? t('errors.invalidPassword')
+                    : t('errors.generic'),
             );
         } else {
             setSuccess(true);
@@ -196,7 +203,7 @@ function ChangePasswordModal({ onClose }: { readonly onClose: () => void }) {
             <div className="w-full max-w-sm rounded-2xl border border-zinc-800 bg-zinc-900 p-6 space-y-5">
                 <div className="flex items-center justify-between">
                     <h2 className="text-lg font-semibold text-white">
-                        Changer le mot de passe
+                        {t('title')}
                     </h2>
                     <button
                         type="button"
@@ -209,22 +216,20 @@ function ChangePasswordModal({ onClose }: { readonly onClose: () => void }) {
 
                 {success ? (
                     <div className="space-y-4">
-                        <p className="text-sm text-green-400">
-                            Mot de passe modifié avec succès.
-                        </p>
+                        <p className="text-sm text-green-400">{t('success')}</p>
                         <button
                             type="button"
                             onClick={onClose}
                             className="w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-active cursor-pointer"
                         >
-                            Fermer
+                            {t('actions.close')}
                         </button>
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <PasswordField
                             id="current-password"
-                            label="Mot de passe actuel"
+                            label={t('fields.currentPassword')}
                             onChange={setCurrentPassword}
                             onToggle={() => {
                                 setShowCurrent(!showCurrent);
@@ -234,7 +239,7 @@ function ChangePasswordModal({ onClose }: { readonly onClose: () => void }) {
                         />
                         <PasswordField
                             id="new-password"
-                            label="Nouveau mot de passe"
+                            label={t('fields.newPassword')}
                             onChange={setNewPassword}
                             onToggle={() => {
                                 setShowNew(!showNew);
@@ -244,7 +249,7 @@ function ChangePasswordModal({ onClose }: { readonly onClose: () => void }) {
                         />
                         <PasswordField
                             id="confirm-password"
-                            label="Confirmer le nouveau mot de passe"
+                            label={t('fields.confirmPassword')}
                             onChange={setConfirmPassword}
                             onToggle={() => {
                                 setShowConfirm(!showConfirm);
@@ -264,7 +269,7 @@ function ChangePasswordModal({ onClose }: { readonly onClose: () => void }) {
                             disabled={isLoading}
                             className="w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-active cursor-pointer disabled:cursor-default disabled:bg-zinc-700 disabled:text-zinc-400"
                         >
-                            Confirmer
+                            {t('actions.confirm')}
                         </button>
                     </form>
                 )}

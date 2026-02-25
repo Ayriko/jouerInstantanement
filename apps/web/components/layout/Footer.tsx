@@ -151,10 +151,7 @@ export const Footer: React.FC = () => {
                     </div>
                 </div>
                 <div className="border-t border-zinc-900 pt-8 text-center text-xs">
-                    <p>
-                        &copy; {new Date().getFullYear()} Jouer Instantanément.
-                        All rights reserved. Not affiliated with Instant Gaming.
-                    </p>
+                    <p>{t('copyright', { year: new Date().getFullYear() })}</p>
                 </div>
             </div>
         </footer>

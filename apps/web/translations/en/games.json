@@ -3,6 +3,16 @@
     "title": "All our games",
     "description": "Discover our vast selection of video games at unbeatable prices on Play Instantly. Buy your favorite PC and console games today!"
   },
+  "list": {
+    "error": "Unable to load games. Please try again later.",
+    "empty": "No games available.",
+    "count": "{count, plural, one {# game} other {# games}}",
+    "pagination": {
+      "previous": "Previous",
+      "page": "Page {page}",
+      "next": "Next"
+    }
+  },
   "detail": {
     "meta": {
       "title": "{gameTitle} is available on Play Instantly right now!",

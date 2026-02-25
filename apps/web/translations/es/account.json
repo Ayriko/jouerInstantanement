@@ -3,6 +3,42 @@
     "title": "Mi cuenta",
     "description": "Mi cuenta Jouer Instantanément - ver y modificar mi información personal"
   },
+  "myAccount": {
+    "loading": "Cargando...",
+    "title": "Mi cuenta",
+    "fields": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "emailVerified": "Correo verificado",
+      "yes": "Sí",
+      "no": "No",
+      "createdAt": "Cuenta creada el",
+      "connectedVia": "Conectado vía"
+    },
+    "noSession": "No hay sesión activa.",
+    "actions": {
+      "changePassword": "Cambiar contraseña",
+      "signOut": "Cerrar sesión"
+    },
+    "changePassword": {
+      "title": "Cambiar contraseña",
+      "fields": {
+        "currentPassword": "Contraseña actual",
+        "newPassword": "Nueva contraseña",
+        "confirmPassword": "Confirmar nueva contraseña"
+      },
+      "errors": {
+        "passwordsMismatch": "Las contraseñas no coinciden.",
+        "invalidPassword": "La contraseña actual es incorrecta.",
+        "generic": "Se ha producido un error, por favor inténtalo de nuevo."
+      },
+      "success": "Contraseña cambiada con éxito.",
+      "actions": {
+        "confirm": "Confirmar",
+        "close": "Cerrar"
+      }
+    }
+  },
   "wishlist": {
     "meta":{
       "title": "Mis favoritos",
