@@ -1,51 +1,47 @@
 import {
     CanActivate,
     ExecutionContext,
-    Inject,
     Injectable,
     UnauthorizedException,
 } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
 
-interface ValidateResult {
-    error?: string;
-    user?: { id: string; email: string };
-    valid: boolean;
+interface BetterAuthSession {
+    user: { id: string; email: string };
+    session: { id: string; token: string };
 }
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-    constructor(
-        @Inject('AUTH_SERVICE') private readonly authClient: ClientProxy,
-    ) {}
+    private readonly authServiceUrl =
+        process.env.AUTH_SERVICE_URL ?? 'http://localhost:3002';
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context
             .switchToHttp()
             .getRequest<Record<string, unknown>>();
-        const authorization = request.headers as Record<
-            string,
-            string | undefined
-        >;
-        const token = this.extractTokenFromHeader(authorization.authorization);
+        const headers = request.headers as Record<string, string | undefined>;
+        const token = this.extractTokenFromHeader(headers.authorization);
 
         if (!token) {
             throw new UnauthorizedException('No token provided');
         }
 
-        const result = await firstValueFrom(
-            this.authClient.send<ValidateResult>(
-                { cmd: 'auth.validate' },
-                { token },
-            ),
+        const response = await fetch(
+            `${this.authServiceUrl}/api/auth/get-session`,
+            { headers: { authorization: `Bearer ${token}` } },
         );
 
-        if (!result.valid) {
-            throw new UnauthorizedException(result.error ?? 'Invalid token');
+        if (!response.ok) {
+            throw new UnauthorizedException('Invalid or expired token');
         }
 
-        request.user = result.user;
+        const session = (await response.json()) as BetterAuthSession | null;
+
+        if (!session?.user) {
+            throw new UnauthorizedException('Invalid or expired token');
+        }
+
+        request.user = { id: session.user.id, email: session.user.email };
         request.token = token;
 
         return true;

@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "title": "Checkout",
+    "description": "Complete your order on Jouer Instantanément."
+  },
+  "empty": {
+    "title": "Your cart is empty",
+    "subtitle": "Add games to your cart before proceeding to checkout.",
+    "cta": "Browse games"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "orderSummary": "Your order",
+    "paymentMethod": "Payment method",
+    "paymentPlaceholder": "Secure payment via Stripe will be available soon.",
+    "subtotal": "Subtotal",
+    "discount": "Savings",
+    "total": "Total",
+    "pay": "Pay",
+    "backToCart": "Back to cart",
+    "securePayment": "Secure payment via Stripe"
+  },
+  "confirmation": {
+    "meta": {
+      "title": "Order confirmation",
+      "description": "Your order on Jouer Instantanément has been confirmed."
+    },
+    "title": "Order confirmed",
+    "subtitle": "Thank you for your purchase!",
+    "orderNumber": "Order number",
+    "date": "Date",
+    "status": "Status",
+    "statusValue": "Confirmed",
+    "items": {
+      "title": "Ordered items"
+    },
+    "payment": {
+      "subtotal": "Subtotal",
+      "discount": "Savings",
+      "total": "Total paid"
+    },
+    "delivery": {
+      "title": "Delivery",
+      "method": "Digital key — instant delivery",
+      "info": "Your game keys will be available in your account."
+    },
+    "actions": {
+      "backHome": "Back to home"
+    }
+  }
+}

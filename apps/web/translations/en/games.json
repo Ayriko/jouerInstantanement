@@ -33,6 +33,9 @@
       "category": "Category",
       "platform": "Platform"
     },
+    "backToList": "Back to games",
+    "tags": "Tags",
+    "screenshots": "Screenshots",
     "youMayAlsoLike": "You may also like"
   }
 }

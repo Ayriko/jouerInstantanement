@@ -33,6 +33,9 @@
       "category": "Categoría",
       "platform": "Plataforma"
     },
+    "backToList": "Volver a la lista de juegos",
+    "tags": "Etiquetas",
+    "screenshots": "Capturas de pantalla",
     "youMayAlsoLike": "También te puede gustar"
   }
 }

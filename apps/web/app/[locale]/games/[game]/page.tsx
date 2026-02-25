@@ -5,51 +5,58 @@ import React from 'react';
 
 import GameDetail from './GameDetail';
 
-import { games } from '@/data/games';
+export interface ApiGame {
+    id: string;
+    name: string;
+    backgroundImage: string;
+    rating: number;
+    platforms: string[];
+    genres: string[];
+    tags: string[];
+    screenshots: string[];
+}
 
-interface GameDetailsProps {
-    game: string;
+async function fetchGame(id: string): Promise<ApiGame | null> {
+    try {
+        const res = await fetch(`${process.env.API_URL}/api/games/${id}`, {
+            next: { revalidate: 60 },
+        });
+        if (res.status === 404) return null;
+        if (!res.ok) return null;
+        return res.json() as Promise<ApiGame>;
+    } catch {
+        return null;
+    }
+}
+
+interface PageProps {
+    params: Promise<{ game: string }>;
 }
 
 export async function generateMetadata({
     params,
-}: Readonly<{ params: Promise<GameDetailsProps> }>): Promise<Metadata> {
+}: Readonly<PageProps>): Promise<Metadata> {
     const t = await getTranslations();
-    const { game } = await params;
+    const { game: id } = await params;
 
-    const gameDetails = findGameById(game);
-    if (!gameDetails) return notFound();
+    const game = await fetchGame(id);
+    if (!game) return notFound();
 
     return {
-        title: t('games.detail.meta.title', { gameTitle: gameDetails.title }),
+        title: t('games.detail.meta.title', { gameTitle: game.name }),
         description: t('games.detail.meta.description', {
-            gameTitle: gameDetails.title,
+            gameTitle: game.name,
         }),
     };
 }
 
 export default async function Page({
     params,
-}: Readonly<{
-    params: Promise<GameDetailsProps>;
-}>): Promise<React.JSX.Element> {
-    const { game } = await params;
+}: Readonly<PageProps>): Promise<React.JSX.Element> {
+    const { game: id } = await params;
 
-    const gameDetails = findGameById(game);
-    if (!gameDetails) return notFound();
+    const game = await fetchGame(id);
+    if (!game) return notFound();
 
-    const similarGames = games
-        .filter(
-            (g) =>
-                g.id !== gameDetails.id &&
-                (g.category === gameDetails.category ||
-                    g.platform === gameDetails.platform),
-        )
-        .slice(0, 4);
-
-    return <GameDetail game={gameDetails} similarGames={similarGames} />;
+    return <GameDetail game={game} />;
 }
-
-const findGameById = (id: string) => {
-    return games.find((g) => g.id === id) ?? null;
-};
