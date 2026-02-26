@@ -8,13 +8,16 @@ import { Game } from '@repo/prisma';
 export class GameController {
     constructor(private readonly gameService: GameService) {}
 
-  @MessagePattern({ cmd: 'game.get' })
-  async get(data: {
-    filterGamesDto: FilterGamesDto;
-    paginationDto: PaginationDto;
-  }): Promise<Pagination<Game>> {
-    return this.gameService.getGames(data.filterGamesDto, data.paginationDto);
-  }
+    @MessagePattern({ cmd: 'game.get' })
+    async get(data: {
+        filterGamesDto: FilterGamesDto;
+        paginationDto: PaginationDto;
+    }): Promise<Pagination<Game>> {
+        return this.gameService.getGames(
+            data.filterGamesDto,
+            data.paginationDto,
+        );
+    }
 
     @MessagePattern({ cmd: 'game.getOne' })
     async getOne(data: { id: string }): Promise<Game> {

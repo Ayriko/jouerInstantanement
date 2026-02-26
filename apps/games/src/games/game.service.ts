@@ -11,7 +11,6 @@ export class GameService {
         paginationDto: PaginationDto,
     ): Promise<Pagination<Game>> {
         const whereParams = this.buildWhereParams(filterGamesDto);
-        console.log('whereParams', whereParams);
         const count = await this.prismaService.game.count({
             where: whereParams,
         });
