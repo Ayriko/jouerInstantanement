@@ -9,7 +9,7 @@ class UsersService {
 
     async getMe(userId: string): Promise<User> {
         const user = await this.prisma.user.findFirst({
-            where: { id: userId, deletedAt: null },
+            where: { deletedAt: null, id: userId },
         });
         if (!user) {
             throw new RpcException({
