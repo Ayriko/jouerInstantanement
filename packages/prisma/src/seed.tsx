@@ -2,14 +2,17 @@ import { Game, PrismaClient } from './generated/prisma/client.js';
 import { PrismaPg } from '@prisma/adapter-pg';
 import * as dotenv from 'dotenv';
 import data from './formatted-games.json' with { type: 'json' };
+import { fileURLToPath } from 'url';
+import path from 'path';
 
 type GameWithoutId = Omit<Game, 'id'>;
-dotenv.config({ path: `${__dirname}/../../../.env` });
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
-const games: GameWithoutId[] = data;
+const games = data as GameWithoutId[];
 
 async function main() {
     console.log('Seeding games...');
