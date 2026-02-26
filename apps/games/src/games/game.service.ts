@@ -6,7 +6,7 @@ import { FilterGamesDto, Pagination, PaginationDto } from '@repo/shared-types';
 export class GameService {
     constructor(private readonly prismaService: PrismaService) {}
 
-    async getGames(
+    public async getGames(
         filterGamesDto: FilterGamesDto,
         paginationDto: PaginationDto,
     ): Promise<Pagination<Game>> {
@@ -30,10 +30,29 @@ export class GameService {
         };
     }
 
-    async getGame(id: string): Promise<Game> {
+    public async getGame(id: string): Promise<Game> {
         return this.prismaService.game.findUniqueOrThrow({
             where: { id },
         });
+    }
+
+    public async getGamesSuggestion(
+        limit: number,
+        filterGamesDto: FilterGamesDto,
+    ): Promise<Game[]> {
+        const whereRawParams = this.buildWhereRawParams(filterGamesDto);
+
+        let query = 'SELECT * FROM public."Game"';
+
+        if (whereRawParams) {
+            query = `${query} ${whereRawParams}`;
+        }
+
+        console.log(query);
+
+        return this.prismaService.$queryRawUnsafe<Game[]>(
+            `${query} ORDER BY RANDOM() LIMIT ${limit}`,
+        );
     }
 
     private buildWhereParams(filterGamesDto: FilterGamesDto): GameWhereInput {
@@ -67,5 +86,39 @@ export class GameService {
         }
 
         return whereParams;
+    }
+
+    private buildWhereRawParams(filterGamesDto: FilterGamesDto): string | null {
+        const whereQuery: string[] = [];
+
+        if (filterGamesDto?.name) {
+            whereQuery.push(`name ILIKE ${filterGamesDto.name}`);
+        }
+
+        if (filterGamesDto?.rating) {
+            whereQuery.push(`rating >= ${filterGamesDto.rating}`);
+        }
+
+        if (filterGamesDto?.genres) {
+            whereQuery.push(`genres && ${filterGamesDto.genres}::text[]`);
+        }
+
+        if (filterGamesDto?.tags) {
+            whereQuery.push(`tags && ${filterGamesDto.tags}::text[]`);
+        }
+
+        if (filterGamesDto?.platforms) {
+            whereQuery.push(`platforms && ${filterGamesDto.platforms}::text[]`);
+        }
+
+        if (filterGamesDto?.price) {
+            whereQuery.push(`total <= ${filterGamesDto.price}`);
+        }
+
+        if (!whereQuery.length) {
+            return null;
+        }
+
+        return `WHERE ${whereQuery.join(' AND WHERE ')}`;
     }
 }
