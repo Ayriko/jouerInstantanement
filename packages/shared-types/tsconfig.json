@@ -1,18 +1,18 @@
 {
+  "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
+    "allowJs": true,
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "ES2021",
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "composite": true,
-    "emitDeclarationOnly": true,
-    "skipLibCheck": true,
-    "noEmit": false,
+    "incremental": false,
+    "outDir": "dist",
   },
   "include": [
-    "src/**/*"
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
   ]
 }

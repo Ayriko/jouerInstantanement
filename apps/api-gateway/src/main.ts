@@ -26,7 +26,6 @@ async function bootstrap() {
             transformOptions: {
                 enableImplicitConversion: false, // Force la validation stricte des types
             },
-            whitelist: true, // Supprime les propriétés non déclarées dans le DTO
         }),
     );
 
