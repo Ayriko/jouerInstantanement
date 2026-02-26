@@ -1,11 +1,18 @@
 {
+  "skipLinks": {
+    "toContent": "Skip to main content",
+    "toNavigation": "Skip to navigation"
+  },
   "search": {
     "label": "Search",
     "placeholder": {
       "default": "Search for a game...",
       "short": "Search..."
     },
-    "noResults": "No results found"
+    "noResults": "No results found",
+    "clear": "Clear search",
+    "loading": "Loading results...",
+    "resultsCount": "{count, plural, one {# result found} other {# results found}}"
   },
   "myAccount": "My Account",
   "signIn": "Sign in",

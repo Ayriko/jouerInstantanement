@@ -1,6 +1,5 @@
-import { getTranslations } from 'next-intl/server';
-
 import { Game, Pagination } from '@repo/shared-types';
+import { getTranslations } from 'next-intl/server';
 
 import { GameCard } from '@/components/home/GameCard';
 import { Link } from '@/i18n/navigation';
@@ -14,7 +13,7 @@ async function fetchGames(
         { next: { revalidate: 60 } },
     );
     if (!res.ok) throw new Error(`Failed to fetch games: ${res.status}`);
-    return res.json() as Promise<Pagination<Game>>;
+    return (await res.json()) as Promise<Pagination<Game>>;
 }
 
 export default async function GamesList({
@@ -33,7 +32,7 @@ export default async function GamesList({
         return <p className="text-center text-zinc-400 py-16">{t('error')}</p>;
     }
 
-    const { items: games, total, hasNext, hasPrevious } = result;
+    const { hasNext, hasPrevious, items: games, total } = result;
 
     if (games.length === 0) {
         return <p className="text-center text-zinc-400 py-16">{t('empty')}</p>;

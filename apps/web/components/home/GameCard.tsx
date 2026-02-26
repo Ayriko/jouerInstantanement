@@ -3,10 +3,10 @@
 import { ShoppingCart } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { useCart } from '@/context/CartContext';
+import { Link } from '@/i18n/navigation';
 import { Game } from '@repo/shared-types';
 
 interface GameCardProps {
@@ -14,7 +14,6 @@ interface GameCardProps {
 }
 
 export const GameCard: React.FC<GameCardProps> = ({ game }) => {
-    const router = useRouter();
     const { addItem, removeItem, isInCart } = useCart();
     const t = useTranslations('games.detail.actions.cart');
 
@@ -28,25 +27,25 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
     const inCart = isInCart(game.id);
 
     return (
-        <motion.div
+        <motion.article
             layout
             whileHover={{ y: -5 }}
-            className="group relative bg-zinc-800 rounded-xl overflow-hidden shadow-lg cursor-pointer hover:shadow-orange-500/10 transition-all duration-300"
-            onClick={() => {
-                router.push(`/games/${game.id}`);
-            }}
+            className="group relative bg-zinc-800 rounded-xl overflow-hidden shadow-lg hover:shadow-orange-500/10 transition-all duration-300 focus-within:outline focus-within:outline-2 focus-within:outline-orange-500 focus-within:outline-offset-2"
         >
             {/* Rating Badge */}
             {game.rating !== null && (
                 <div className="absolute top-2 left-2 z-10 bg-zinc-900/80 backdrop-blur-sm text-yellow-400 font-bold px-2 py-1 rounded text-sm shadow-md flex items-center gap-1">
-                    <span>★</span>
+                    <span aria-hidden="true">★</span>
                     <span>{game.rating.toFixed(1)}</span>
                 </div>
             )}
 
             {/* Discount Badge */}
             {discount > 0 && (
-                <div className="absolute top-2 right-2 z-10 bg-brand text-white font-black px-2 py-1 rounded text-sm shadow-md">
+                <div
+                    aria-hidden="true"
+                    className="absolute top-2 right-2 z-10 bg-brand text-white font-black px-2 py-1 rounded text-sm shadow-md"
+                >
                     -{discount}%
                 </div>
             )}
@@ -55,25 +54,31 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
             <div className="aspect-video overflow-hidden relative">
                 <img
                     src={game.backgroundImage}
-                    alt={game.name}
+                    alt=""
+                    aria-hidden="true"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                {/* Add to cart button - slides up on hover */}
-                <div className="absolute inset-x-0 bottom-0 p-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                {/* Add to cart button - slides up on hover or when card receives focus */}
+                <div className="absolute inset-x-0 bottom-0 p-2 translate-y-full group-hover:translate-y-0 group-focus-within:translate-y-0 transition-transform duration-300">
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
                             inCart ? removeItem(game.id) : addItem(game);
                         }}
-                        className={`w-full flex items-center justify-center gap-2 py-2 rounded-lg font-bold text-sm text-white transition-colors cursor-pointer ${
+                        aria-label={
+                            inCart
+                                ? `${t('remove')} – ${game.name}`
+                                : `${t('add')} – ${game.name}`
+                        }
+                        className={`relative z-20 w-full flex items-center justify-center gap-2 py-2 rounded-lg font-bold text-sm text-white transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-[-2px] ${
                             inCart
                                 ? 'bg-zinc-700 hover:bg-zinc-600'
                                 : 'bg-brand hover:bg-brand-active shadow-lg shadow-orange-500/30'
                         }`}
                     >
-                        <ShoppingCart className="w-4 h-4" />
+                        <ShoppingCart aria-hidden="true" className="w-4 h-4" />
                         {inCart ? t('remove') : t('add')}
                     </button>
                 </div>
@@ -85,7 +90,13 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
                     className="text-white font-medium truncate text-sm mb-2"
                     title={game.name}
                 >
-                    {game.name}
+                    {/* Stretched link covers the entire card (z-[1]), cart button sits above (z-20) */}
+                    <Link
+                        href={`/games/${game.id}`}
+                        className="after:absolute after:inset-0 after:z-[1] focus-visible:outline-none"
+                    >
+                        {game.name}
+                    </Link>
                 </h3>
                 {game.genres.length > 0 && (
                     <div className="flex flex-wrap gap-1">
@@ -127,6 +138,6 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
                     </div>
                 )}
             </div>
-        </motion.div>
+        </motion.article>
     );
 };
