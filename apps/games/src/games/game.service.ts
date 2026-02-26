@@ -1,10 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { Game, GameWhereInput, PrismaService } from '@repo/prisma';
-import { FilterGamesDto, Pagination, PaginationDto } from '@repo/shared-types';
+import {
+    FilterGamesDto,
+    GameFiltersValue,
+    Pagination,
+    PaginationDto,
+} from '@repo/shared-types';
 
 @Injectable()
 export class GameService {
     constructor(private readonly prismaService: PrismaService) {}
+
+    public getFiltersValue(): Promise<GameFiltersValue> {
+        return this.prismaService.$queryRawUnsafe<GameFiltersValue>(`
+            SELECT array_agg(DISTINCT tag)      AS tags,
+                   array_agg(DISTINCT platform) AS platforms,
+                   array_agg(DISTINCT genre)    AS genres
+            FROM (SELECT unnest(tags)      AS tag,
+                         unnest(platforms) AS platform,
+                         unnest(genres)    AS genre
+                  FROM public."Game") t;`);
+    }
 
     public async getGames(
         filterGamesDto: FilterGamesDto,
