@@ -12,3 +12,8 @@ export * from './dto/users/update-user.dto';
 //game
 export * from './game';
 export { FilterGamesDto } from './dto/games/filter-games.dto';
+
+//payments
+export * from './dto/payments/create-payment-intent.dto';
+export * from './dto/payments/webhook-payload.dto';
+export * from './dto/payments/order-response.dto';

@@ -18,6 +18,7 @@ model User {
   deletedAt     DateTime?
   sessions      Session[]
   accounts      Account[]
+  orders        Order[]
 }
 
 model Session {
@@ -59,7 +60,7 @@ model Verification {
 }
 
 model Game {
-  id              String   @id @default(uuid())
+  id              String      @id @default(uuid())
   name            String
   description     String
   backgroundImage String
@@ -74,4 +75,34 @@ model Game {
   genres          String[]
   tags            String[]
   screenshots     String[]
+  orderItems      OrderItem[]
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripePaymentId String      @unique
+  totalAmount     Float
+  status          OrderStatus @default(PENDING)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id        String @id @default(uuid())
+  orderId   String
+  order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  gameId    String
+  game      Game   @relation(fields: [gameId], references: [id])
+  quantity  Int    @default(1)
+  unitPrice Float
 }

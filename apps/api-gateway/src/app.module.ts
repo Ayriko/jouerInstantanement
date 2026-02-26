@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthClientModule } from './common/modules/auth-client.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { GameModule } from './modules/games/game.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 import { UsersModule } from './modules/users/users.module';
 
 @Module({
@@ -15,6 +16,7 @@ import { UsersModule } from './modules/users/users.module';
         AuthClientModule,
         AuthModule,
         GameModule,
+        PaymentsModule,
         UsersModule,
     ],
 })
