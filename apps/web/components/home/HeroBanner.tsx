@@ -35,26 +35,58 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ featuredGame }) => {
                         {t('highlightedGame.tag.trending')}
                     </span>
                     <h2 className="text-4xl md:text-6xl font-black text-white mb-4 leading-tight">
-                        {featuredGame.name}
+                        {featuredGame.name.slice(0, 30)}{' '}
+                        {featuredGame.name.length > 30 && '...'}
                     </h2>
                     {featuredGame.genres.length > 0 && (
                         <p className="text-zinc-300 text-lg mb-6 line-clamp-2">
                             {featuredGame.genres.join(' · ')}
                         </p>
                     )}
+                    {/* Prix */}
+                    <div className="flex items-center gap-3 mb-5">
+                        {featuredGame.initialPrice > featuredGame.total && (
+                            <>
+                                <span className="text-zinc-400 text-lg line-through">
+                                    {featuredGame.initialPrice
+                                        .toFixed(2)
+                                        .replace('.', ',')}
+                                    €
+                                </span>
+                                <span className="bg-brand text-white text-sm font-black px-2.5 py-1 rounded-lg">
+                                    -
+                                    {Math.round(
+                                        (1 -
+                                            featuredGame.total /
+                                                featuredGame.initialPrice) *
+                                            100,
+                                    )}
+                                    %
+                                </span>
+                            </>
+                        )}
+                        <span className="text-white text-3xl font-black">
+                            {featuredGame.total.toFixed(2).replace('.', ',')}€
+                        </span>
+                    </div>
+
                     <div className="flex items-center gap-4">
                         <Link
                             href={`/games/${featuredGame.id}`}
                             className="bg-brand hover:bg-brand-active text-white px-8 py-3 rounded-xl font-bold text-lg transition-transform hover:scale-105 shadow-lg shadow-orange-500/20 cursor-pointer"
                         >
+                            {t('highlightedGame.buyButton', {
+                                price: featuredGame.total
+                                    .toFixed(2)
+                                    .replace('.', ','),
+                            })}
+                        </Link>
+                        <Link
+                            href="/games"
+                            className="bg-zinc-800/80 hover:bg-zinc-700/80 backdrop-blur-sm text-white px-6 py-3 rounded-xl font-bold text-lg border border-zinc-700 transition-transform hover:scale-105 cursor-pointer"
+                        >
                             {t('highlightedGame.discoverButton')}
                         </Link>
-                        <div className="bg-zinc-800/80 backdrop-blur-sm px-4 py-2 rounded-lg border border-zinc-700 flex items-center gap-1">
-                            <span className="text-yellow-400">★</span>
-                            <span className="text-white font-bold">
-                                {featuredGame.rating.toFixed(1)}
-                            </span>
-                        </div>
                     </div>
                 </motion.div>
             </div>

@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 
 import { Link } from '@/i18n/navigation';
-import { GameProduct as Game } from '@repo/shared-types';
+import { Game } from '@repo/shared-types';
 
 interface CartItemCardProps {
     item: Game;
@@ -33,7 +33,7 @@ export const CartItemCard: React.FC<CartItemCardProps> = ({
             <Link href={`/games/${item.id}`} className="flex-shrink-0">
                 <img
                     src={item.coverImage}
-                    alt={item.title}
+                    alt={item.name}
                     className="h-28 w-20 rounded-lg object-cover"
                 />
             </Link>
@@ -45,15 +45,19 @@ export const CartItemCard: React.FC<CartItemCardProps> = ({
                         href={`/games/${item.id}`}
                         className="font-semibold text-white hover:text-brand transition-colors"
                     >
-                        {item.title}
+                        {item.name}
                     </Link>
                     <div className="mt-1 flex items-center gap-2">
-                        <span className="rounded border border-zinc-700 px-1.5 py-0.5 text-xs text-zinc-400">
-                            {item.platform}
-                        </span>
-                        <span className="text-xs text-zinc-500">
-                            {item.category}
-                        </span>
+                        {item.platforms.length > 0 && (
+                            <span className="rounded border border-zinc-700 px-1.5 py-0.5 text-xs text-zinc-400">
+                                {item.platforms[0]}
+                            </span>
+                        )}
+                        {item.genres.length > 0 && (
+                            <span className="text-xs text-zinc-500">
+                                {item.genres[0]}
+                            </span>
+                        )}
                     </div>
                 </div>
                 <button
@@ -70,15 +74,23 @@ export const CartItemCard: React.FC<CartItemCardProps> = ({
 
             {/* Price */}
             <div className="flex flex-col items-end justify-between">
-                <span className="text-xs text-zinc-500 line-through">
-                    {item.originalPrice.toFixed(2)}€
-                </span>
-                <div className="flex items-center gap-2">
-                    <span className="rounded bg-brand/20 px-1.5 py-0.5 text-xs font-bold text-brand">
-                        -{item.discount}%
+                {item.initialPrice > item.total && (
+                    <span className="text-xs text-zinc-500 line-through">
+                        {item.initialPrice.toFixed(2).replace('.', ',')}€
                     </span>
+                )}
+                <div className="flex items-center gap-2">
+                    {item.initialPrice > item.total && (
+                        <span className="rounded bg-brand/20 px-1.5 py-0.5 text-xs font-bold text-brand">
+                            -
+                            {Math.round(
+                                (1 - item.total / item.initialPrice) * 100,
+                            )}
+                            %
+                        </span>
+                    )}
                     <span className="text-lg font-bold text-white">
-                        {item.price.toFixed(2)}€
+                        {item.total.toFixed(2).replace('.', ',')}€
                     </span>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 
-import { GameProduct as Game } from '@repo/shared-types';
+import { Game } from '@repo/shared-types';
 
 const STORAGE_KEY = 'ji-cart';
 
@@ -86,10 +86,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const itemCount = state.items.length;
     const subtotal = state.items.reduce(
-        (sum, item) => sum + item.originalPrice,
+        (sum, item) => sum + item.initialPrice,
         0,
     );
-    const total = state.items.reduce((sum, item) => sum + item.price, 0);
+    const total = state.items.reduce((sum, item) => sum + item.total, 0);
     const discount = subtotal - total;
 
     return (

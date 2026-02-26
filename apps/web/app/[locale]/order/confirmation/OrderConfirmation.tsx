@@ -4,22 +4,15 @@ import { CheckCircle, Package, ArrowLeft, Key } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 
-import { games as allGames } from '@/data/games';
+import { useCart } from '@/context/CartContext';
 import { Link } from '@/i18n/navigation';
 
-const orderedItems = allGames.slice(0, 3);
 const orderNumber = 'JI-20260205-4829';
 const orderDate = new Date().toLocaleDateString();
 
 export default function OrderConfirmation() {
     const t = useTranslations('order.confirmation');
-
-    const subtotal = orderedItems.reduce(
-        (sum, item) => sum + item.originalPrice,
-        0,
-    );
-    const total = orderedItems.reduce((sum, item) => sum + item.price, 0);
-    const discount = subtotal - total;
+    const { items: orderedItems, subtotal, total, discount } = useCart();
 
     return (
         <div className="min-h-[calc(100vh-80px)] bg-zinc-950">
@@ -122,23 +115,33 @@ export default function OrderConfirmation() {
                             >
                                 <img
                                     src={item.coverImage}
-                                    alt={item.title}
+                                    alt={item.name}
                                     className="h-16 w-12 flex-shrink-0 rounded-lg object-cover"
                                 />
                                 <div className="flex-1">
                                     <p className="font-medium text-white">
-                                        {item.title}
+                                        {item.name}
                                     </p>
-                                    <span className="rounded border border-zinc-700 px-1.5 py-0.5 text-xs text-zinc-400">
-                                        {item.platform}
-                                    </span>
+                                    {item.platforms.length > 0 && (
+                                        <span className="rounded border border-zinc-700 px-1.5 py-0.5 text-xs text-zinc-400">
+                                            {item.platforms[0]}
+                                        </span>
+                                    )}
                                 </div>
                                 <div className="text-right">
-                                    <span className="block text-xs text-zinc-500 line-through">
-                                        {item.originalPrice.toFixed(2)}€
-                                    </span>
+                                    {item.initialPrice > item.total && (
+                                        <span className="block text-xs text-zinc-500 line-through">
+                                            {item.initialPrice
+                                                .toFixed(2)
+                                                .replace('.', ',')}
+                                            €
+                                        </span>
+                                    )}
                                     <span className="font-bold text-white">
-                                        {item.price.toFixed(2)}€
+                                        {item.total
+                                            .toFixed(2)
+                                            .replace('.', ',')}
+                                        €
                                     </span>
                                 </div>
                             </div>
@@ -159,7 +162,7 @@ export default function OrderConfirmation() {
                                 {t('payment.subtotal')}
                             </span>
                             <span className="text-zinc-300">
-                                {subtotal.toFixed(2)}€
+                                {subtotal.toFixed(2).replace('.', ',')}€
                             </span>
                         </div>
                         <div className="flex items-center justify-between text-sm">
@@ -167,7 +170,7 @@ export default function OrderConfirmation() {
                                 {t('payment.discount')}
                             </span>
                             <span className="text-green-400">
-                                -{discount.toFixed(2)}€
+                                -{discount.toFixed(2).replace('.', ',')}€
                             </span>
                         </div>
                     </div>
@@ -176,7 +179,7 @@ export default function OrderConfirmation() {
                             {t('payment.total')}
                         </span>
                         <span className="text-2xl font-bold text-brand">
-                            {total.toFixed(2)}€
+                            {total.toFixed(2).replace('.', ',')}€
                         </span>
                     </div>
                 </motion.div>

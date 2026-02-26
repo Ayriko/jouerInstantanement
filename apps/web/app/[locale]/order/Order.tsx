@@ -120,19 +120,24 @@ export default function Order() {
                                 >
                                     <img
                                         src={item.coverImage}
-                                        alt={item.title}
+                                        alt={item.name}
                                         className="h-12 w-9 flex-shrink-0 rounded object-cover"
                                     />
                                     <div className="flex-1 min-w-0">
                                         <p className="truncate text-sm font-medium text-white">
-                                            {item.title}
+                                            {item.name}
                                         </p>
-                                        <span className="text-xs text-zinc-500">
-                                            {item.platform}
-                                        </span>
+                                        {item.platforms.length > 0 && (
+                                            <span className="text-xs text-zinc-500">
+                                                {item.platforms[0]}
+                                            </span>
+                                        )}
                                     </div>
                                     <span className="text-sm font-semibold text-white">
-                                        {item.price.toFixed(2)}€
+                                        {item.total
+                                            .toFixed(2)
+                                            .replace('.', ',')}
+                                        €
                                     </span>
                                 </div>
                             ))}
@@ -145,7 +150,7 @@ export default function Order() {
                                     {t('checkout.subtotal')}
                                 </span>
                                 <span className="text-zinc-300">
-                                    {subtotal.toFixed(2)}€
+                                    {subtotal.toFixed(2).replace('.', ',')}€
                                 </span>
                             </div>
                             <div className="flex items-center justify-between text-sm">
@@ -153,7 +158,7 @@ export default function Order() {
                                     {t('checkout.discount')}
                                 </span>
                                 <span className="text-green-400">
-                                    -{discount.toFixed(2)}€
+                                    -{discount.toFixed(2).replace('.', ',')}€
                                 </span>
                             </div>
                         </div>
@@ -163,7 +168,7 @@ export default function Order() {
                                 {t('checkout.total')}
                             </span>
                             <span className="text-2xl font-bold text-brand">
-                                {total.toFixed(2)}€
+                                {total.toFixed(2).replace('.', ',')}€
                             </span>
                         </div>
 
@@ -174,7 +179,8 @@ export default function Order() {
                             className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-brand py-3 text-sm font-semibold text-white opacity-50 cursor-not-allowed"
                         >
                             <Lock className="h-4 w-4" />
-                            {t('checkout.pay')} — {total.toFixed(2)}€
+                            {t('checkout.pay')} —{' '}
+                            {total.toFixed(2).replace('.', ',')}€
                         </button>
                     </motion.div>
                 </div>

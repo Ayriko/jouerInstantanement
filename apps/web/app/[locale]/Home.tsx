@@ -1,6 +1,5 @@
-import { getTranslations } from 'next-intl/server';
-
 import { Game, Pagination } from '@repo/shared-types';
+import { getTranslations } from 'next-intl/server';
 
 import GameGrid from '@/components/home/GameGrid';
 import { HeroBanner } from '@/components/home/HeroBanner';
@@ -18,8 +17,10 @@ async function fetchGames(): Promise<Game[]> {
 export default async function Home() {
     const t = await getTranslations('home');
     const games = await fetchGames();
-    const featuredGame = games[0];
-    const gridGames = games.slice(1, 9);
+    const featuredGame = games[Math.floor(Math.random() * games.length)];
+    const gridGames = games
+        .filter((g) => g.id !== featuredGame?.id)
+        .slice(0, 8);
 
     return (
         <>

@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { Game, Pagination } from '@repo/shared-types';
 
+import { GameCard } from '@/components/home/GameCard';
 import { Link } from '@/i18n/navigation';
 
 async function fetchGames(
@@ -48,61 +49,7 @@ export default async function GamesList({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4">
                 {games.map((game) => (
-                    <Link
-                        key={game.id}
-                        href={`/games/${game.id}`}
-                        className="group block bg-zinc-800 rounded-xl overflow-hidden hover:ring-1 ring-brand transition-all duration-200"
-                    >
-                        <div className="aspect-video overflow-hidden">
-                            <img
-                                src={game.backgroundImage}
-                                alt={game.name}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                        </div>
-
-                        <div className="p-3 space-y-2">
-                            <h3
-                                className="text-white text-sm font-medium truncate"
-                                title={game.name}
-                            >
-                                {game.name}
-                            </h3>
-
-                            <div className="flex items-center gap-1 text-xs text-yellow-400">
-                                <span>★</span>
-                                <span>{game.rating.toFixed(1)}</span>
-                            </div>
-
-                            {game.genres.length > 0 && (
-                                <div className="flex flex-wrap gap-1">
-                                    {game.genres.slice(0, 2).map((genre) => (
-                                        <span
-                                            key={genre}
-                                            className="text-xs bg-zinc-700 text-zinc-300 px-1.5 py-0.5 rounded"
-                                        >
-                                            {genre}
-                                        </span>
-                                    ))}
-                                </div>
-                            )}
-
-                            {game.platforms.length > 0 && (
-                                <div className="flex flex-wrap gap-1">
-                                    {game.platforms
-                                        .slice(0, 2)
-                                        .map((platform) => (
-                                            <span
-                                                key={platform}
-                                                className="text-xs border border-zinc-600 text-zinc-400 px-1.5 py-0.5 rounded"
-                                            >
-                                                {platform}
-                                            </span>
-                                        ))}
-                                </div>
-                            )}
-                        </div>
-                    </Link>
+                    <GameCard key={game.id} game={game} />
                 ))}
             </div>
 

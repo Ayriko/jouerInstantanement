@@ -1,12 +1,19 @@
 export interface Game {
-    backgroundImage: string;
-    genres: string[];
     id: string;
     name: string;
+    description: string;
+    backgroundImage: string;
+    coverImage: string;
+    initialPrice: number;
+    total: number;
+    releaseDate: string;
+    developer: string;
+    editor: string;
+    rating: number | null;
     platforms: string[];
-    rating: number;
-    screenshots: string[];
+    genres: string[];
     tags: string[];
+    screenshots: string[];
 }
 
 export interface GameProduct {

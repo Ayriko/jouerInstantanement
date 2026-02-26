@@ -87,7 +87,7 @@ export default function Cart() {
                                         {t('summary.subtotal')}
                                     </span>
                                     <span className="text-zinc-300">
-                                        {subtotal.toFixed(2)}€
+                                        {subtotal.toFixed(2).replace('.', ',')}€
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-between text-sm">
@@ -95,7 +95,8 @@ export default function Cart() {
                                         {t('summary.discount')}
                                     </span>
                                     <span className="text-green-400">
-                                        -{discount.toFixed(2)}€
+                                        -{discount.toFixed(2).replace('.', ',')}
+                                        €
                                     </span>
                                 </div>
                             </div>
@@ -105,7 +106,7 @@ export default function Cart() {
                                     {t('summary.total')}
                                 </span>
                                 <span className="text-2xl font-bold text-brand">
-                                    {total.toFixed(2)}€
+                                    {total.toFixed(2).replace('.', ',')}€
                                 </span>
                             </div>
 

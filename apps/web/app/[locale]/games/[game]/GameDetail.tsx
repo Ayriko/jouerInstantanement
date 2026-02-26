@@ -3,7 +3,8 @@
 import { Game } from '@repo/shared-types';
 import {
     Heart,
-    /*ShoppingCart,*/ Download,
+    ShoppingCart,
+    Download,
     Shield,
     Key,
     BadgeCheck,
@@ -15,10 +16,9 @@ import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { useCart } from '@/context/CartContext';
 import { useRouter } from '@/i18n/navigation';
-
-// TODO: uncomment when cart supports Game (needs price, originalPrice, discount fields)
-// import { useCart } from '@/context/CartContext';
+import { authClient } from '@/lib/auth-client';
 
 interface GameDetailProps {
     game: Game;
@@ -27,28 +27,26 @@ interface GameDetailProps {
 const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
     const t = useTranslations('games.detail');
     const router = useRouter();
-    // const { addItem, removeItem, isInCart } = useCart();
+    const { addItem, isInCart, removeItem } = useCart();
+    const { data: session } = authClient.useSession();
     const [isWishlisted, setIsWishlisted] = useState(false);
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-    const closeLightbox = useCallback(() => setLightboxIndex(null), []);
-    const prevScreenshot = useCallback(
-        () =>
-            setLightboxIndex((i) =>
-                i !== null
-                    ? (i - 1 + game.screenshots.length) %
-                      game.screenshots.length
-                    : null,
-            ),
-        [game.screenshots.length],
-    );
-    const nextScreenshot = useCallback(
-        () =>
-            setLightboxIndex((i) =>
-                i !== null ? (i + 1) % game.screenshots.length : null,
-            ),
-        [game.screenshots.length],
-    );
+    const closeLightbox = useCallback(() => {
+        setLightboxIndex(null);
+    }, []);
+    const prevScreenshot = useCallback(() => {
+        setLightboxIndex((i) =>
+            i === null
+                ? null
+                : (i - 1 + game.screenshots.length) % game.screenshots.length,
+        );
+    }, [game.screenshots.length]);
+    const nextScreenshot = useCallback(() => {
+        setLightboxIndex((i) =>
+            i === null ? null : (i + 1) % game.screenshots.length,
+        );
+    }, [game.screenshots.length]);
 
     useEffect(() => {
         if (lightboxIndex === null) return;
@@ -58,17 +56,19 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
             if (e.key === 'ArrowRight') nextScreenshot();
         };
         globalThis.addEventListener('keydown', handleKey);
-        return () => globalThis.removeEventListener('keydown', handleKey);
+        return () => {
+            globalThis.removeEventListener('keydown', handleKey);
+        };
     }, [lightboxIndex, closeLightbox, prevScreenshot, nextScreenshot]);
 
     const handleBackToList = () => {
-        if (window.history.length > 1) {
+        if (globalThis.history.length > 1) {
             router.back();
         } else {
             router.push('/games');
         }
     };
-    // const inCart = isInCart(game.id);
+    const inCart = isInCart(game.id);
 
     const features = [
         { icon: Download, label: t('reassurance.instantDownload') },
@@ -76,6 +76,11 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
         { icon: Key, label: t('reassurance.officialKey') },
         { icon: BadgeCheck, label: t('reassurance.bestPrice') },
     ];
+
+    const discount =
+        game.initialPrice > game.total
+            ? Math.round((1 - game.total / game.initialPrice) * 100)
+            : 0;
 
     return (
         <div className="min-h-screen bg-zinc-950">
@@ -109,9 +114,8 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                         className="lg:col-span-1"
                     >
                         <div className="relative rounded-xl overflow-hidden shadow-2xl shadow-black/50">
-                            {/* TODO: use a dedicated portrait coverImage field (e.g. coverImage: string) instead of backgroundImage */}
                             <img
-                                src={game.backgroundImage}
+                                src={game.coverImage}
                                 alt={game.name}
                                 className="w-full aspect-video object-cover"
                             />
@@ -150,75 +154,81 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                             <h1 className="text-3xl md:text-4xl font-black text-white">
                                 {game.name}
                             </h1>
-                            <div className="flex items-center gap-1 mt-2 text-yellow-400">
-                                <span className="text-lg">★</span>
-                                <span className="text-lg font-semibold">
-                                    {game.rating.toFixed(1)}
-                                </span>
-                                <span className="text-zinc-500 text-sm ml-1">
-                                    / 10
-                                </span>
-                            </div>
+                            {game.rating !== null && (
+                                <div className="flex items-center gap-1 mt-2 text-yellow-400">
+                                    <span className="text-lg">★</span>
+                                    <span className="text-lg font-semibold">
+                                        {game.rating.toFixed(1)}
+                                    </span>
+                                    <span className="text-zinc-500 text-sm ml-1">
+                                        / 10
+                                    </span>
+                                </div>
+                            )}
                         </div>
 
-                        {/* Price Block — TODO: add price, originalPrice, discount fields to the games DB table */}
-                        {/*
-            <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
-              <div className="flex items-center gap-4 mb-4">
-                <span className="text-zinc-500 text-lg line-through">{game.originalPrice.toFixed(2)}€</span>
-                <span className="bg-brand text-white font-bold px-2 py-1 rounded text-sm">-{game.discount}%</span>
-                <span className="text-white font-bold text-3xl">{game.price.toFixed(2)}€</span>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <button
-                  onClick={() => { inCart ? removeItem(game.id) : addItem(game); }}
-                  className={`flex-1 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-2 ${
-                    inCart
-                      ? 'bg-zinc-700 hover:bg-zinc-600'
-                      : 'bg-brand hover:bg-brand-active shadow-lg shadow-orange-500/20'
-                  }`}
-                >
-                  <ShoppingCart className="w-5 h-5" />
-                  {inCart ? t("actions.cart.remove") : t("actions.cart.add")}
-                </button>
-                <button
-                  onClick={() => { setIsWishlisted(!isWishlisted); }}
-                  className={`px-4 py-3 rounded-xl font-medium transition-all cursor-pointer flex items-center justify-center gap-2 border ${
-                    isWishlisted
-                      ? 'bg-red-500/10 border-red-500/50 text-red-400 hover:bg-red-500/20'
-                      : 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700'
-                  }`}
-                >
-                  <Heart className={`w-5 h-5 ${isWishlisted ? 'fill-red-400' : ''}`} />
-                  <span className="sm:inline hidden">
-                    {isWishlisted ? t("actions.wishlist.remove") : t("actions.wishlist.add")}
-                  </span>
-                </button>
-              </div>
-            </div>
-            */}
-
-                        {/* Wishlist button (standalone until price is available) */}
-                        <div className="flex gap-3">
-                            <button
-                                onClick={() => {
-                                    setIsWishlisted(!isWishlisted);
-                                }}
-                                className={`px-4 py-3 rounded-xl font-medium transition-all cursor-pointer flex items-center justify-center gap-2 border ${
-                                    isWishlisted
-                                        ? 'bg-red-500/10 border-red-500/50 text-red-400 hover:bg-red-500/20'
-                                        : 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700'
-                                }`}
-                            >
-                                <Heart
-                                    className={`w-5 h-5 ${isWishlisted ? 'fill-red-400' : ''}`}
-                                />
-                                <span>
-                                    {isWishlisted
-                                        ? t('actions.wishlist.remove')
-                                        : t('actions.wishlist.add')}
+                        {/* Price Block */}
+                        <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
+                            <div className="flex items-center gap-4 mb-4">
+                                {discount > 0 && (
+                                    <>
+                                        <span className="text-zinc-500 text-lg line-through">
+                                            {game.initialPrice
+                                                .toFixed(2)
+                                                .replace('.', ',')}
+                                            €
+                                        </span>
+                                        <span className="bg-brand text-white font-bold px-2 py-1 rounded text-sm">
+                                            -{discount}%
+                                        </span>
+                                    </>
+                                )}
+                                <span className="text-white font-bold text-3xl">
+                                    {game.total.toFixed(2).replace('.', ',')}€
                                 </span>
-                            </button>
+                            </div>
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <button
+                                    onClick={() => {
+                                        inCart
+                                            ? removeItem(game.id)
+                                            : addItem(game);
+                                    }}
+                                    className={`flex-1 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-2 ${
+                                        inCart
+                                            ? 'bg-zinc-700 hover:bg-zinc-600'
+                                            : 'bg-brand hover:bg-brand-active shadow-lg shadow-orange-500/20'
+                                    }`}
+                                >
+                                    <ShoppingCart className="w-5 h-5" />
+                                    {inCart
+                                        ? t('actions.cart.remove')
+                                        : t('actions.cart.add')}
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        if (!session?.user) {
+                                            router.push('/sign-in');
+                                            return;
+                                        }
+                                        setIsWishlisted(!isWishlisted);
+                                    }}
+                                    className={`px-4 py-3 rounded-xl font-medium transition-all cursor-pointer flex items-center justify-center gap-2 border ${
+                                        isWishlisted
+                                            ? 'bg-red-500/10 border-red-500/50 text-red-400 hover:bg-red-500/20'
+                                            : 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700'
+                                    }`}
+                                >
+                                    <Heart
+                                        className={`w-5 h-5 ${isWishlisted ? 'fill-red-400' : ''}`}
+                                    />
+                                    <span>
+                                        {isWishlisted
+                                            ? t('actions.wishlist.remove')
+                                            : t('actions.wishlist.add')}
+                                    </span>
+                                </button>
+                            </div>
                         </div>
 
                         {/* Réassurance */}
@@ -236,13 +246,15 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                             ))}
                         </div>
 
-                        {/* Description — TODO: add description field to the games DB table */}
-                        {/*
-            <div>
-              <h2 className="text-xl font-bold text-white mb-3">{t("description")}</h2>
-              <p className="text-zinc-400 leading-relaxed">{game.description}</p>
-            </div>
-            */}
+                        {/* Description */}
+                        <div>
+                            <h2 className="text-xl font-bold text-white mb-3">
+                                {t('description')}
+                            </h2>
+                            <p className="text-zinc-400 leading-relaxed">
+                                {game.description}
+                            </p>
+                        </div>
 
                         {/* Tags */}
                         {game.tags.length > 0 && (
@@ -269,10 +281,20 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                                 {t('details.title')}
                             </h2>
                             <div className="bg-zinc-900 rounded-xl border border-zinc-800 divide-y divide-zinc-800">
-                                {/* TODO: add developer, publisher, releaseDate fields to the games DB table */}
-                                {/* <DetailRow label={t("details.developer")} value={game.developer} /> */}
-                                {/* <DetailRow label={t("details.publisher")} value={game.publisher} /> */}
-                                {/* <DetailRow label={t("details.releaseDate")} value={new Date(game.releaseDate).toLocaleDateString()} /> */}
+                                <DetailRow
+                                    label={t('details.developer')}
+                                    value={game.developer}
+                                />
+                                <DetailRow
+                                    label={t('details.publisher')}
+                                    value={game.editor}
+                                />
+                                <DetailRow
+                                    label={t('details.releaseDate')}
+                                    value={new Date(
+                                        game.releaseDate,
+                                    ).toLocaleDateString()}
+                                />
                                 {game.genres.length > 0 && (
                                     <DetailRow
                                         label={t('details.category')}
@@ -305,7 +327,9 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                             {game.screenshots.map((src, i) => (
                                 <button
                                     key={i}
-                                    onClick={() => setLightboxIndex(i)}
+                                    onClick={() => {
+                                        setLightboxIndex(i);
+                                    }}
                                     className="rounded-xl overflow-hidden aspect-video bg-zinc-800 cursor-pointer group relative"
                                     aria-label={`${game.name} screenshot ${i + 1}`}
                                 >
@@ -371,7 +395,9 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                             src={game.screenshots[lightboxIndex]}
                             alt={`${game.name} screenshot ${lightboxIndex + 1}`}
                             className="max-w-[90vw] max-h-[80vh] object-contain rounded-xl shadow-2xl"
-                            onClick={(e) => e.stopPropagation()}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                            }}
                         />
 
                         {/* Next */}
