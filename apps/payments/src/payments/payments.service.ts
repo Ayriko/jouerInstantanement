@@ -37,7 +37,11 @@ export class PaymentsService {
         const lineItems = dto.items.map((item) => {
             const game = gameMap.get(item.gameId)!;
             totalAmount += game.total * item.quantity;
-            return { gameId: item.gameId, quantity: item.quantity, unitPrice: game.total };
+            return {
+                gameId: item.gameId,
+                quantity: item.quantity,
+                unitPrice: game.total,
+            };
         });
 
         const amountInCents = Math.round(totalAmount * 100);

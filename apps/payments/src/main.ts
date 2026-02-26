@@ -16,7 +16,9 @@ async function bootstrap() {
         },
     );
     await app.listen();
-    console.log('Payments microservice is listening on RabbitMQ (payment_queue)');
+    console.log(
+        'Payments microservice is listening on RabbitMQ (payment_queue)',
+    );
 }
 
 bootstrap();
