@@ -13,7 +13,7 @@ import {
     X,
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useCart } from '@/context/CartContext';
@@ -26,6 +26,7 @@ interface GameDetailProps {
 
 const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
     const t = useTranslations('games.detail');
+    const locale = useLocale();
     const router = useRouter();
     const { addItem, isInCart, removeItem } = useCart();
     const { data: session } = authClient.useSession();
@@ -293,7 +294,7 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                                     label={t('details.releaseDate')}
                                     value={new Date(
                                         game.releaseDate,
-                                    ).toLocaleDateString()}
+                                    ).toLocaleDateString(locale)}
                                 />
                                 {game.genres.length > 0 && (
                                     <DetailRow
