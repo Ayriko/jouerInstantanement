@@ -1,4 +1,9 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+    HttpStatus,
+    Injectable,
+    Logger,
+    NotFoundException,
+} from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { PrismaService } from '@repo/prisma';
 import { CreatePaymentIntentDto, OrderResponseDto } from '@repo/shared-types';
@@ -43,6 +48,20 @@ export class PaymentsService {
                 unitPrice: game.total,
             };
         });
+
+        for (const item of dto.items) {
+            const available = await this.prisma.gameKey.count({
+                where: { gameId: item.gameId, usedByOrderItemId: null },
+            });
+            if (available < item.quantity) {
+                const game = gameMap.get(item.gameId)!;
+                throw new RpcException({
+                    statusCode: HttpStatus.CONFLICT,
+                    message: `Not enough keys for "${game.name}". Available: ${available}, requested: ${item.quantity}`,
+                    error: 'Conflict',
+                });
+            }
+        }
 
         const amountInCents = Math.round(totalAmount * 100);
 
@@ -120,21 +139,56 @@ export class PaymentsService {
 
         const totalAmount = paymentIntent.amount / 100;
 
-        await this.prisma.order.create({
-            data: {
-                userId,
-                stripePaymentId: paymentIntent.id,
-                totalAmount,
-                status: 'PAID',
-                items: {
-                    create: items.map((item) => ({
-                        gameId: item.gameId,
-                        quantity: item.quantity,
-                        unitPrice: item.unitPrice,
-                    })),
-                },
-            },
-        });
+        try {
+            await this.prisma.$transaction(async (tx) => {
+                const order = await tx.order.create({
+                    data: {
+                        userId,
+                        stripePaymentId: paymentIntent.id,
+                        totalAmount,
+                        status: 'PAID',
+                        items: {
+                            create: items.map((item) => ({
+                                gameId: item.gameId,
+                                quantity: item.quantity,
+                                unitPrice: item.unitPrice,
+                            })),
+                        },
+                    },
+                    include: { items: true },
+                });
+
+                for (const orderItem of order.items) {
+                    const availableKeys = await tx.gameKey.findMany({
+                        where: {
+                            gameId: orderItem.gameId,
+                            usedByOrderItemId: null,
+                        },
+                        take: orderItem.quantity,
+                        orderBy: { createdAt: 'asc' },
+                    });
+
+                    if (availableKeys.length < orderItem.quantity) {
+                        throw new Error(
+                            `Insufficient keys for game ${orderItem.gameId}`,
+                        );
+                    }
+
+                    await tx.gameKey.updateMany({
+                        where: {
+                            id: { in: availableKeys.map((k) => k.id) },
+                            usedByOrderItemId: null,
+                        },
+                        data: { usedByOrderItemId: orderItem.id },
+                    });
+                }
+            });
+        } catch (err) {
+            this.logger.error(
+                `Failed to assign keys for payment ${paymentIntent.id}: ${err}`,
+            );
+            return;
+        }
 
         this.logger.log(
             `Order created for user ${userId}, payment ${paymentIntent.id}`,
@@ -147,7 +201,7 @@ export class PaymentsService {
             orderBy: { createdAt: 'desc' },
             include: {
                 items: {
-                    include: { game: true },
+                    include: { game: true, assignedKey: true },
                 },
             },
         });
@@ -164,6 +218,7 @@ export class PaymentsService {
                 gameName: item.game.name,
                 quantity: item.quantity,
                 unitPrice: item.unitPrice,
+                assignedKey: item.assignedKey?.value ?? null,
             })),
         }));
     }

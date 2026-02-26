@@ -79,6 +79,7 @@ model Game {
   releaseDate     String
   orderItems      OrderItem[]
   wishlist        Wishlist[]
+  keys            GameKey[]
 }
 
 model Order {
@@ -94,13 +95,14 @@ model Order {
 }
 
 model OrderItem {
-  id        String @id @default(uuid())
-  orderId   String
-  gameId    String
-  quantity  Int    @default(1)
-  unitPrice Float
-  game      Game   @relation(fields: [gameId], references: [id])
-  order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  id          String   @id @default(uuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  gameId      String
+  game        Game     @relation(fields: [gameId], references: [id])
+  quantity    Int      @default(1)
+  unitPrice   Float
+  assignedKey GameKey?
 }
 
 enum OrderStatus {
@@ -120,4 +122,15 @@ model Wishlist {
   createdAt DateTime @default(now())
 
   @@id([userId, gameId]) // empêche les doublons
+}
+
+model GameKey {
+  id                String     @id @default(uuid())
+  gameId            String
+  game              Game       @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  value             String     @unique
+  usedByOrderItemId String?    @unique
+  usedByOrderItem   OrderItem? @relation(fields: [usedByOrderItemId], references: [id])
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
 }
