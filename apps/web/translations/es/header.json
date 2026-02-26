@@ -4,7 +4,8 @@
     "placeholder": {
       "default": "Buscar un juego...",
       "short": "Buscar..."
-    }
+    },
+    "noResults": "Sin resultados"
   },
   "myAccount": "Mi cuenta",
   "signIn": "Iniciar sesi\u00f3n",

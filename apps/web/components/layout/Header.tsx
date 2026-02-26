@@ -1,11 +1,12 @@
 'use client';
 
-import { Search, ShoppingCart, Heart, User, Menu, X } from 'lucide-react';
+import { ShoppingCart, Heart, User, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 
+import { SearchDropdown } from '@/components/layout/SearchDropdown';
 import { useCart } from '@/context/CartContext';
 import { Link, useRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
@@ -16,18 +17,12 @@ export const Header: React.FC = () => {
     const router = useRouter();
     const { isHydrated, itemCount } = useCart();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
     const { data: session, isPending: sessionIsLoading } =
         authClient.useSession();
 
     const handleSignOut = async () => {
         await authClient.signOut();
         router.push('/sign-in');
-    };
-
-    const handleSearchSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Search not yet functional
     };
 
     return (
@@ -53,24 +48,10 @@ export const Header: React.FC = () => {
 
                     {/* Desktop Search */}
                     <div className="hidden md:block flex-1 max-w-lg mx-8">
-                        <form
-                            onSubmit={handleSearchSubmit}
-                            className="relative"
-                        >
-                            <label htmlFor="search" className="sr-only">
-                                {t('search.label')}
-                            </label>
-                            <input
-                                type="text"
-                                placeholder={t('search.placeholder.default')}
-                                className="w-full bg-zinc-800 text-sm rounded-full pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all border border-zinc-700"
-                                value={searchQuery}
-                                onChange={(e) => {
-                                    setSearchQuery(e.target.value);
-                                }}
-                            />
-                            <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
-                        </form>
+                        <SearchDropdown
+                            placeholder={t('search.placeholder.default')}
+                            inputClassName="w-full bg-zinc-800 text-sm rounded-full pl-10 pr-8 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all border border-zinc-700"
+                        />
                     </div>
 
                     {/* Desktop Actions */}
@@ -149,28 +130,10 @@ export const Header: React.FC = () => {
                         className="md:hidden bg-zinc-900 border-t border-zinc-800"
                     >
                         <div className="px-4 pt-4 pb-6 space-y-4">
-                            <form
-                                onSubmit={(e) => {
-                                    e.preventDefault();
-                                    handleSearchSubmit(e);
-                                    setIsMenuOpen(false);
-                                }}
-                            >
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        placeholder={t(
-                                            'search.placeholder.short',
-                                        )}
-                                        className="w-full bg-zinc-800 text-white rounded-lg pl-10 pr-4 py-2"
-                                        value={searchQuery}
-                                        onChange={(e) => {
-                                            setSearchQuery(e.target.value);
-                                        }}
-                                    />
-                                    <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" />
-                                </div>
-                            </form>
+                            <SearchDropdown
+                                placeholder={t('search.placeholder.short')}
+                                inputClassName="w-full bg-zinc-800 text-white rounded-lg pl-10 pr-8 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            />
 
                             <div className="flex flex-col space-y-2">
                                 {session && (

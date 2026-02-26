@@ -17,7 +17,7 @@ async function fetchGames(): Promise<Game[]> {
 export default async function Home() {
     const t = await getTranslations('home');
     const games = await fetchGames();
-    const featuredGame = games[Math.floor(Math.random() * games.length)];
+    const featuredGame = games[0];
     const gridGames = games
         .filter((g) => g.id !== featuredGame?.id)
         .slice(0, 8);

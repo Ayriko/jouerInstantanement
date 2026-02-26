@@ -4,7 +4,8 @@
     "placeholder": {
       "default": "Search for a game...",
       "short": "Search..."
-    }
+    },
+    "noResults": "No results found"
   },
   "myAccount": "My Account",
   "signIn": "Sign in",
