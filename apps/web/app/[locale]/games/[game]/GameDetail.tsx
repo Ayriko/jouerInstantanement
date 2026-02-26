@@ -8,12 +8,14 @@ import {
     Key,
     BadgeCheck,
     ChevronLeft,
+    ChevronRight,
+    X,
 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { Link } from '@/i18n/navigation';
+import { useRouter } from '@/i18n/navigation';
 
 // TODO: uncomment when cart supports Game (needs price, originalPrice, discount fields)
 // import { useCart } from '@/context/CartContext';
@@ -24,8 +26,48 @@ interface GameDetailProps {
 
 const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
     const t = useTranslations('games.detail');
+    const router = useRouter();
     // const { addItem, removeItem, isInCart } = useCart();
     const [isWishlisted, setIsWishlisted] = useState(false);
+    const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+    const closeLightbox = useCallback(() => setLightboxIndex(null), []);
+    const prevScreenshot = useCallback(
+        () =>
+            setLightboxIndex((i) =>
+                i !== null
+                    ? (i - 1 + game.screenshots.length) %
+                      game.screenshots.length
+                    : null,
+            ),
+        [game.screenshots.length],
+    );
+    const nextScreenshot = useCallback(
+        () =>
+            setLightboxIndex((i) =>
+                i !== null ? (i + 1) % game.screenshots.length : null,
+            ),
+        [game.screenshots.length],
+    );
+
+    useEffect(() => {
+        if (lightboxIndex === null) return;
+        const handleKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') prevScreenshot();
+            if (e.key === 'ArrowRight') nextScreenshot();
+        };
+        globalThis.addEventListener('keydown', handleKey);
+        return () => globalThis.removeEventListener('keydown', handleKey);
+    }, [lightboxIndex, closeLightbox, prevScreenshot, nextScreenshot]);
+
+    const handleBackToList = () => {
+        if (window.history.length > 1) {
+            router.back();
+        } else {
+            router.push('/games');
+        }
+    };
     // const inCart = isInCart(game.id);
 
     const features = [
@@ -50,13 +92,13 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
 
             {/* Content */}
             <div className="max-w-7xl mx-auto px-4 -mt-32 relative z-10">
-                <Link
-                    href="/games"
-                    className="inline-flex items-center gap-1 text-zinc-500 hover:text-zinc-300 text-sm mb-6 transition-colors"
+                <button
+                    onClick={handleBackToList}
+                    className="inline-flex items-center gap-1 text-zinc-500 hover:text-zinc-300 text-sm mb-6 transition-colors cursor-pointer"
                 >
                     <ChevronLeft className="w-4 h-4" />
                     {t('backToList')}
-                </Link>
+                </button>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Left Column - Cover Image */}
@@ -212,7 +254,7 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                                     {game.tags.map((tag) => (
                                         <span
                                             key={tag}
-                                            className="text-xs bg-zinc-800 border border-zinc-700 text-zinc-300 px-2 py-1 rounded-lg"
+                                            className="text-xs bg-zinc-800 border border-zinc-700 text-zinc-300 px-2 py-1 rounded-lg capitalize"
                                         >
                                             {tag}
                                         </span>
@@ -261,21 +303,120 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                         </h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             {game.screenshots.map((src, i) => (
-                                <div
+                                <button
                                     key={i}
-                                    className="rounded-xl overflow-hidden aspect-video bg-zinc-800"
+                                    onClick={() => setLightboxIndex(i)}
+                                    className="rounded-xl overflow-hidden aspect-video bg-zinc-800 cursor-pointer group relative"
+                                    aria-label={`${game.name} screenshot ${i + 1}`}
                                 >
                                     <img
                                         src={src}
                                         alt={`${game.name} screenshot ${i + 1}`}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                     />
-                                </div>
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                                </button>
                             ))}
                         </div>
                     </motion.section>
                 )}
             </div>
+
+            {/* Lightbox */}
+            <AnimatePresence>
+                {lightboxIndex !== null && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+                        onClick={closeLightbox}
+                    >
+                        {/* Close */}
+                        <button
+                            onClick={closeLightbox}
+                            className="absolute top-4 right-4 z-10 p-2 rounded-full bg-zinc-800/80 text-zinc-300 hover:text-white hover:bg-zinc-700 transition-colors cursor-pointer"
+                            aria-label="Close"
+                        >
+                            <X className="w-5 h-5" />
+                        </button>
+
+                        {/* Counter */}
+                        <div className="absolute top-4 left-1/2 -translate-x-1/2 text-zinc-400 text-sm">
+                            {lightboxIndex + 1} / {game.screenshots.length}
+                        </div>
+
+                        {/* Prev */}
+                        {game.screenshots.length > 1 && (
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    prevScreenshot();
+                                }}
+                                className="absolute left-4 p-3 rounded-full bg-zinc-800/80 text-zinc-300 hover:text-white hover:bg-zinc-700 transition-colors cursor-pointer"
+                                aria-label="Previous"
+                            >
+                                <ChevronLeft className="w-6 h-6" />
+                            </button>
+                        )}
+
+                        {/* Image */}
+                        <motion.img
+                            key={lightboxIndex}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                            src={game.screenshots[lightboxIndex]}
+                            alt={`${game.name} screenshot ${lightboxIndex + 1}`}
+                            className="max-w-[90vw] max-h-[80vh] object-contain rounded-xl shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        />
+
+                        {/* Next */}
+                        {game.screenshots.length > 1 && (
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    nextScreenshot();
+                                }}
+                                className="absolute right-4 p-3 rounded-full bg-zinc-800/80 text-zinc-300 hover:text-white hover:bg-zinc-700 transition-colors cursor-pointer"
+                                aria-label="Next"
+                            >
+                                <ChevronRight className="w-6 h-6" />
+                            </button>
+                        )}
+
+                        {/* Thumbnails */}
+                        {game.screenshots.length > 1 && (
+                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 max-w-[90vw] overflow-x-auto px-2 pb-1">
+                                {game.screenshots.map((src, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setLightboxIndex(i);
+                                        }}
+                                        className={`flex-shrink-0 w-16 h-10 rounded-md overflow-hidden border-2 transition-colors cursor-pointer ${
+                                            i === lightboxIndex
+                                                ? 'border-white'
+                                                : 'border-transparent opacity-50 hover:opacity-80'
+                                        }`}
+                                        aria-label={`Go to screenshot ${i + 1}`}
+                                    >
+                                        <img
+                                            src={src}
+                                            alt=""
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
