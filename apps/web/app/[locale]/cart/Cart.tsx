@@ -6,11 +6,22 @@ import { useTranslations } from 'next-intl';
 
 import { CartItemCard } from '@/components/cart/CartItemCard';
 import { useCart } from '@/context/CartContext';
-import { Link } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
+import { authClient } from '@/lib/auth-client';
 
 export default function Cart() {
     const t = useTranslations('cart');
     const { discount, items, removeItem, subtotal, total } = useCart();
+    const { data: session } = authClient.useSession();
+    const router = useRouter();
+
+    const handleCheckout = () => {
+        if (session) {
+            router.push('/order');
+        } else {
+            router.push('/sign-in?callbackUrl=/order');
+        }
+    };
 
     return (
         <div className="min-h-[calc(100vh-80px)] bg-zinc-950">
@@ -110,13 +121,13 @@ export default function Cart() {
                                 </span>
                             </div>
 
-                            <Link
-                                href="/order"
+                            <button
+                                onClick={handleCheckout}
                                 className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-brand py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-active"
                             >
                                 {t('summary.checkout')}
                                 <ArrowRight className="h-4 w-4" />
-                            </Link>
+                            </button>
 
                             <Link
                                 href="/"

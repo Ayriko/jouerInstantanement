@@ -7,6 +7,8 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useSearchParams } from 'next/navigation';
+
 import { Link, useRouter } from '@/i18n/navigation';
 import {
     loginSchema,
@@ -21,6 +23,8 @@ type Tab = 'login' | 'register';
 export default function SignIn() {
     const t = useTranslations('account.signIn');
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get('callbackUrl') ?? '/';
     const [activeTab, setActiveTab] = useState<Tab>('login');
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -60,7 +64,7 @@ export default function SignIn() {
                     : t('errors.generic'),
             );
         } else {
-            router.push('/');
+            router.push(callbackUrl as Parameters<typeof router.push>[0]);
         }
         setIsLoading(false);
     };
@@ -81,7 +85,7 @@ export default function SignIn() {
                     : t('errors.generic'),
             );
         } else {
-            router.push('/');
+            router.push(callbackUrl as Parameters<typeof router.push>[0]);
         }
         setIsLoading(false);
     };
@@ -269,7 +273,7 @@ export default function SignIn() {
                                     onClick={() => {
                                         void authClient.signIn.social({
                                             provider: 'google',
-                                            callbackURL: `${window.location.origin}/`,
+                                            callbackURL: `${window.location.origin}${callbackUrl}`,
                                         });
                                     }}
                                     className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 cursor-pointer"
@@ -306,7 +310,7 @@ export default function SignIn() {
                                         onClick={() => {
                                             void authClient.signIn.social({
                                                 provider: 'discord',
-                                                callbackURL: `${window.location.origin}/`,
+                                                callbackURL: `${window.location.origin}${callbackUrl}`,
                                             });
                                         }}
                                         className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 cursor-pointer"
@@ -325,7 +329,7 @@ export default function SignIn() {
                                         onClick={() => {
                                             void authClient.signIn.social({
                                                 provider: 'twitch',
-                                                callbackURL: `${window.location.origin}/`,
+                                                callbackURL: `${window.location.origin}${callbackUrl}`,
                                             });
                                         }}
                                         className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 cursor-pointer"
@@ -381,7 +385,7 @@ export default function SignIn() {
                                                     void authClient.signIn.social(
                                                         {
                                                             provider: 'roblox',
-                                                            callbackURL: `${window.location.origin}/`,
+                                                            callbackURL: `${window.location.origin}${callbackUrl}`,
                                                         },
                                                     );
                                                 }}
@@ -604,7 +608,7 @@ export default function SignIn() {
                                     onClick={() => {
                                         void authClient.signIn.social({
                                             provider: 'google',
-                                            callbackURL: `${window.location.origin}/`,
+                                            callbackURL: `${window.location.origin}${callbackUrl}`,
                                         });
                                     }}
                                     className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 cursor-pointer"
@@ -641,7 +645,7 @@ export default function SignIn() {
                                         onClick={() => {
                                             void authClient.signIn.social({
                                                 provider: 'discord',
-                                                callbackURL: `${window.location.origin}/`,
+                                                callbackURL: `${window.location.origin}${callbackUrl}`,
                                             });
                                         }}
                                         className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 cursor-pointer"
@@ -660,7 +664,7 @@ export default function SignIn() {
                                         onClick={() => {
                                             void authClient.signIn.social({
                                                 provider: 'twitch',
-                                                callbackURL: `${window.location.origin}/`,
+                                                callbackURL: `${window.location.origin}${callbackUrl}`,
                                             });
                                         }}
                                         className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 cursor-pointer"
@@ -716,7 +720,7 @@ export default function SignIn() {
                                                     void authClient.signIn.social(
                                                         {
                                                             provider: 'roblox',
-                                                            callbackURL: `${window.location.origin}/`,
+                                                            callbackURL: `${window.location.origin}${callbackUrl}`,
                                                         },
                                                     );
                                                 }}
