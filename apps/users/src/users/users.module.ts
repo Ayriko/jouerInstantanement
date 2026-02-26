@@ -6,8 +6,8 @@ import { UsersController } from './users.controller';
 import UsersService from './users.service';
 
 @Module({
-  controllers: [UsersController],
-  imports: [ConfigModule.forRoot({ envFilePath: "../../env"})],
-  providers: [UsersService, PrismaService],
+    controllers: [UsersController],
+    imports: [ConfigModule.forRoot({ envFilePath: '../../env' })],
+    providers: [UsersService, PrismaService],
 })
 export class UsersModule {}
