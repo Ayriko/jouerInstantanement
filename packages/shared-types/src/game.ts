@@ -16,6 +16,12 @@ export interface Game {
     screenshots: string[];
 }
 
+export interface GameFiltersValue {
+    genres: string[];
+    platforms: string[];
+    tags: string[];
+}
+
 export interface GameProduct {
     id: string;
     title: string;

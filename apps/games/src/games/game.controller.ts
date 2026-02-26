@@ -1,7 +1,12 @@
 import { Controller } from '@nestjs/common';
 import { GameService } from './game.service';
 import { MessagePattern } from '@nestjs/microservices';
-import { FilterGamesDto, Pagination, PaginationDto } from '@repo/shared-types';
+import {
+    FilterGamesDto,
+    GameFiltersValue,
+    Pagination,
+    PaginationDto,
+} from '@repo/shared-types';
 import { Game } from '@repo/prisma';
 
 @Controller()
@@ -17,6 +22,11 @@ export class GameController {
             data.filterGamesDto,
             data.paginationDto,
         );
+    }
+
+    @MessagePattern({ cmd: 'game.getFiltersValue' })
+    public async getFiltersValue(): Promise<GameFiltersValue> {
+        return this.gameService.getFiltersValue();
     }
 
     @MessagePattern({ cmd: 'game.getOne' })
