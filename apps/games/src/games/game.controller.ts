@@ -9,7 +9,7 @@ export class GameController {
     constructor(private readonly gameService: GameService) {}
 
     @MessagePattern({ cmd: 'game.get' })
-    async get(data: {
+    public async get(data: {
         filterGamesDto: FilterGamesDto;
         paginationDto: PaginationDto;
     }): Promise<Pagination<Game>> {
@@ -20,7 +20,18 @@ export class GameController {
     }
 
     @MessagePattern({ cmd: 'game.getOne' })
-    async getOne(data: { id: string }): Promise<Game> {
+    public async getOne(data: { id: string }): Promise<Game> {
         return this.gameService.getGame(data.id);
+    }
+
+    @MessagePattern({ cmd: 'game.getSuggestion' })
+    public async getSuggestion(data: {
+        filterGamesDto: FilterGamesDto;
+        limit: number;
+    }): Promise<Game[]> {
+        return this.gameService.getGamesSuggestion(
+            data.limit,
+            data.filterGamesDto,
+        );
     }
 }

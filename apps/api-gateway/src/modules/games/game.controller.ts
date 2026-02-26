@@ -32,6 +32,17 @@ export class GameController {
         );
     }
 
+    @Get('/suggestion')
+    public getSuggestion(
+        @Query() filterGamesDto: FilterGamesDto,
+        @Query('limit') limit: number,
+    ): Observable<Game[]> {
+        return this.gameClient.send<Game[]>(
+            { cmd: 'game.getSuggestion' },
+            { filterGamesDto, limit },
+        );
+    }
+
     @Get(':id')
     getOne(@Param('id') id: string): Observable<Game> {
         return this.gameClient.send<Game>({ cmd: 'game.getOne' }, { id });
