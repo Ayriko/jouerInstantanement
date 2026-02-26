@@ -12,6 +12,8 @@ import { authClient } from '@/lib/auth-client';
 const PROVIDER_LABELS: Record<string, string> = {
     discord: 'Discord',
     google: 'Google',
+    roblox: 'Roblox',
+    twitch: 'Twitch',
 };
 
 export default function MyAccount() {
