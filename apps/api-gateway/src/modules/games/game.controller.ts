@@ -39,10 +39,9 @@ export class GameController {
         @Query() filterGamesDto: FilterGamesDto,
     ): Observable<Pagination<Game>> {
         return this.gameClient
-            .send<Pagination<Game>>(
-                { cmd: 'game.get' },
-                { filterGamesDto, paginationDto: dto },
-            )
+            .send<
+                Pagination<Game>
+            >({ cmd: 'game.get' }, { filterGamesDto, paginationDto: dto })
             .pipe(
                 switchMap((pagination) => {
                     const gameIds = pagination.items.map((g) => g.id);
@@ -107,22 +106,20 @@ export class GameController {
 
     @Get(':id')
     getOne(@Param('id') id: string): Observable<Game> {
-        return this.gameClient
-            .send<Game>({ cmd: 'game.getOne' }, { id })
-            .pipe(
-                switchMap((game) =>
-                    forkJoin({
-                        game: of(game),
-                        counts: this.keysClient.send<Record<string, number>>(
-                            { cmd: 'key.getAvailableCounts' },
-                            { gameIds: [game.id] },
-                        ),
-                    }),
-                ),
-                map(({ game, counts }) => ({
-                    ...game,
-                    availableKeyCount: counts[game.id] ?? 0,
-                })),
-            );
+        return this.gameClient.send<Game>({ cmd: 'game.getOne' }, { id }).pipe(
+            switchMap((game) =>
+                forkJoin({
+                    game: of(game),
+                    counts: this.keysClient.send<Record<string, number>>(
+                        { cmd: 'key.getAvailableCounts' },
+                        { gameIds: [game.id] },
+                    ),
+                }),
+            ),
+            map(({ game, counts }) => ({
+                ...game,
+                availableKeyCount: counts[game.id] ?? 0,
+            })),
+        );
     }
 }
