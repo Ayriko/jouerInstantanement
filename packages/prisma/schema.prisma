@@ -61,8 +61,15 @@ model Verification {
 model Game {
   id              String   @id @default(uuid())
   name            String
+  description     String
   backgroundImage String
-  rating          Float
+  coverImage      String
+  initialPrice    Float
+  total           Float
+  releaseDate     String
+  developer       String
+  editor          String
+  rating          Float?
   platforms       String[]
   genres          String[]
   tags            String[]
