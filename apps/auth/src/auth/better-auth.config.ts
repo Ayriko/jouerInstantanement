@@ -37,6 +37,18 @@ export const auth = betterAuth({
             clientId: process.env.DISCORD_CLIENT_ID!,
             clientSecret: process.env.DISCORD_CLIENT_SECRET!,
         },
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        },
+        roblox: {
+            clientId: process.env.ROBLOX_CLIENT_ID!,
+            clientSecret: process.env.ROBLOX_CLIENT_SECRET!,
+        },
+        twitch: {
+            clientId: process.env.TWITCH_CLIENT_ID!,
+            clientSecret: process.env.TWITCH_CLIENT_SECRET!,
+        },
     },
     trustedOrigins: [
         process.env.GATEWAY_URL ?? 'http://localhost:3000',

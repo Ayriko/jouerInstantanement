@@ -114,7 +114,7 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                                     {game.rating.toFixed(1)}
                                 </span>
                                 <span className="text-zinc-500 text-sm ml-1">
-                                    / 5
+                                    / 10
                                 </span>
                             </div>
                         </div>

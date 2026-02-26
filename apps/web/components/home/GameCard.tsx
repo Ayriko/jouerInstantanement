@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { GameProduct as Game } from '@repo/shared-types';
+import { Game } from '@repo/shared-types';
 
 interface GameCardProps {
     game: Game;
@@ -22,48 +22,54 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
                 router.push(`/games/${game.id}`);
             }}
         >
-            {/* Discount Badge */}
-            <div className="absolute top-2 left-2 z-10 bg-brand text-white font-bold px-2 py-1 rounded text-sm shadow-md">
-                -{game.discount}%
+            {/* Rating Badge */}
+            <div className="absolute top-2 left-2 z-10 bg-zinc-900/80 backdrop-blur-sm text-yellow-400 font-bold px-2 py-1 rounded text-sm shadow-md flex items-center gap-1">
+                <span>★</span>
+                <span>{game.rating.toFixed(1)}</span>
             </div>
 
             {/* Image Container */}
-            <div className="aspect-[3/4] overflow-hidden relative">
+            <div className="aspect-video overflow-hidden relative">
                 <img
-                    src={game.coverImage}
-                    alt={game.title}
+                    src={game.backgroundImage}
+                    alt={game.name}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                {/* Overlay on Hover */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    {/* Quick action could go here if needed */}
-                </div>
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
 
             {/* Content */}
             <div className="p-3">
                 <h3
-                    className="text-white font-medium truncate text-sm mb-1"
-                    title={game.title}
+                    className="text-white font-medium truncate text-sm mb-2"
+                    title={game.name}
                 >
-                    {game.title}
+                    {game.name}
                 </h3>
-                <div className="flex items-center justify-between mt-2">
-                    <span className="text-zinc-500 text-xs line-through">
-                        {game.originalPrice.toFixed(2)}€
-                    </span>
-                    <span className="text-brand font-bold text-lg">
-                        {game.price.toFixed(2)}€
-                    </span>
-                </div>
-                <div className="mt-1 flex items-center gap-2 text-xs text-zinc-400">
-                    <span
-                        className={`px-1.5 py-0.5 rounded border border-zinc-700 text-zinc-400`}
-                    >
-                        {game.platform}
-                    </span>
-                    <span className="truncate">{game.category}</span>
-                </div>
+                {game.genres.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                        {game.genres.slice(0, 2).map((genre) => (
+                            <span
+                                key={genre}
+                                className="text-xs bg-zinc-700 text-zinc-300 px-1.5 py-0.5 rounded"
+                            >
+                                {genre}
+                            </span>
+                        ))}
+                    </div>
+                )}
+                {game.platforms.length > 0 && (
+                    <div className="mt-1 flex flex-wrap gap-1">
+                        {game.platforms.slice(0, 2).map((platform) => (
+                            <span
+                                key={platform}
+                                className="text-xs border border-zinc-600 text-zinc-400 px-1.5 py-0.5 rounded"
+                            >
+                                {platform}
+                            </span>
+                        ))}
+                    </div>
+                )}
             </div>
         </motion.div>
     );

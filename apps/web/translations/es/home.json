@@ -12,7 +12,8 @@
         "trending": "Tendencias",
         "preorder": "Reservar"
       },
-      "buyButton": "Comprar - {price}\u20ac"
+      "buyButton": "Comprar - {price}\u20ac",
+      "discoverButton": "Descubrir"
     }
   },
   "bestOffers": {

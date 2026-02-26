@@ -12,7 +12,8 @@
         "trending": "Trending",
         "preorder": "Pre-order"
       },
-      "buyButton": "Buy - \u20ac{price}"
+      "buyButton": "Buy - \u20ac{price}",
+      "discoverButton": "Discover"
     }
   },
   "bestOffers": {

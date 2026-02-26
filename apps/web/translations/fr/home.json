@@ -12,7 +12,8 @@
         "trending": "Tendances",
         "preorder": "Précommandes"
       },
-      "buyButton": "Acheter - {price}€"
+      "buyButton": "Acheter - {price}€",
+      "discoverButton": "Découvrir"
     }
   },
   "bestOffers": {

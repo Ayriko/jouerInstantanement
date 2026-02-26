@@ -87,6 +87,7 @@
       "login": "Sign in",
       "register": "Create account"
     },
+    "moreOptions": "More options",
     "forgotPasswordCta": "Forgot password?",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",

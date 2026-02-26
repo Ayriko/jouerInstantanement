@@ -92,6 +92,7 @@
     "noAccount": "Pas encore de compte ?",
     "hasAccount": "Déjà un compte ?",
     "orContinueWith": "ou continuer avec",
+    "moreOptions": "Plus d'options",
     "errors": {
       "invalidCredentials": "Email ou mot de passe incorrect",
       "emailTaken": "Un compte existe déjà avec cette adresse email",
