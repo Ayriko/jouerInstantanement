@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { getTranslations } from 'next-intl/server';
 
 import OrderConfirmation from './OrderConfirmation';
@@ -13,5 +14,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Page(): React.JSX.Element {
-    return <OrderConfirmation />;
+    return (
+        <Suspense>
+            <OrderConfirmation />
+        </Suspense>
+    );
 }

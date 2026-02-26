@@ -12,15 +12,23 @@
     "title": "Paiement",
     "orderSummary": "Votre commande",
     "paymentMethod": "Moyen de paiement",
-    "paymentPlaceholder": "Le paiement sécurisé par Stripe sera disponible prochainement.",
     "subtotal": "Sous-total",
     "discount": "Économies",
     "total": "Total",
     "pay": "Payer",
     "backToCart": "Retour au panier",
-    "securePayment": "Paiement sécurisé par Stripe"
+    "securePayment": "Paiement sécurisé par Stripe",
+    "loadingPayment": "Initialisation du paiement…",
+    "processing": "Traitement en cours…",
+    "paymentError": "Une erreur est survenue, veuillez réessayer.",
+    "intentError": "Impossible d'initialiser le paiement. Veuillez réessayer."
   },
   "confirmation": {
+    "failed": {
+      "title": "Paiement échoué",
+      "subtitle": "Votre paiement n'a pas pu être traité. Veuillez réessayer.",
+      "retry": "Réessayer"
+    },
     "meta": {
       "title": "Confirmation de commande",
       "description": "Votre commande sur Jouer Instantanément a été confirmée."

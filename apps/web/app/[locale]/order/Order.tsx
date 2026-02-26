@@ -1,5 +1,6 @@
 'use client';
 
+import { Elements } from '@stripe/react-stripe-js';
 import {
     ArrowLeft,
     ArrowRight,
@@ -10,13 +11,47 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
 
+import { StripePaymentForm } from '@/components/order/StripePaymentForm';
 import { useCart } from '@/context/CartContext';
 import { Link } from '@/i18n/navigation';
+import { authClient } from '@/lib/auth-client';
+import { stripePromise } from '@/lib/stripe';
 
 export default function Order() {
     const t = useTranslations('order');
     const { discount, items, subtotal, total } = useCart();
+
+    const { data: session } = authClient.useSession();
+
+    const [clientSecret, setClientSecret] = useState<string | null>(null);
+    const [intentError, setIntentError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (items.length === 0) return;
+        if (!session) return;
+
+        fetch('/api/payments/create-intent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${session.session.token}`,
+            },
+            body: JSON.stringify({
+                items: items.map((item) => ({
+                    gameId: item.id,
+                    quantity: 1,
+                })),
+            }),
+        })
+            .then(async (res) => {
+                if (!res.ok) throw new Error(await res.text());
+                return res.json() as Promise<{ clientSecret: string }>;
+            })
+            .then((data) => setClientSecret(data.clientSecret))
+            .catch(() => setIntentError(t('checkout.intentError')));
+    }, [session]);
 
     if (items.length === 0) {
         return (
@@ -72,7 +107,7 @@ export default function Order() {
                 </motion.div>
 
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-                    {/* Left: Payment method */}
+                    {/* Left: Payment form */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -85,13 +120,82 @@ export default function Order() {
                                 {t('checkout.paymentMethod')}
                             </h2>
 
-                            {/* Stripe placeholder */}
-                            <div className="flex flex-col items-center rounded-xl border border-dashed border-zinc-700 bg-zinc-800/50 py-16">
-                                <CreditCard className="mb-4 h-12 w-12 text-zinc-600" />
-                                <p className="text-sm text-zinc-400">
-                                    {t('checkout.paymentPlaceholder')}
+                            {intentError ? (
+                                <p className="text-sm text-red-400">
+                                    {intentError}
                                 </p>
-                            </div>
+                            ) : !clientSecret ? (
+                                <div className="flex flex-col items-center rounded-xl border border-zinc-800 bg-zinc-800/50 py-12">
+                                    <div className="h-6 w-6 animate-spin rounded-full border-2 border-zinc-600 border-t-brand" />
+                                    <p className="mt-3 text-sm text-zinc-400">
+                                        {t('checkout.loadingPayment')}
+                                    </p>
+                                </div>
+                            ) : (
+                                <Elements
+                                    stripe={stripePromise}
+                                    options={{
+                                        clientSecret,
+                                        fonts: [
+                                            {
+                                                cssSrc: `${window.location.origin}/stripe-fonts.css`,
+                                            },
+                                        ],
+                                        appearance: {
+                                            theme: 'night',
+                                            variables: {
+                                                colorPrimary: '#ff5400',
+                                                colorBackground: '#18181b',
+                                                colorSurface: '#27272a',
+                                                colorText: '#f4f4f5',
+                                                colorTextSecondary: '#a1a1aa',
+                                                colorTextPlaceholder: '#71717a',
+                                                colorIconTab: '#a1a1aa',
+                                                colorIconTabSelected: '#ff5400',
+                                                borderRadius: '8px',
+                                                fontFamily:
+                                                    '"Geist", system-ui, sans-serif',
+                                                fontSizeBase: '14px',
+                                            },
+                                            rules: {
+                                                '.Input': {
+                                                    backgroundColor: '#27272a',
+                                                    border: '1px solid #3f3f46',
+                                                    color: '#f4f4f5',
+                                                },
+                                                '.Input:focus': {
+                                                    border: '1px solid #ff5400',
+                                                    boxShadow:
+                                                        '0 0 0 1px #ff5400',
+                                                },
+                                                '.Label': {
+                                                    color: '#a1a1aa',
+                                                    fontWeight: '500',
+                                                },
+                                                '.Tab': {
+                                                    backgroundColor: '#27272a',
+                                                    border: '1px solid #3f3f46',
+                                                },
+                                                '.Tab:hover': {
+                                                    backgroundColor: '#3f3f46',
+                                                },
+                                                '.Tab--selected': {
+                                                    backgroundColor: '#27272a',
+                                                    border: '1px solid #ff5400',
+                                                },
+                                                '.TabIcon--selected': {
+                                                    fill: '#ff5400',
+                                                },
+                                                '.TabLabel--selected': {
+                                                    color: '#ff5400',
+                                                },
+                                            },
+                                        },
+                                    }}
+                                >
+                                    <StripePaymentForm total={total} />
+                                </Elements>
+                            )}
 
                             <div className="mt-4 flex items-center justify-center gap-2 text-xs text-zinc-500">
                                 <Shield className="h-3.5 w-3.5" />
@@ -171,17 +275,6 @@ export default function Order() {
                                 {total.toFixed(2).replace('.', ',')}€
                             </span>
                         </div>
-
-                        {/* Pay button (disabled for now) */}
-                        <button
-                            type="button"
-                            disabled
-                            className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-brand py-3 text-sm font-semibold text-white opacity-50 cursor-not-allowed"
-                        >
-                            <Lock className="h-4 w-4" />
-                            {t('checkout.pay')} —{' '}
-                            {total.toFixed(2).replace('.', ',')}€
-                        </button>
                     </motion.div>
                 </div>
             </div>

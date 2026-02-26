@@ -12,15 +12,23 @@
     "title": "Pago",
     "orderSummary": "Tu pedido",
     "paymentMethod": "Método de pago",
-    "paymentPlaceholder": "El pago seguro con Stripe estará disponible próximamente.",
     "subtotal": "Subtotal",
     "discount": "Ahorros",
     "total": "Total",
     "pay": "Pagar",
     "backToCart": "Volver al carrito",
-    "securePayment": "Pago seguro con Stripe"
+    "securePayment": "Pago seguro con Stripe",
+    "loadingPayment": "Inicializando el pago…",
+    "processing": "Procesando…",
+    "paymentError": "Se produjo un error, por favor inténtalo de nuevo.",
+    "intentError": "No se pudo inicializar el pago. Por favor inténtalo de nuevo."
   },
   "confirmation": {
+    "failed": {
+      "title": "Pago fallido",
+      "subtitle": "No se pudo procesar tu pago. Por favor inténtalo de nuevo.",
+      "retry": "Intentar de nuevo"
+    },
     "meta": {
       "title": "Confirmación de pedido",
       "description": "Tu pedido en Jouer Instantanément ha sido confirmado."

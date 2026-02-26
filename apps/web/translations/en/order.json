@@ -12,15 +12,23 @@
     "title": "Checkout",
     "orderSummary": "Your order",
     "paymentMethod": "Payment method",
-    "paymentPlaceholder": "Secure payment via Stripe will be available soon.",
     "subtotal": "Subtotal",
     "discount": "Savings",
     "total": "Total",
     "pay": "Pay",
     "backToCart": "Back to cart",
-    "securePayment": "Secure payment via Stripe"
+    "securePayment": "Secure payment via Stripe",
+    "loadingPayment": "Initializing payment…",
+    "processing": "Processing…",
+    "paymentError": "An error occurred, please try again.",
+    "intentError": "Could not initialize payment. Please try again."
   },
   "confirmation": {
+    "failed": {
+      "title": "Payment failed",
+      "subtitle": "Your payment could not be processed. Please try again.",
+      "retry": "Try again"
+    },
     "meta": {
       "title": "Order confirmation",
       "description": "Your order on Jouer Instantanément has been confirmed."
