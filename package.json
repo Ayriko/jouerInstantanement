@@ -9,7 +9,7 @@
     "prepare:deps": "docker compose -f docker-compose.deps.yml up -d",
     "dev": "pnpm run prepare:deps && turbo run dev",
     "dev:auth": "pnpm run prepare:deps && turbo run dev --filter api-gateway --filter \"@repo/shared-types\" --filter auth",
-    "dev:no-web": "pnpm run prepare:deps && turbo run dev --filter api-gateway --filter auth --filter games --filter \"@repo/shared-types\" --filter \"@repo/prisma\"",
+    "dev:no-web": "pnpm run prepare:deps && turbo run dev --filter api-gateway --filter auth --filter games --filter wishlists --filter \"@repo/shared-types\" --filter \"@repo/prisma\"",
     "build": "turbo run build",
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e",

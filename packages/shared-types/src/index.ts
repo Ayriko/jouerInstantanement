@@ -17,3 +17,6 @@ export { FilterGamesDto } from './dto/games/filter-games.dto';
 export * from './dto/payments/create-payment-intent.dto';
 export * from './dto/payments/webhook-payload.dto';
 export * from './dto/payments/order-response.dto';
+
+//wishlist
+export * from './interfaces/wishlistStatus';
