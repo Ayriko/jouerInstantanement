@@ -17,6 +17,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 import { useRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 
@@ -29,8 +30,8 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
     const locale = useLocale();
     const router = useRouter();
     const { addItem, isInCart, removeItem } = useCart();
+    const { isWishlisted, toggleWishlist } = useWishlist();
     const { data: session } = authClient.useSession();
-    const [isWishlisted, setIsWishlisted] = useState(false);
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
     const closeLightbox = useCallback(() => {
@@ -212,19 +213,19 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                                             router.push('/sign-in');
                                             return;
                                         }
-                                        setIsWishlisted(!isWishlisted);
+                                        void toggleWishlist(game.id);
                                     }}
                                     className={`px-4 py-3 rounded-xl font-medium transition-all cursor-pointer flex items-center justify-center gap-2 border ${
-                                        isWishlisted
+                                        isWishlisted(game.id)
                                             ? 'bg-red-500/10 border-red-500/50 text-red-400 hover:bg-red-500/20'
                                             : 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700'
                                     }`}
                                 >
                                     <Heart
-                                        className={`w-5 h-5 ${isWishlisted ? 'fill-red-400' : ''}`}
+                                        className={`w-5 h-5 ${isWishlisted(game.id) ? 'fill-red-400' : ''}`}
                                     />
                                     <span>
-                                        {isWishlisted
+                                        {isWishlisted(game.id)
                                             ? t('actions.wishlist.remove')
                                             : t('actions.wishlist.add')}
                                     </span>

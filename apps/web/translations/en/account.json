@@ -40,9 +40,17 @@
     }
   },
   "wishlist": {
-    "meta":{
+    "meta": {
       "title": "My favorites",
       "description": "Wishlist and favorites: Cheap video games on Jouer Instantanément"
+    },
+    "title": "My wishlist",
+    "count": "{count} game in your wishlist",
+    "remove": "Remove from wishlist",
+    "empty": {
+      "title": "Your wishlist is empty",
+      "description": "Browse our catalog and add games to your favorites",
+      "cta": "Browse games"
     }
   },
 

@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "prepare:deps": "docker compose -f docker-compose.deps.yml up -d",
-    "dev": "pnpm run prepare:deps && turbo run dev",
+    "dev": "pnpm run prepare:deps && turbo run dev --concurrency=20",
     "dev:auth": "pnpm run prepare:deps && turbo run dev --filter api-gateway --filter \"@repo/shared-types\" --filter auth",
     "dev:no-web": "pnpm run prepare:deps && turbo run dev --filter api-gateway --filter auth --filter games --filter wishlists --filter \"@repo/shared-types\" --filter \"@repo/prisma\"",
     "build": "turbo run build",

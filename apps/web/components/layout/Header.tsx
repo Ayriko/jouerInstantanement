@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 
 import { SearchDropdown } from '@/components/layout/SearchDropdown';
 import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 import { Link, useRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 import logo from '@/public/logo/logo-white.svg';
@@ -16,6 +17,7 @@ export const Header: React.FC = () => {
     const t = useTranslations('header');
     const router = useRouter();
     const { isHydrated, itemCount } = useCart();
+    const { games: wishlistGames } = useWishlist();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { data: session, isPending: sessionIsLoading } =
         authClient.useSession();
@@ -86,6 +88,11 @@ export const Header: React.FC = () => {
                                         {t('wishlist')}
                                     </span>
                                     <Heart className="h-6 w-6" />
+                                    {wishlistGames.length > 0 && (
+                                        <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                                            {wishlistGames.length}
+                                        </span>
+                                    )}
                                 </Link>
 
                                 <Link

@@ -40,9 +40,17 @@
     }
   },
   "wishlist": {
-    "meta":{
+    "meta": {
       "title": "Mes favoris",
       "description": "Liste de souhaits et favoris : Jeux vidéos pas cher sur Jouer Instantanément"
+    },
+    "title": "Mes favoris",
+    "count": "{count} jeu dans vos favoris",
+    "remove": "Retirer des favoris",
+    "empty": {
+      "title": "Votre liste de souhaits est vide",
+      "description": "Explorez notre catalogue et ajoutez des jeux à vos favoris",
+      "cta": "Parcourir les jeux"
     }
   },
 

@@ -6,6 +6,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { SkipLinks } from '@/components/layout/SkipLinks';
 import { CartProvider } from '@/context/CartContext';
+import { WishlistProvider } from '@/context/WishlistContext';
 import { routing } from '@/i18n/routing';
 
 export default async function LocaleLayout({
@@ -26,12 +27,14 @@ export default async function LocaleLayout({
     return (
         <NextIntlClientProvider messages={messages}>
             <CartProvider>
-                <SkipLinks />
-                <Header />
-                <main id="main-content" className="min-h-screen">
-                    {children}
-                </main>
-                <Footer />
+                <WishlistProvider>
+                    <SkipLinks />
+                    <Header />
+                    <main id="main-content" className="min-h-screen">
+                        {children}
+                    </main>
+                    <Footer />
+                </WishlistProvider>
             </CartProvider>
         </NextIntlClientProvider>
     );

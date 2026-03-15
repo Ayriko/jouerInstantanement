@@ -40,9 +40,17 @@
     }
   },
   "wishlist": {
-    "meta":{
+    "meta": {
       "title": "Mis favoritos",
       "description": "Lista de deseos y favoritos: Juegos de video baratos en Jouer Instantanément"
+    },
+    "title": "Mis favoritos",
+    "count": "{count} juego en tus favoritos",
+    "remove": "Quitar de favoritos",
+    "empty": {
+      "title": "Tu lista de deseos está vacía",
+      "description": "Explora nuestro catálogo y añade juegos a tus favoritos",
+      "cta": "Explorar juegos"
     }
   },
 
