@@ -15,7 +15,7 @@ interface GameCardProps {
 
 export const GameCard: React.FC<GameCardProps> = ({ game }) => {
     const { addItem, isInCart, removeItem } = useCart();
-    const t = useTranslations('games.detail.actions.cart');
+    const t = useTranslations('games.detail');
 
     const discount =
         game.initialPrice != null &&
@@ -25,6 +25,7 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
             : 0;
 
     const inCart = isInCart(game.id);
+    const outOfStock = game.availableKeyCount === 0;
 
     return (
         <motion.article
@@ -40,8 +41,15 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
                 </div>
             )}
 
+            {/* Out of stock Badge */}
+            {outOfStock && (
+                <div className="absolute top-2 right-2 z-10 bg-zinc-900/90 text-zinc-400 font-semibold px-2 py-1 rounded text-xs shadow-md">
+                    {t('stock.outOfStock')}
+                </div>
+            )}
+
             {/* Discount Badge */}
-            {discount > 0 && (
+            {!outOfStock && discount > 0 && (
                 <div
                     aria-hidden="true"
                     className="absolute top-2 right-2 z-10 bg-brand text-white font-black px-2 py-1 rounded text-sm shadow-md"
@@ -65,21 +73,32 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
-                            inCart ? removeItem(game.id) : addItem(game);
+                            if (!outOfStock) {
+                                inCart ? removeItem(game.id) : addItem(game);
+                            }
                         }}
+                        disabled={outOfStock}
                         aria-label={
-                            inCart
-                                ? `${t('remove')} – ${game.name}`
-                                : `${t('add')} – ${game.name}`
+                            outOfStock
+                                ? `${t('stock.outOfStock')} – ${game.name}`
+                                : inCart
+                                  ? `${t('actions.cart.remove')} – ${game.name}`
+                                  : `${t('actions.cart.add')} – ${game.name}`
                         }
-                        className={`relative z-20 w-full flex items-center justify-center gap-2 py-2 rounded-lg font-bold text-sm text-white transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-[-2px] ${
-                            inCart
-                                ? 'bg-zinc-700 hover:bg-zinc-600'
-                                : 'bg-brand hover:bg-brand-active shadow-lg shadow-orange-500/30'
+                        className={`relative z-20 w-full flex items-center justify-center gap-2 py-2 rounded-lg font-bold text-sm text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-[-2px] ${
+                            outOfStock
+                                ? 'bg-zinc-700/50 text-zinc-500 cursor-not-allowed'
+                                : inCart
+                                  ? 'bg-zinc-700 hover:bg-zinc-600 cursor-pointer'
+                                  : 'bg-brand hover:bg-brand-active shadow-lg shadow-orange-500/30 cursor-pointer'
                         }`}
                     >
                         <ShoppingCart aria-hidden="true" className="w-4 h-4" />
-                        {inCart ? t('remove') : t('add')}
+                        {outOfStock
+                            ? t('stock.outOfStock')
+                            : inCart
+                              ? t('actions.cart.remove')
+                              : t('actions.cart.add')}
                     </button>
                 </div>
             </div>

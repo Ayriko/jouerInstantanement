@@ -23,6 +23,7 @@ interface OrderItem {
     gameName: string;
     quantity: number;
     unitPrice: number;
+    assignedKey: string | null;
 }
 
 interface Order {
@@ -171,7 +172,7 @@ export default function OrderConfirmation() {
                                 <span className="text-xs text-zinc-500">
                                     {t('status')}
                                 </span>
-                                <p className="inline-flex items-center gap-1.5 text-sm font-semibold text-green-400">
+                                <p className="flex items-center gap-1.5 text-sm font-semibold text-green-400">
                                     <span className="h-2 w-2 rounded-full bg-green-400" />
                                     {t('statusValue')}
                                 </p>
@@ -215,17 +216,30 @@ export default function OrderConfirmation() {
                             {order.items.map((item) => (
                                 <div
                                     key={item.id}
-                                    className="flex items-center justify-between gap-4 py-4 first:pt-0 last:pb-0"
+                                    className="py-4 first:pt-0 last:pb-0"
                                 >
-                                    <p className="font-medium text-white">
-                                        {item.gameName}
-                                    </p>
-                                    <span className="font-bold text-white">
-                                        {item.unitPrice
-                                            .toFixed(2)
-                                            .replace('.', ',')}
-                                        €
-                                    </span>
+                                    <div className="flex items-center justify-between gap-4">
+                                        <p className="font-medium text-white">
+                                            {item.gameName}
+                                        </p>
+                                        <span className="font-bold text-white">
+                                            {item.unitPrice
+                                                .toFixed(2)
+                                                .replace('.', ',')}
+                                            €
+                                        </span>
+                                    </div>
+                                    {item.assignedKey && (
+                                        <div className="mt-2 flex items-center gap-2">
+                                            <Key className="h-3.5 w-3.5 flex-shrink-0 text-brand" />
+                                            <span className="text-xs text-zinc-500">
+                                                {t('items.key')} :
+                                            </span>
+                                            <code className="rounded bg-zinc-800 px-2 py-0.5 font-mono text-xs font-semibold tracking-wider text-green-400 select-all">
+                                                {item.assignedKey}
+                                            </code>
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>

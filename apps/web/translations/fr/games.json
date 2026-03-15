@@ -43,6 +43,11 @@
       "category": "Catégorie",
       "platform": "Plateforme"
     },
+    "stock": {
+      "inStock": "En stock",
+      "outOfStock": "Rupture de stock",
+      "lowStock": "Plus que {count} exemplaire{count, plural, one {} other {s}} !"
+    },
     "backToList": "Retour",
     "tags": "Tags",
     "screenshots": "Captures d'écran",

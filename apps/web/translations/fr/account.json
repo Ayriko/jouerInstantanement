@@ -17,6 +17,7 @@
     },
     "noSession": "Aucune session active.",
     "actions": {
+      "orders": "Mes commandes",
       "changePassword": "Changer le mot de passe",
       "signOut": "Se déconnecter"
     },
@@ -37,6 +38,38 @@
         "confirm": "Confirmer",
         "close": "Fermer"
       }
+    }
+  },
+  "orders": {
+    "meta": {
+      "title": "Mes commandes",
+      "description": "Historique de mes commandes sur Jouer Instantanément."
+    },
+    "title": "Mes commandes",
+    "count": "{count, plural, one {# commande} other {# commandes}}",
+    "empty": {
+      "title": "Aucune commande",
+      "description": "Vous n'avez pas encore passé de commande.",
+      "cta": "Découvrir les jeux"
+    },
+    "status": {
+      "PAID": "Payée",
+      "PENDING": "En attente",
+      "FAILED": "Échouée",
+      "REFUNDED": "Remboursée"
+    },
+    "detail": {
+      "back": "Mes commandes",
+      "orderNumber": "Commande",
+      "date": "Date",
+      "status": "Statut",
+      "total": "Total payé",
+      "items": "Articles",
+      "key": "Clé de jeu",
+      "keyPending": "Clé en attente d'attribution",
+      "copy": "Copier la clé",
+      "copied": "Copié !",
+      "notFound": "Commande introuvable."
     }
   },
   "wishlist": {

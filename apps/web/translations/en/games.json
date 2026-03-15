@@ -43,6 +43,11 @@
       "category": "Category",
       "platform": "Platform"
     },
+    "stock": {
+      "inStock": "In stock",
+      "outOfStock": "Out of stock",
+      "lowStock": "Only {count} left{count, plural, one {!} other { in stock!}}"
+    },
     "backToList": "Back",
     "tags": "Tags",
     "screenshots": "Screenshots",

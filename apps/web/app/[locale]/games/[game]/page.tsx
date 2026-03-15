@@ -9,7 +9,7 @@ import GameDetail from './GameDetail';
 async function fetchGame(id: string): Promise<Game | null> {
     try {
         const res = await fetch(`${process.env.GATEWAY_URL}/api/games/${id}`, {
-            next: { revalidate: 60 },
+            cache: 'no-store',
         });
         if (res.status === 404) return null;
         if (!res.ok) return null;

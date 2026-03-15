@@ -110,9 +110,10 @@ function WishlistItem({
     readonly removeLabel: string;
 }) {
     const { addItem, isInCart, removeItem } = useCart();
-    const t = useTranslations('games.detail.actions.cart');
+    const t = useTranslations('games.detail');
 
     const inCart = isInCart(game.id);
+    const outOfStock = game.availableKeyCount === 0;
 
     const discount =
         game.initialPrice > game.total
@@ -171,17 +172,26 @@ function WishlistItem({
                     </button>
                     <button
                         type="button"
-                        onClick={() =>
-                            inCart ? removeItem(game.id) : addItem(game)
-                        }
-                        className={`inline-flex items-center gap-1 text-xs font-medium transition-colors cursor-pointer ${
-                            inCart
-                                ? 'text-zinc-400 hover:text-zinc-300'
-                                : 'text-brand hover:text-brand-active'
+                        disabled={outOfStock}
+                        onClick={() => {
+                            if (!outOfStock) {
+                                inCart ? removeItem(game.id) : addItem(game);
+                            }
+                        }}
+                        className={`inline-flex items-center gap-1 text-xs font-medium transition-colors ${
+                            outOfStock
+                                ? 'text-zinc-600 cursor-not-allowed'
+                                : inCart
+                                  ? 'text-zinc-400 hover:text-zinc-300 cursor-pointer'
+                                  : 'text-brand hover:text-brand-active cursor-pointer'
                         }`}
                     >
                         <ShoppingCart className="h-3 w-3" />
-                        {inCart ? t('remove') : t('add')}
+                        {outOfStock
+                            ? t('stock.outOfStock')
+                            : inCart
+                              ? t('actions.cart.remove')
+                              : t('actions.cart.add')}
                     </button>
                 </div>
             </div>

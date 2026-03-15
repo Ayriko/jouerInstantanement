@@ -21,7 +21,8 @@
     "loadingPayment": "Initialisation du paiement…",
     "processing": "Traitement en cours…",
     "paymentError": "Une erreur est survenue, veuillez réessayer.",
-    "intentError": "Impossible d'initialiser le paiement. Veuillez réessayer."
+    "intentError": "Impossible d'initialiser le paiement. Veuillez réessayer.",
+    "outOfStockError": "Le jeu \"{gameName}\" n'est plus disponible. Veuillez le retirer de votre panier avant de continuer."
   },
   "confirmation": {
     "failed": {
@@ -40,7 +41,8 @@
     "status": "Statut",
     "statusValue": "Confirmée",
     "items": {
-      "title": "Articles commandés"
+      "title": "Articles commandés",
+      "key": "Clé de jeu"
     },
     "payment": {
       "subtotal": "Sous-total",

@@ -23,6 +23,21 @@ import { WishlistController } from './wishlist.controller';
                     },
                 }),
             },
+            {
+                name: 'KEYS_SERVICE',
+                imports: [ConfigModule],
+                inject: [ConfigService],
+                useFactory: (configService: ConfigService) => ({
+                    transport: Transport.RMQ,
+                    options: {
+                        urls: [
+                            configService.getOrThrow<string>('RABBITMQ_URL'),
+                        ],
+                        queue: 'keys_queue',
+                        queueOptions: { durable: true },
+                    },
+                }),
+            },
         ]),
     ],
     controllers: [WishlistController],

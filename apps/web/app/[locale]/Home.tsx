@@ -7,7 +7,7 @@ import { HeroBanner } from '@/components/home/HeroBanner';
 async function fetchGames(): Promise<Game[]> {
     const res = await fetch(
         `${process.env.GATEWAY_URL}/api/games?page=1&take=9`,
-        { next: { revalidate: 60 } },
+        { cache: 'no-store' },
     );
     if (!res.ok) return [];
     const data = (await res.json()) as Pagination<Game>;

@@ -46,11 +46,29 @@ export default function Order() {
             }),
         })
             .then(async (res) => {
-                if (!res.ok) throw new Error(await res.text());
+                if (!res.ok) {
+                    const body = (await res.json().catch(() => null)) as {
+                        statusCode?: number;
+                        message?: string;
+                    } | null;
+                    if (res.status === 409 && body?.message) {
+                        throw new Error(`409:${body.message}`);
+                    }
+                    throw new Error('intent_error');
+                }
                 return res.json() as Promise<{ clientSecret: string }>;
             })
             .then((data) => setClientSecret(data.clientSecret))
-            .catch(() => setIntentError(t('checkout.intentError')));
+            .catch((err: Error) => {
+                if (err.message.startsWith('409:')) {
+                    const raw = err.message.slice(4);
+                    const match = /Not enough keys for "(.+?)"/.exec(raw);
+                    const gameName = match?.[1] ?? raw;
+                    setIntentError(t('checkout.outOfStockError', { gameName }));
+                } else {
+                    setIntentError(t('checkout.intentError'));
+                }
+            });
     }, [session]);
 
     if (items.length === 0) {
@@ -121,9 +139,18 @@ export default function Order() {
                             </h2>
 
                             {intentError ? (
-                                <p className="text-sm text-red-400">
-                                    {intentError}
-                                </p>
+                                <div className="flex flex-col gap-3">
+                                    <p className="text-sm text-red-400">
+                                        {intentError}
+                                    </p>
+                                    <Link
+                                        href="/cart"
+                                        className="inline-flex w-fit items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-700"
+                                    >
+                                        <ArrowLeft className="h-4 w-4" />
+                                        {t('checkout.backToCart')}
+                                    </Link>
+                                </div>
                             ) : !clientSecret ? (
                                 <div className="flex flex-col items-center rounded-xl border border-zinc-800 bg-zinc-800/50 py-12">
                                     <div className="h-6 w-6 animate-spin rounded-full border-2 border-zinc-600 border-t-brand" />

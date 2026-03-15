@@ -1,12 +1,19 @@
 'use client';
 
-import { Eye, EyeOff, X } from 'lucide-react';
+import {
+    ChevronRight,
+    Eye,
+    EyeOff,
+    PackageOpen,
+    Receipt,
+    X,
+} from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 
 import type { Account } from 'better-auth';
 
-import { useRouter } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
 
 const PROVIDER_LABELS: Record<string, string> = {
@@ -16,14 +23,41 @@ const PROVIDER_LABELS: Record<string, string> = {
     twitch: 'Twitch',
 };
 
+const STATUS_STYLES: Record<string, string> = {
+    PAID: 'bg-green-500/10 text-green-400 border-green-500/20',
+    PENDING: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+    FAILED: 'bg-red-500/10 text-red-400 border-red-500/20',
+    REFUNDED: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+};
+
+interface OrderItem {
+    id: string;
+    gameName: string;
+    quantity: number;
+    unitPrice: number;
+    assignedKey: string | null;
+}
+
+interface Order {
+    id: string;
+    stripePaymentId: string;
+    totalAmount: number;
+    status: string;
+    createdAt: string;
+    items: OrderItem[];
+}
+
 export default function MyAccount() {
     const router = useRouter();
     const locale = useLocale();
     const t = useTranslations('account.myAccount');
+    const tOrders = useTranslations('account.orders');
     const { data: session, isPending } = authClient.useSession();
     const [socialProviders, setSocialProviders] = useState<string[]>([]);
     const [hasCredential, setHasCredential] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [orders, setOrders] = useState<Order[]>([]);
+    const [ordersLoading, setOrdersLoading] = useState(true);
 
     useEffect(() => {
         if (!session?.user) return;
@@ -40,6 +74,25 @@ export default function MyAccount() {
         });
     }, [session?.user]);
 
+    useEffect(() => {
+        if (!session) return;
+        fetch('/api/payments/orders', {
+            headers: { Authorization: `Bearer ${session.session.token}` },
+        })
+            .then((r) => r.json() as Promise<Order[]>)
+            .then((data) =>
+                setOrders(
+                    data.sort(
+                        (a, b) =>
+                            new Date(b.createdAt).getTime() -
+                            new Date(a.createdAt).getTime(),
+                    ),
+                ),
+            )
+            .catch(() => setOrders([]))
+            .finally(() => setOrdersLoading(false));
+    }, [session]);
+
     const handleLogout = async () => {
         await authClient.signOut();
         router.push('/sign-in');
@@ -53,95 +106,226 @@ export default function MyAccount() {
         );
     }
 
+    const recentOrders = orders.slice(0, 3);
+
     return (
         <>
-            <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-4 py-12">
-                <div className="w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-900 p-6 space-y-6">
-                    <h1 className="text-2xl font-bold text-white">
-                        {t('title')}
-                    </h1>
+            <div className="min-h-[calc(100vh-80px)] px-4 py-12">
+                <div className="max-w-4xl mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                        {/* Left — User profile */}
+                        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 space-y-6">
+                            <h1 className="text-2xl font-bold text-white">
+                                {t('title')}
+                            </h1>
 
-                    {session?.user ? (
-                        <div className="space-y-4">
-                            {session.user.image && (
-                                <img
-                                    src={session.user.image}
-                                    alt=""
-                                    className="h-16 w-16 rounded-full object-cover"
-                                />
+                            {session?.user ? (
+                                <div className="space-y-4">
+                                    {session.user.image && (
+                                        <img
+                                            src={session.user.image}
+                                            alt=""
+                                            className="h-16 w-16 rounded-full object-cover"
+                                        />
+                                    )}
+
+                                    <div className="space-y-3">
+                                        <Field
+                                            label={t('fields.name')}
+                                            value={session.user.name}
+                                        />
+                                        <Field
+                                            label={t('fields.email')}
+                                            value={session.user.email}
+                                        />
+                                        <Field
+                                            label={t('fields.emailVerified')}
+                                            value={
+                                                session.user.emailVerified
+                                                    ? t('fields.yes')
+                                                    : t('fields.no')
+                                            }
+                                        />
+                                        <Field
+                                            label={t('fields.createdAt')}
+                                            value={new Date(
+                                                session.user.createdAt,
+                                            ).toLocaleDateString(locale, {
+                                                day: 'numeric',
+                                                month: 'long',
+                                                year: 'numeric',
+                                            })}
+                                        />
+                                        {socialProviders.length > 0 && (
+                                            <div className="flex flex-col gap-1.5">
+                                                <span className="text-xs text-zinc-500 uppercase tracking-wide">
+                                                    {t('fields.connectedVia')}
+                                                </span>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {socialProviders.map(
+                                                        (provider) => (
+                                                            <span
+                                                                key={provider}
+                                                                className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-300"
+                                                            >
+                                                                {PROVIDER_LABELS[
+                                                                    provider
+                                                                ] ?? provider}
+                                                            </span>
+                                                        ),
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            ) : (
+                                <p className="text-zinc-400">
+                                    {t('noSession')}
+                                </p>
                             )}
 
-                            <div className="space-y-3">
-                                <Field
-                                    label={t('fields.name')}
-                                    value={session.user.name}
-                                />
-                                <Field
-                                    label={t('fields.email')}
-                                    value={session.user.email}
-                                />
-                                <Field
-                                    label={t('fields.emailVerified')}
-                                    value={
-                                        session.user.emailVerified
-                                            ? t('fields.yes')
-                                            : t('fields.no')
-                                    }
-                                />
-                                <Field
-                                    label={t('fields.createdAt')}
-                                    value={new Date(
-                                        session.user.createdAt,
-                                    ).toLocaleDateString(locale, {
-                                        day: 'numeric',
-                                        month: 'long',
-                                        year: 'numeric',
-                                    })}
-                                />
-                                {socialProviders.length > 0 && (
-                                    <div className="flex flex-col gap-1.5">
-                                        <span className="text-xs text-zinc-500 uppercase tracking-wide">
-                                            {t('fields.connectedVia')}
-                                        </span>
-                                        <div className="flex flex-wrap gap-2">
-                                            {socialProviders.map((provider) => (
-                                                <span
-                                                    key={provider}
-                                                    className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-300"
-                                                >
-                                                    {PROVIDER_LABELS[
-                                                        provider
-                                                    ] ?? provider}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
+                            <div className="space-y-3 pt-2">
+                                {hasCredential && (
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setShowPasswordModal(true);
+                                        }}
+                                        className="w-full rounded-lg border border-zinc-700 px-6 py-2.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800 cursor-pointer"
+                                    >
+                                        {t('actions.changePassword')}
+                                    </button>
                                 )}
+
+                                <button
+                                    type="button"
+                                    onClick={handleLogout}
+                                    className="w-full rounded-lg bg-red-600 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-700 cursor-pointer"
+                                >
+                                    {t('actions.signOut')}
+                                </button>
                             </div>
                         </div>
-                    ) : (
-                        <p className="text-zinc-400">{t('noSession')}</p>
-                    )}
 
-                    {hasCredential && (
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setShowPasswordModal(true);
-                            }}
-                            className="w-full rounded-lg border border-zinc-700 px-6 py-2.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800 cursor-pointer"
-                        >
-                            {t('actions.changePassword')}
-                        </button>
-                    )}
+                        {/* Right — Recent orders */}
+                        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 space-y-4">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                                    <Receipt className="h-4 w-4 text-brand" />
+                                    {t('actions.orders')}
+                                </h2>
+                                {orders.length > 0 && (
+                                    <Link
+                                        href="/my-account/orders"
+                                        className="text-xs text-brand hover:text-brand-active transition-colors"
+                                    >
+                                        {tOrders('count', {
+                                            count: orders.length,
+                                        })}
+                                    </Link>
+                                )}
+                            </div>
 
-                    <button
-                        type="button"
-                        onClick={handleLogout}
-                        className="w-full rounded-lg bg-red-600 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-700 cursor-pointer"
-                    >
-                        {t('actions.signOut')}
-                    </button>
+                            {ordersLoading ? (
+                                <div className="space-y-3">
+                                    {Array.from({ length: 3 }).map((_, i) => (
+                                        <div
+                                            key={i}
+                                            className="h-20 bg-zinc-800 rounded-xl animate-pulse"
+                                        />
+                                    ))}
+                                </div>
+                            ) : recentOrders.length === 0 ? (
+                                <div className="flex flex-col items-center gap-4 py-10 text-center">
+                                    <div className="w-14 h-14 rounded-full bg-zinc-800 flex items-center justify-center">
+                                        <PackageOpen className="w-7 h-7 text-zinc-600" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-medium text-white mb-1">
+                                            {tOrders('empty.title')}
+                                        </p>
+                                        <p className="text-xs text-zinc-500">
+                                            {tOrders('empty.description')}
+                                        </p>
+                                    </div>
+                                    <Link
+                                        href="/games"
+                                        className="inline-flex items-center gap-2 bg-brand hover:bg-brand-active text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
+                                    >
+                                        {tOrders('empty.cta')}
+                                    </Link>
+                                </div>
+                            ) : (
+                                <div className="space-y-2">
+                                    {recentOrders.map((order) => (
+                                        <Link
+                                            key={order.id}
+                                            href={`/my-account/orders/${order.id}`}
+                                            className="flex items-center justify-between gap-3 rounded-xl border border-zinc-800 bg-zinc-800/40 p-3.5 hover:border-zinc-700 hover:bg-zinc-800 transition-colors group"
+                                        >
+                                            <div className="flex flex-col gap-1 min-w-0">
+                                                <div className="flex items-center gap-2 flex-wrap">
+                                                    <span className="font-mono text-xs text-zinc-500">
+                                                        #
+                                                        {order.id
+                                                            .slice(0, 8)
+                                                            .toUpperCase()}
+                                                    </span>
+                                                    <span
+                                                        className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[order.status] ?? 'bg-zinc-700 text-zinc-300'}`}
+                                                    >
+                                                        {tOrders(
+                                                            `status.${order.status}`,
+                                                        )}
+                                                    </span>
+                                                </div>
+                                                <p className="text-sm text-white font-medium truncate">
+                                                    {order.items
+                                                        .map(
+                                                            (item) =>
+                                                                item.gameName,
+                                                        )
+                                                        .join(', ')}
+                                                </p>
+                                                <p className="text-xs text-zinc-500">
+                                                    {new Date(
+                                                        order.createdAt,
+                                                    ).toLocaleDateString(
+                                                        locale,
+                                                        {
+                                                            day: 'numeric',
+                                                            month: 'long',
+                                                            year: 'numeric',
+                                                        },
+                                                    )}
+                                                </p>
+                                            </div>
+                                            <div className="flex items-center gap-2 flex-shrink-0">
+                                                <span className="text-sm font-bold text-white">
+                                                    {order.totalAmount
+                                                        .toFixed(2)
+                                                        .replace('.', ',')}
+                                                    €
+                                                </span>
+                                                <ChevronRight className="w-4 h-4 text-zinc-600 group-hover:text-zinc-400 transition-colors" />
+                                            </div>
+                                        </Link>
+                                    ))}
+
+                                    {orders.length > 3 && (
+                                        <Link
+                                            href="/my-account/orders"
+                                            className="flex items-center justify-center gap-1 w-full py-2.5 rounded-xl border border-zinc-800 text-sm text-zinc-400 hover:text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/40 transition-colors"
+                                        >
+                                            {t('actions.orders')}
+                                            <ChevronRight className="w-3.5 h-3.5" />
+                                        </Link>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
 

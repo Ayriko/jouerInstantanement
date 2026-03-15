@@ -71,6 +71,11 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
         }
     };
     const inCart = isInCart(game.id);
+    const outOfStock = game.availableKeyCount === 0;
+    const lowStock =
+        !outOfStock &&
+        game.availableKeyCount > 0 &&
+        game.availableKeyCount <= 5;
 
     const features = [
         { icon: Download, label: t('reassurance.instantDownload') },
@@ -172,7 +177,7 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                         {/* Price Block */}
                         <div className="bg-zinc-900 rounded-xl p-6 border border-zinc-800">
                             <div className="flex items-center gap-4 mb-4">
-                                {discount > 0 && (
+                                {discount > 0 && !outOfStock && (
                                     <>
                                         <span className="text-zinc-500 text-lg line-through">
                                             {game.initialPrice
@@ -185,27 +190,41 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                                         </span>
                                     </>
                                 )}
-                                <span className="text-white font-bold text-3xl">
+                                <span
+                                    className={`font-bold text-3xl ${outOfStock ? 'text-zinc-500' : 'text-white'}`}
+                                >
                                     {game.total.toFixed(2).replace('.', ',')}€
                                 </span>
+                                {outOfStock && (
+                                    <span className="ml-auto bg-zinc-800 border border-zinc-700 text-zinc-400 font-semibold px-3 py-1 rounded-lg text-sm">
+                                        {t('stock.outOfStock')}
+                                    </span>
+                                )}
                             </div>
                             <div className="flex flex-col sm:flex-row gap-3">
                                 <button
                                     onClick={() => {
-                                        inCart
-                                            ? removeItem(game.id)
-                                            : addItem(game);
+                                        if (!outOfStock) {
+                                            inCart
+                                                ? removeItem(game.id)
+                                                : addItem(game);
+                                        }
                                     }}
-                                    className={`flex-1 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] cursor-pointer flex items-center justify-center gap-2 ${
-                                        inCart
-                                            ? 'bg-zinc-700 hover:bg-zinc-600'
-                                            : 'bg-brand hover:bg-brand-active shadow-lg shadow-orange-500/20'
+                                    disabled={outOfStock}
+                                    className={`flex-1 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-2 ${
+                                        outOfStock
+                                            ? 'bg-zinc-700/50 text-zinc-500 cursor-not-allowed'
+                                            : inCart
+                                              ? 'bg-zinc-700 hover:bg-zinc-600 hover:scale-[1.02] cursor-pointer'
+                                              : 'bg-brand hover:bg-brand-active shadow-lg shadow-orange-500/20 hover:scale-[1.02] cursor-pointer'
                                     }`}
                                 >
                                     <ShoppingCart className="w-5 h-5" />
-                                    {inCart
-                                        ? t('actions.cart.remove')
-                                        : t('actions.cart.add')}
+                                    {outOfStock
+                                        ? t('stock.outOfStock')
+                                        : inCart
+                                          ? t('actions.cart.remove')
+                                          : t('actions.cart.add')}
                                 </button>
                                 <button
                                     onClick={() => {
@@ -231,6 +250,14 @@ const GameDetail: React.FC<GameDetailProps> = ({ game }) => {
                                     </span>
                                 </button>
                             </div>
+                            {lowStock && (
+                                <p className="mt-3 text-sm font-medium text-amber-400 flex items-center gap-1.5">
+                                    <span aria-hidden="true">⚡</span>
+                                    {t('stock.lowStock', {
+                                        count: game.availableKeyCount,
+                                    })}
+                                </p>
+                            )}
                         </div>
 
                         {/* Réassurance */}

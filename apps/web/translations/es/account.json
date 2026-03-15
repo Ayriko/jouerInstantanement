@@ -17,6 +17,7 @@
     },
     "noSession": "No hay sesión activa.",
     "actions": {
+      "orders": "Mis pedidos",
       "changePassword": "Cambiar contraseña",
       "signOut": "Cerrar sesión"
     },
@@ -37,6 +38,38 @@
         "confirm": "Confirmar",
         "close": "Cerrar"
       }
+    }
+  },
+  "orders": {
+    "meta": {
+      "title": "Mis pedidos",
+      "description": "Historial de mis pedidos en Jouer Instantanément."
+    },
+    "title": "Mis pedidos",
+    "count": "{count, plural, one {# pedido} other {# pedidos}}",
+    "empty": {
+      "title": "Sin pedidos",
+      "description": "Aún no has realizado ningún pedido.",
+      "cta": "Explorar juegos"
+    },
+    "status": {
+      "PAID": "Pagado",
+      "PENDING": "Pendiente",
+      "FAILED": "Fallido",
+      "REFUNDED": "Reembolsado"
+    },
+    "detail": {
+      "back": "Mis pedidos",
+      "orderNumber": "Pedido",
+      "date": "Fecha",
+      "status": "Estado",
+      "total": "Total pagado",
+      "items": "Artículos",
+      "key": "Clave de juego",
+      "keyPending": "Clave pendiente de asignación",
+      "copy": "Copiar clave",
+      "copied": "¡Copiado!",
+      "notFound": "Pedido no encontrado."
     }
   },
   "wishlist": {

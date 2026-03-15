@@ -17,6 +17,7 @@
     },
     "noSession": "No active session.",
     "actions": {
+      "orders": "My orders",
       "changePassword": "Change password",
       "signOut": "Sign out"
     },
@@ -37,6 +38,38 @@
         "confirm": "Confirm",
         "close": "Close"
       }
+    }
+  },
+  "orders": {
+    "meta": {
+      "title": "My orders",
+      "description": "My order history on Jouer Instantanément."
+    },
+    "title": "My orders",
+    "count": "{count, plural, one {# order} other {# orders}}",
+    "empty": {
+      "title": "No orders yet",
+      "description": "You haven't placed any orders yet.",
+      "cta": "Browse games"
+    },
+    "status": {
+      "PAID": "Paid",
+      "PENDING": "Pending",
+      "FAILED": "Failed",
+      "REFUNDED": "Refunded"
+    },
+    "detail": {
+      "back": "My orders",
+      "orderNumber": "Order",
+      "date": "Date",
+      "status": "Status",
+      "total": "Total paid",
+      "items": "Items",
+      "key": "Game key",
+      "keyPending": "Key pending assignment",
+      "copy": "Copy key",
+      "copied": "Copied!",
+      "notFound": "Order not found."
     }
   },
   "wishlist": {

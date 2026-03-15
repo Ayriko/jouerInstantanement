@@ -21,7 +21,8 @@
     "loadingPayment": "Initializing payment…",
     "processing": "Processing…",
     "paymentError": "An error occurred, please try again.",
-    "intentError": "Could not initialize payment. Please try again."
+    "intentError": "Could not initialize payment. Please try again.",
+    "outOfStockError": "The game \"{gameName}\" is no longer available. Please remove it from your cart before continuing."
   },
   "confirmation": {
     "failed": {
@@ -40,7 +41,8 @@
     "status": "Status",
     "statusValue": "Confirmed",
     "items": {
-      "title": "Ordered items"
+      "title": "Ordered items",
+      "key": "Game key"
     },
     "payment": {
       "subtotal": "Subtotal",
