@@ -12,11 +12,26 @@
         "trending": "Trending",
         "preorder": "Pre-order"
       },
-      "buyButton": "Buy - \u20ac{price}",
+      "buyButton": "Buy - €{price}",
       "discoverButton": "All games"
     }
   },
   "bestOffers": {
-    "title": "Best deals right now"
+    "title": "Best Deals"
+  },
+  "seeAll": "See all →",
+  "sections": {
+    "action": {
+      "title": "Action & Adventure"
+    },
+    "rpg": {
+      "title": "Role-Playing Games"
+    },
+    "sports": {
+      "title": "Sports & Racing"
+    },
+    "indie": {
+      "title": "Indie Games"
+    }
   }
 }

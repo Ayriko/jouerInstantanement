@@ -1,5 +1,6 @@
 import {
     IsArray,
+    IsBoolean,
     IsInt,
     IsNumber,
     IsOptional,
@@ -53,4 +54,9 @@ export class FilterGamesDto {
     @IsNumber()
     @Type(() => Number)
     public price?: number;
+
+    @IsOptional()
+    @IsBoolean()
+    @Transform(({ value }) => value === 'true' || value === true)
+    public inStock?: boolean;
 }

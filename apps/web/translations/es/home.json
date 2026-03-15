@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Compra tus juegos m\u00e1s baratos en PC y consola",
-    "description": "Descubre los \u00faltimos lanzamientos, las mejores ofertas y los juegos m\u00e1s populares en nuestra tienda de videojuegos."
+    "title": "Compra tus juegos más baratos en PC y consola",
+    "description": "Descubre los últimos lanzamientos, las mejores ofertas y los juegos más populares en nuestra tienda de videojuegos."
   },
   "hero": {
     "highlightedGame": {
@@ -12,11 +12,26 @@
         "trending": "Tendencias",
         "preorder": "Reservar"
       },
-      "buyButton": "Comprar - {price}\u20ac",
+      "buyButton": "Comprar - {price}€",
       "discoverButton": "Todos los juegos"
     }
   },
   "bestOffers": {
-    "title": "Las mejores ofertas del momento"
+    "title": "Mejores ofertas"
+  },
+  "seeAll": "Ver todo →",
+  "sections": {
+    "action": {
+      "title": "Acción y Aventura"
+    },
+    "rpg": {
+      "title": "Juegos de Rol"
+    },
+    "sports": {
+      "title": "Deportes y Carreras"
+    },
+    "indie": {
+      "title": "Juegos Independientes"
+    }
   }
 }

@@ -17,6 +17,21 @@
     }
   },
   "bestOffers": {
-    "title": "Les meilleures offres du moment"
+    "title": "Meilleures offres"
+  },
+  "seeAll": "Voir tout →",
+  "sections": {
+    "action": {
+      "title": "Action & Aventure"
+    },
+    "rpg": {
+      "title": "Jeux de Rôle"
+    },
+    "sports": {
+      "title": "Sports & Course"
+    },
+    "indie": {
+      "title": "Jeux Indépendants"
+    }
   }
 }

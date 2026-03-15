@@ -77,10 +77,29 @@ export class GameController {
         @Query() filterGamesDto: FilterGamesDto,
         @Query('limit') limit: number,
     ): Observable<Game[]> {
-        return this.gameClient.send<Game[]>(
-            { cmd: 'game.getSuggestion' },
-            { filterGamesDto, limit },
-        );
+        return this.gameClient
+            .send<
+                Game[]
+            >({ cmd: 'game.getSuggestion' }, { filterGamesDto, limit })
+            .pipe(
+                switchMap((games) => {
+                    const gameIds = games.map((g) => g.id);
+                    return forkJoin({
+                        games: of(games),
+                        counts: this.keysClient.send<Record<string, number>>(
+                            { cmd: 'key.getAvailableCounts' },
+                            { gameIds },
+                        ),
+                    }).pipe(
+                        map(({ games, counts }) =>
+                            games.map((g) => ({
+                                ...g,
+                                availableKeyCount: counts[g.id] ?? 0,
+                            })),
+                        ),
+                    );
+                }),
+            );
     }
 
     @Post(':id/keys')

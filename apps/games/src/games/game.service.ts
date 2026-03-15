@@ -101,6 +101,10 @@ export class GameService {
             whereParams.total = { lte: Number(filterGamesDto.price) };
         }
 
+        if (filterGamesDto?.inStock) {
+            whereParams.keys = { some: { usedByOrderItemId: null } };
+        }
+
         return whereParams;
     }
 
@@ -116,25 +120,34 @@ export class GameService {
         }
 
         if (filterGamesDto?.genres) {
-            whereQuery.push(`genres && ${filterGamesDto.genres}::text[]`);
+            const arr = filterGamesDto.genres.map((g) => `'${g}'`).join(',');
+            whereQuery.push(`genres && ARRAY[${arr}]::text[]`);
         }
 
         if (filterGamesDto?.tags) {
-            whereQuery.push(`tags && ${filterGamesDto.tags}::text[]`);
+            const arr = filterGamesDto.tags.map((t) => `'${t}'`).join(',');
+            whereQuery.push(`tags && ARRAY[${arr}]::text[]`);
         }
 
         if (filterGamesDto?.platforms) {
-            whereQuery.push(`platforms && ${filterGamesDto.platforms}::text[]`);
+            const arr = filterGamesDto.platforms.map((p) => `'${p}'`).join(',');
+            whereQuery.push(`platforms && ARRAY[${arr}]::text[]`);
         }
 
         if (filterGamesDto?.price) {
             whereQuery.push(`total <= ${filterGamesDto.price}`);
         }
 
+        if (filterGamesDto?.inStock) {
+            whereQuery.push(
+                `EXISTS (SELECT 1 FROM public."GameKey" WHERE "gameId" = "Game".id AND "usedByOrderItemId" IS NULL)`,
+            );
+        }
+
         if (!whereQuery.length) {
             return null;
         }
 
-        return `WHERE ${whereQuery.join(' AND WHERE ')}`;
+        return `WHERE ${whereQuery.join(' AND ')}`;
     }
 }
