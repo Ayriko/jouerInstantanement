@@ -2,6 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
 
+try {
+    process.loadEnvFile('../../.env');
+} catch {
+    // .env might not exist in production — env vars come from system
+}
+
 async function bootstrap() {
     const app = await NestFactory.createMicroservice<MicroserviceOptions>(
         AppModule,

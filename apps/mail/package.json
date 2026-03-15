@@ -1,7 +1,8 @@
 {
-  "name": "@repo/mail-service",
+  "name": "mails",
   "version": "1.0.0",
   "scripts": {
+    "dev": "nest start --watch",
     "build": "nest build",
     "start": "node dist/main",
     "start:dev": "nest start --watch",
@@ -12,7 +13,7 @@
     "@nestjs/common": "^10.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/microservices": "^11.1.13",
-    "@repo/mail": "*",
+    "@repo/mail": "workspace:*",
     "amqplib": "^0.10.9",
     "bullmq": "^5.0.0",
     "handlebars": "^4.7.8",
