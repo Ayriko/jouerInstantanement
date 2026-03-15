@@ -7,6 +7,7 @@ import { MailService } from './mail.service';
 
 @Module({
     imports: [BullModule.registerQueue({ name: 'mail' })],
-    providers: [MailConsumer, MailProcessor, MailService],
+    controllers: [MailConsumer],
+    providers: [MailProcessor, MailService],
 })
 export class MailModule {}
