@@ -1,1 +1,2 @@
+export PATH="$PATH:/c/nvm4w/nodejs"
 pnpm format
