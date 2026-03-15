@@ -14,7 +14,7 @@ interface GameCardProps {
 }
 
 export const GameCard: React.FC<GameCardProps> = ({ game }) => {
-    const { addItem, removeItem, isInCart } = useCart();
+    const { addItem, isInCart, removeItem } = useCart();
     const t = useTranslations('games.detail.actions.cart');
 
     const discount =

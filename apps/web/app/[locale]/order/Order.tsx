@@ -146,7 +146,6 @@ export default function Order() {
                                             variables: {
                                                 colorPrimary: '#ff5400',
                                                 colorBackground: '#18181b',
-                                                colorSurface: '#27272a',
                                                 colorText: '#f4f4f5',
                                                 colorTextSecondary: '#a1a1aa',
                                                 colorTextPlaceholder: '#71717a',

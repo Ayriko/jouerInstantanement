@@ -66,7 +66,7 @@ export default function MyAccount() {
                             {session.user.image && (
                                 <img
                                     src={session.user.image}
-                                    alt="Avatar"
+                                    alt=""
                                     className="h-16 w-16 rounded-full object-cover"
                                 />
                             )}
