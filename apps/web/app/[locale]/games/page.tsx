@@ -66,16 +66,16 @@ export default async function Page({
                 {t('meta.title')}
             </h1>
 
-            <div className="flex gap-8 items-start">
-                {/* Sidebar filtres */}
-                <aside className="w-64 flex-none sticky top-4">
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+                {/* Filtres — pleine largeur sur mobile, sidebar fixe sur desktop */}
+                <aside className="w-full lg:w-64 lg:flex-none lg:sticky lg:top-4">
                     <Suspense fallback={null}>
                         <GamesFilters filtersValue={filtersValue} />
                     </Suspense>
                 </aside>
 
                 {/* Liste des jeux */}
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 w-full">
                     <GamesList page={page} filters={filters} />
                 </div>
             </div>

@@ -43,12 +43,13 @@ export function GamesFilters({ filtersValue }: GamesFiltersProps) {
     const searchParamsRef = useRef(searchParams);
     searchParamsRef.current = searchParams;
 
+    const [mobileOpen, setMobileOpen] = useState(false);
+
     const activeGenres = searchParams.getAll('genres');
     const activePlatforms = searchParams.getAll('platforms');
     const activeRating = searchParams.get('rating') ?? '';
     const activePrice = searchParams.get('price') ?? '';
     const activeInStock = searchParams.get('inStock') === 'true';
-
     const [nameInput, setNameInput] = useState(searchParams.get('name') ?? '');
 
     const activeFilterCount =
@@ -73,7 +74,6 @@ export function GamesFilters({ filtersValue }: GamesFiltersProps) {
         router.push(`/games?${params.toString()}`);
     };
 
-    // Debounce search input
     useEffect(() => {
         const timer = setTimeout(() => {
             const current = searchParamsRef.current.get('name') ?? '';
@@ -102,32 +102,8 @@ export function GamesFilters({ filtersValue }: GamesFiltersProps) {
         router.push('/games');
     };
 
-    return (
-        <div className="bg-zinc-900 rounded-xl p-4">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                    <SlidersHorizontal className="w-4 h-4 text-zinc-400" />
-                    <span className="font-semibold text-white text-sm">
-                        Filtres
-                    </span>
-                    {activeFilterCount > 0 && (
-                        <span className="bg-brand text-white text-xs font-bold px-1.5 py-0.5 rounded-full leading-none">
-                            {activeFilterCount}
-                        </span>
-                    )}
-                </div>
-                {activeFilterCount > 0 && (
-                    <button
-                        onClick={clearAll}
-                        className="flex items-center gap-1 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
-                    >
-                        <X className="w-3 h-3" />
-                        Effacer
-                    </button>
-                )}
-            </div>
-
+    const filterBody = (
+        <div className="pt-2">
             {/* Search */}
             <div className="relative mb-2">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
@@ -160,16 +136,10 @@ export function GamesFilters({ filtersValue }: GamesFiltersProps) {
                         En stock uniquement
                     </span>
                     <span
-                        className={`relative inline-flex h-5 w-9 flex-none rounded-full transition-colors duration-200 ${
-                            activeInStock ? 'bg-brand' : 'bg-zinc-700'
-                        }`}
+                        className={`relative inline-flex h-5 w-9 flex-none rounded-full transition-colors duration-200 ${activeInStock ? 'bg-brand' : 'bg-zinc-700'}`}
                     >
                         <span
-                            className={`inline-block h-4 w-4 rounded-full bg-white shadow transition-transform duration-200 mt-0.5 ${
-                                activeInStock
-                                    ? 'translate-x-4'
-                                    : 'translate-x-0.5'
-                            }`}
+                            className={`inline-block h-4 w-4 rounded-full bg-white shadow transition-transform duration-200 mt-0.5 ${activeInStock ? 'translate-x-4' : 'translate-x-0.5'}`}
                         />
                     </span>
                 </button>
@@ -185,25 +155,21 @@ export function GamesFilters({ filtersValue }: GamesFiltersProps) {
                                 <label
                                     key={genre}
                                     className="flex items-center gap-2.5 cursor-pointer group"
+                                    onClick={() =>
+                                        toggleMulti(
+                                            'genres',
+                                            genre,
+                                            activeGenres,
+                                        )
+                                    }
                                 >
                                     <span
-                                        className={`w-4 h-4 flex-none rounded border-2 flex items-center justify-center transition-colors ${
-                                            checked
-                                                ? 'bg-brand border-brand'
-                                                : 'border-zinc-600 group-hover:border-zinc-400'
-                                        }`}
-                                        onClick={() =>
-                                            toggleMulti(
-                                                'genres',
-                                                genre,
-                                                activeGenres,
-                                            )
-                                        }
+                                        className={`w-4 h-4 flex-none rounded border-2 flex items-center justify-center transition-colors ${checked ? 'bg-brand border-brand' : 'border-zinc-600 group-hover:border-zinc-400'}`}
                                     >
                                         {checked && (
                                             <svg
                                                 viewBox="0 0 10 8"
-                                                className="w-2.5 h-2.5 fill-white"
+                                                className="w-2.5 h-2.5"
                                             >
                                                 <path
                                                     d="M1 4l2.5 2.5L9 1"
@@ -218,13 +184,6 @@ export function GamesFilters({ filtersValue }: GamesFiltersProps) {
                                     </span>
                                     <span
                                         className={`text-sm transition-colors ${checked ? 'text-white font-medium' : 'text-zinc-400 group-hover:text-zinc-200'}`}
-                                        onClick={() =>
-                                            toggleMulti(
-                                                'genres',
-                                                genre,
-                                                activeGenres,
-                                            )
-                                        }
                                     >
                                         {genre}
                                     </span>
@@ -245,25 +204,21 @@ export function GamesFilters({ filtersValue }: GamesFiltersProps) {
                                 <label
                                     key={platform}
                                     className="flex items-center gap-2.5 cursor-pointer group"
+                                    onClick={() =>
+                                        toggleMulti(
+                                            'platforms',
+                                            platform,
+                                            activePlatforms,
+                                        )
+                                    }
                                 >
                                     <span
-                                        className={`w-4 h-4 flex-none rounded border-2 flex items-center justify-center transition-colors ${
-                                            checked
-                                                ? 'bg-brand border-brand'
-                                                : 'border-zinc-600 group-hover:border-zinc-400'
-                                        }`}
-                                        onClick={() =>
-                                            toggleMulti(
-                                                'platforms',
-                                                platform,
-                                                activePlatforms,
-                                            )
-                                        }
+                                        className={`w-4 h-4 flex-none rounded border-2 flex items-center justify-center transition-colors ${checked ? 'bg-brand border-brand' : 'border-zinc-600 group-hover:border-zinc-400'}`}
                                     >
                                         {checked && (
                                             <svg
                                                 viewBox="0 0 10 8"
-                                                className="w-2.5 h-2.5 fill-white"
+                                                className="w-2.5 h-2.5"
                                             >
                                                 <path
                                                     d="M1 4l2.5 2.5L9 1"
@@ -278,13 +233,6 @@ export function GamesFilters({ filtersValue }: GamesFiltersProps) {
                                     </span>
                                     <span
                                         className={`text-sm transition-colors ${checked ? 'text-white font-medium' : 'text-zinc-400 group-hover:text-zinc-200'}`}
-                                        onClick={() =>
-                                            toggleMulti(
-                                                'platforms',
-                                                platform,
-                                                activePlatforms,
-                                            )
-                                        }
                                     >
                                         {platform}
                                     </span>
@@ -309,11 +257,7 @@ export function GamesFilters({ filtersValue }: GamesFiltersProps) {
                                         active ? null : String(r),
                                     )
                                 }
-                                className={`w-9 h-9 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
-                                    active
-                                        ? 'bg-brand text-white shadow-lg shadow-brand/30'
-                                        : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white'
-                                }`}
+                                className={`w-9 h-9 text-xs font-bold rounded-lg transition-colors cursor-pointer ${active ? 'bg-brand text-white shadow-lg shadow-brand/30' : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white'}`}
                             >
                                 {r}+
                             </button>
@@ -351,6 +295,55 @@ export function GamesFilters({ filtersValue }: GamesFiltersProps) {
                     />
                 </div>
             </FilterSection>
+        </div>
+    );
+
+    return (
+        <div className="bg-zinc-900 rounded-xl overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4">
+                <div className="flex items-center gap-2">
+                    <SlidersHorizontal className="w-4 h-4 text-zinc-400" />
+                    <span className="font-semibold text-white text-sm">
+                        Filtres
+                    </span>
+                    {activeFilterCount > 0 && (
+                        <span className="bg-brand text-white text-xs font-bold px-1.5 py-0.5 rounded-full leading-none">
+                            {activeFilterCount}
+                        </span>
+                    )}
+                </div>
+
+                <div className="flex items-center gap-2">
+                    {/* Clear — visible partout quand filtres actifs */}
+                    {activeFilterCount > 0 && (
+                        <button
+                            onClick={clearAll}
+                            className="flex items-center gap-1 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                        >
+                            <X className="w-3 h-3" />
+                            Effacer
+                        </button>
+                    )}
+                    {/* Chevron toggle — mobile uniquement */}
+                    <button
+                        onClick={() => setMobileOpen(!mobileOpen)}
+                        className="lg:hidden p-1 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                        aria-label="Afficher/masquer les filtres"
+                    >
+                        <ChevronDown
+                            className={`w-5 h-5 transition-transform duration-200 ${mobileOpen ? 'rotate-180' : ''}`}
+                        />
+                    </button>
+                </div>
+            </div>
+
+            {/* Body — toujours visible sur desktop, togglé sur mobile */}
+            <div
+                className={`px-4 pb-4 lg:block ${mobileOpen ? 'block' : 'hidden'}`}
+            >
+                {filterBody}
+            </div>
         </div>
     );
 }
