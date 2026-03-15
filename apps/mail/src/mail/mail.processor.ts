@@ -21,7 +21,9 @@ export class MailProcessor extends WorkerHost {
                     await this.mailService.sendUserRegistered(
                         job.data as UserRegisteredPayload,
                     );
-                    this.logger.log(`Email sent for job ${job.name} (id: ${job.id})`);
+                    this.logger.log(
+                        `Email sent for job ${job.name} (id: ${job.id})`,
+                    );
                     break;
                 }
 
@@ -30,7 +32,10 @@ export class MailProcessor extends WorkerHost {
                 }
             }
         } catch (error) {
-            this.logger.error(`Job ${job.name} (id: ${job.id}) failed: ${String(error)}`, error instanceof Error ? error.stack : undefined);
+            this.logger.error(
+                `Job ${job.name} (id: ${job.id}) failed: ${String(error)}`,
+                error instanceof Error ? error.stack : undefined,
+            );
             throw error; // re-throw pour que BullMQ gère le retry
         }
     }
