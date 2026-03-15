@@ -25,6 +25,7 @@
     "@nestjs/platform-express": "^11.1.11",
     "@prisma/client": "^6.9.0",
     "@repo/prisma": "workspace:*",
+      "@repo/mail": "workspace:*",
     "@thallesp/nestjs-better-auth": "^2.4.0",
     "better-auth": "^1.4.18",
     "amqp-connection-manager": "^5.0.0",

@@ -1,0 +1,9 @@
+{
+  "name": "@repo/mail",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit"
+  }
+}
