@@ -14,6 +14,7 @@ export interface Game {
     genres: string[];
     tags: string[];
     screenshots: string[];
+    availableKeyCount: number;
 }
 
 export interface GameFiltersValue {

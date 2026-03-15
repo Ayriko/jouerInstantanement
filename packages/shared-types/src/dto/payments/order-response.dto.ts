@@ -4,6 +4,7 @@ export class OrderItemResponseDto {
     gameName!: string;
     quantity!: number;
     unitPrice!: number;
+    assignedKey!: string | null;
 }
 
 export class OrderResponseDto {
