@@ -94,7 +94,8 @@ export const SearchDropdown: React.FC<SearchDropdownProps> = ({
             setFocusedIndex(-1);
         } else if (e.key === 'Enter' && focusedIndex >= 0) {
             e.preventDefault();
-            handleSelect(results[focusedIndex]);
+            const game = results[focusedIndex];
+            if (game) handleSelect(game);
         }
     };
 
