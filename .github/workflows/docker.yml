@@ -27,6 +27,18 @@ jobs:
                     - name: games
                       dockerfile: ./apps/games/Dockerfile
                       build_arg: games
+                    - name: users
+                      dockerfile: ./apps/users/Dockerfile
+                      build_arg: users
+                    - name: wishlists
+                      dockerfile: ./apps/wishlists/Dockerfile
+                      build_arg: wishlists
+                    - name: keys
+                      dockerfile: ./apps/keys/Dockerfile
+                      build_arg: keys
+                    - name: payments
+                      dockerfile: ./apps/payments/Dockerfile
+                      build_arg: payments
                     - name: web
                       dockerfile: ./apps/web/Dockerfile
                       build_arg: web

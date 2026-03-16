@@ -8,17 +8,16 @@ FROM base AS pruner
 WORKDIR /app
 RUN pnpm add -g turbo
 COPY . .
-# Remplace "service-name" par le nom du package dans ton package.json
 ARG SERVICE_NAME
-RUN turbo prune --scope=${SERVICE_NAME} --docker
+# Turbo v2 : argument positionnel (--scope était la syntaxe Turbo v1)
+RUN turbo prune ${SERVICE_NAME} --docker
 
 # ─── Installer les dépendances ────────────────────────────────────────────────
 FROM base AS installer
 WORKDIR /app
-
-# Copie uniquement les fichiers nécessaires aux deps (meilleur cache Docker)
 COPY --from=pruner /app/out/json/ .
 COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=pruner /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
 RUN pnpm install --frozen-lockfile
 
 # ─── Builder ──────────────────────────────────────────────────────────────────
@@ -28,7 +27,14 @@ COPY --from=installer /app .
 COPY --from=pruner /app/out/full/ .
 
 ARG SERVICE_NAME
+ARG SERVICE_PATH=apps/${SERVICE_NAME}
+
 RUN pnpm turbo run build --filter=${SERVICE_NAME}
+
+# Crée un bundle de prod autonome (résout les symlinks pnpm workspace)
+RUN pnpm --filter=${SERVICE_NAME} deploy /deploy
+# Copie le dist compilé dans le bundle de déploiement
+RUN cp -r /app/${SERVICE_PATH}/dist /deploy/dist
 
 # ─── Runner ───────────────────────────────────────────────────────────────────
 FROM node:22-alpine AS runner
@@ -39,13 +45,7 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 nestjs
 
-ARG SERVICE_NAME
-ARG SERVICE_PATH=apps/${SERVICE_NAME}
-
-# Copie uniquement le build final + node_modules de prod
-COPY --from=builder --chown=nestjs:nodejs /app/${SERVICE_PATH}/dist ./dist
-COPY --from=builder --chown=nestjs:nodejs /app/${SERVICE_PATH}/package.json ./package.json
-COPY --from=builder --chown=nestjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nestjs:nodejs /deploy ./
 
 USER nestjs
 
