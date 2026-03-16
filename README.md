@@ -1,124 +1,244 @@
-# Turborepo starter
+# JouerInstantanement
 
-This is a community-maintained example. If you experience a problem, please submit a pull request with a fix. GitHub Issues will be closed.
+Marketplace de jeux vidéo full-stack permettant d'acheter des jeux instantanément. L'application propose la gestion des utilisateurs, un catalogue de jeux, un panier d'achats, la liste de souhaits, la gestion des clés de jeu et l'intégration de paiement Stripe.
 
-## Using this example
+## Stack technique
 
-Run the following command:
+**Frontend**
 
-```bash
-npx create-turbo@latest -e with-nestjs
+- [Next.js](https://nextjs.org/) 15 avec App Router (React 19)
+- TypeScript 5
+- Tailwind CSS 4
+- next-intl (internationalisation)
+- React Hook Form + Zod (validation)
+- Stripe.js (paiements côté client)
+
+**Backend (microservices)**
+
+- [NestJS](https://nestjs.com/) 11
+- [Better Auth](https://www.better-auth.com/) (authentification, OAuth)
+- [Prisma ORM](https://www.prisma.io/) + PostgreSQL 17
+- Redis 7 (cache, sessions)
+- RabbitMQ 3 (communication asynchrone entre services)
+
+**Outillage**
+
+- [Turborepo](https://turborepo.dev/) (orchestration monorepo)
+- pnpm workspaces
+- Docker Compose (dépendances locales)
+- Jest + Playwright (tests)
+- ESLint + Prettier + Husky
+
+## Architecture
+
+```
+jouerInstantanement/
+├── apps/
+│   ├── web/             # Frontend Next.js (port 3001)
+│   ├── api-gateway/     # API Gateway NestJS (port 3000)
+│   ├── auth/            # Service d'authentification (port 3002)
+│   ├── games/           # Service catalogue de jeux
+│   ├── keys/            # Service gestion des clés de jeu
+│   ├── payments/        # Service paiements Stripe
+│   ├── users/           # Service utilisateurs
+│   └── wishlists/       # Service liste de souhaits
+│
+└── packages/
+    ├── @repo/prisma/          # Schéma Prisma + client partagé
+    ├── @repo/shared-types/    # DTOs et interfaces TypeScript partagés
+    ├── @repo/rabbitmq-contracts/ # Contrats de messages RabbitMQ
+    ├── @repo/ui/              # Bibliothèque de composants React partagés
+    ├── @repo/eslint-config/   # Configuration ESLint
+    ├── @repo/jest-config/     # Configuration Jest
+    └── @repo/typescript-config/ # Configurations tsconfig
 ```
 
-## What's inside?
+### Flux de communication
 
-This Turborepo includes the following packages & apps:
-
-### Apps and Packages
-
-```shell
-.
-├── apps
-│   ├── api                       # NestJS app (https://nestjs.com).
-│   └── web                       # Next.js app (https://nextjs.org).
-└── packages
-    ├── @repo/api                 # Shared `NestJS` resources.
-    ├── @repo/eslint-config       # `eslint` configurations (includes `prettier`)
-    ├── @repo/jest-config         # `jest` configurations
-    ├── @repo/typescript-config   # `tsconfig.json`s used throughout the monorepo
-    └── @repo/ui                  # Shareable stub React component library.
+```
+Frontend (web)
+    ↓ HTTP
+API Gateway  ←→  RabbitMQ  ←→  Microservices (auth, games, payments, users, keys, wishlists)
+                                      ↓
+                               PostgreSQL / Redis
 ```
 
-Each package and application are mostly written in [TypeScript](https://www.typescriptlang.org/).
+L'API Gateway est le point d'entrée unique du frontend. Il route les requêtes vers les microservices via RabbitMQ pour la communication asynchrone.
 
-### Utilities
+## Prérequis
 
-This `Turborepo` has some additional tools already set for you:
+- Node.js 20+
+- pnpm 8.15+
+- Docker et Docker Compose
 
-- [TypeScript](https://www.typescriptlang.org/) for static type-safety
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-- [Jest](https://prettier.io) & [Playwright](https://playwright.dev/) for testing
-
-### Commands
-
-This `Turborepo` already configured useful commands for all your apps and packages.
-
-#### Build
+## Installation
 
 ```bash
-# Will build all the app & packages with the supported `build` script.
-pnpm run build
+# Cloner le dépôt
+git clone <url-du-repo>
+cd jouerInstantanement
 
-# ℹ️ If you plan to only build apps individually,
-# Please make sure you've built the packages first.
+# Installer les dépendances
+pnpm install
 ```
 
-#### Develop
+## Configuration
+
+Copier le fichier d'exemple et renseigner les variables :
 
 ```bash
-# Will run the development server for all the app & packages with the supported `dev` script.
+cp .env.example .env
+```
+
+Variables requises :
+
+| Variable                                      | Description                                        |
+| --------------------------------------------- | -------------------------------------------------- |
+| `DATABASE_URL`                                | URL de connexion PostgreSQL                        |
+| `REDIS_URL`                                   | URL de connexion Redis                             |
+| `RABBITMQ_URL`                                | URL de connexion RabbitMQ                          |
+| `BETTER_AUTH_SECRET`                          | Secret d'authentification (min. 32 caractères)     |
+| `JWT_SECRET`                                  | Secret JWT                                         |
+| `STRIPE_SECRET_KEY`                           | Clé secrète Stripe                                 |
+| `STRIPE_WEBHOOK_SECRET`                       | Secret webhook Stripe                              |
+| `FRONTEND_URL`                                | URL du frontend (ex: `http://localhost:3001`)      |
+| `GATEWAY_URL`                                 | URL de l'API Gateway (ex: `http://localhost:3000`) |
+| `AUTH_SERVICE_URL`                            | URL du service auth (ex: `http://localhost:3002`)  |
+| `DISCORD_CLIENT_ID` / `DISCORD_CLIENT_SECRET` | OAuth Discord (optionnel)                          |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`   | OAuth Google (optionnel)                           |
+
+## Développement
+
+### Démarrer les dépendances (Docker)
+
+```bash
+# Lance PostgreSQL, Redis et RabbitMQ
+pnpm run prepare:deps
+```
+
+### Initialiser la base de données
+
+```bash
+cd packages/prisma
+pnpm prisma migrate dev
+pnpm prisma db seed   # si un seed est configuré
+```
+
+### Lancer tous les services
+
+```bash
 pnpm run dev
 ```
 
-#### test
+### Lancer des services spécifiques
 
 ```bash
-# Will launch a test suites for all the app & packages with the supported `test` script.
-pnpm run test
+# Frontend uniquement
+pnpm run dev --filter=web
 
-# You can launch e2e testes with `test:e2e`
-pnpm run test:e2e
+# Tout sauf le frontend
+pnpm run dev:no-web
 
-# See `@repo/jest-config` to customize the behavior.
+# Service d'auth uniquement
+pnpm run dev:auth
 ```
 
-#### Lint
+Les services sont accessibles sur :
+
+- Frontend : http://localhost:3001
+- API Gateway : http://localhost:3000
+- Auth Service : http://localhost:3002
+- RabbitMQ UI : http://localhost:15672
+
+## Scripts disponibles
 
 ```bash
-# Will lint all the app & packages with the supported `lint` script.
-# See `@repo/eslint-config` to customize the behavior.
-pnpm run lint
+pnpm run build         # Build de tous les packages et apps
+pnpm run dev           # Mode développement (tous les services)
+pnpm run test          # Tests unitaires
+pnpm run test:e2e      # Tests end-to-end (Playwright)
+pnpm run lint          # Lint de tout le monorepo
+pnpm run check-types   # Vérification TypeScript
+pnpm format            # Formatage du code (Prettier)
 ```
 
-#### Format
+## Schéma de base de données
+
+### Authentification (Better Auth)
+
+- `User` — profil utilisateur (email, nom, image, vérification email)
+- `Account` — liens OAuth (Discord, Google, Roblox, Twitch)
+- `Session` — sessions actives avec IP et user-agent
+- `Verification` — tokens de vérification email
+
+### Commerce
+
+- `Game` — catalogue de jeux (nom, description, prix, plateformes, genres, tags, screenshots, note)
+- `Order` — commandes (`PENDING` | `PAID` | `FAILED` | `REFUNDED`)
+- `OrderItem` — lignes de commande (avec clé de jeu assignée)
+- `Wishlist` — liste de souhaits par utilisateur
+
+### Gestion des clés
+
+- `GameKey` — clés de licence (valeur, gameId, référence vers l'OrderItem d'utilisation)
+
+## Fonctionnalités
+
+- **Catalogue** — navigation, recherche et filtres par plateforme, genre, tags
+- **Authentification** — inscription email/mot de passe + OAuth (Discord, Google, Roblox, Twitch)
+- **Panier & Paiements** — intégration Stripe complète avec gestion des statuts de commande
+- **Clés de jeu** — assignation automatique d'une clé de licence à l'achat
+- **Liste de souhaits** — ajout/suppression de jeux
+- **Internationalisation** — support multi-langue via next-intl
+
+## Déploiement
+
+Le projet utilise des Dockerfiles multi-stage optimisés avec Turbo pruning.
 
 ```bash
-# Will format all the supported `.ts,.js,json,.tsx,.jsx` files.
-# See `@repo/eslint-config/prettier-base.js` to customize the behavior.
-pnpm format
+# Build de l'image Docker d'un service
+docker build -f apps/web/Dockerfile --build-arg APP=web .
+
+# Build de l'API Gateway
+docker build -f apps/api-gateway/Dockerfile --build-arg APP=api-gateway .
 ```
 
-### Remote Caching
+> [!NOTE]
+> Le frontend Next.js est configuré en mode `standalone` pour des images Docker légères.
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+## Packages partagés
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+### `@repo/prisma`
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+Client Prisma partagé entre tous les microservices. Importer depuis `@repo/prisma/client`.
 
-```bash
-npx turbo login
-```
+### `@repo/shared-types`
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+DTOs, interfaces et types TypeScript utilisés par le frontend et les microservices.
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+### `@repo/rabbitmq-contracts`
 
-```bash
-npx turbo link
-```
+Définit les patterns et payloads des messages RabbitMQ échangés entre les services.
 
-## Useful Links
+### `@repo/ui`
 
-This example take some inspiration the [with-nextjs](https://github.com/vercel/turborepo/tree/main/examples/with-nextjs) `Turbo` example and [01-cats-app](https://github.com/nestjs/nest/tree/master/sample/01-cats-app) `NestJs` sample.
+Composants React réutilisables partagés entre les applications.
 
-Learn more about the power of Turborepo:
+## Structure d'une feature (exemple)
 
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+Pour ajouter une feature, elle implique généralement :
+
+1. **`@repo/shared-types`** — Ajouter le DTO/interface
+2. **`@repo/rabbitmq-contracts`** — Définir le pattern de message si async
+3. **Microservice** — Implémenter la logique métier
+4. **`api-gateway`** — Exposer le endpoint HTTP et router vers le microservice
+5. **`web`** — Implémenter l'UI
+
+## Liens utiles
+
+- [Documentation Turborepo](https://turborepo.dev/docs)
+- [Documentation NestJS](https://docs.nestjs.com/)
+- [Documentation Next.js](https://nextjs.org/docs)
+- [Documentation Better Auth](https://www.better-auth.com/docs)
+- [Documentation Prisma](https://www.prisma.io/docs)
+- [Documentation Stripe](https://stripe.com/docs)
